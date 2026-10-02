@@ -21,9 +21,9 @@
      梅红 plum red      plum blossoms in the snow   -> markers, accepted venues */
   --paper: #fbfdfe;          /* snow-white page */
   --surface: #ffffff;        /* cards sit slightly brighter than the page */
-  --ink: #13253a;            /* navy ink for text and headings */
-  --muted: #4d6273;
-  --faint: #6f8292;
+  --ink: #111111;            /* black: text and headings */
+  --muted: #555555;          /* gray: secondary lines (organization, location, captions) */
+  --faint: #777777;
   --rule: #dde8ef;
   --navy: #13304d;           /* 暮山青 */
   --cyan: #1ba5c4;           /* 春水青 */
@@ -142,25 +142,15 @@ a:hover { color: var(--cyan-deep); text-decoration: underline; text-underline-of
 body { display: flex; flex-direction: column; min-height: 100vh; }
 main { flex: 1 0 auto; width: 100%; max-width: var(--page); margin: 0 auto; padding: var(--s8) var(--pad) var(--s9); }
 
-.page-title { font-family: var(--serif); font-size: 2.5rem; font-weight: 700; line-height: 1.15; letter-spacing: -0.01em; }
-/* Short cyan line under each page title */
-.page-title::after {
-  content: ""; display: block;
-  width: var(--s7); height: 3px; margin-top: var(--s4);
-  border-radius: 2px; background: var(--cyan);
-}
+.page-title { color: var(--ink); font-size: 2.25rem; font-weight: 800; line-height: 1.2; letter-spacing: -0.02em; }
 .page-lede { max-width: var(--measure); margin-top: var(--s3); color: var(--muted); font-size: var(--fs-lead); }
 
 /* Section title: thin rule, short red marker on the left */
 .section-title {
   position: relative;
   margin-top: var(--s8); padding-bottom: var(--s3);
-  border-bottom: 1px solid var(--rule);
-  font-family: var(--serif); font-size: 1.5rem; font-weight: 700; line-height: 1.3; letter-spacing: 0;
-}
-.section-title::after {
-  content: ""; position: absolute; left: 0; bottom: -2px;
-  width: var(--s7); height: 3px; border-radius: 2px; background: var(--red);
+  border-bottom: 2px solid #ececec;
+  color: var(--ink); font-size: 1.6rem; font-weight: 800; line-height: 1.3; letter-spacing: -0.015em;
 }
 .page-lede + .section-title { margin-top: var(--s7); }
 .page-title + .section-title { margin-top: var(--s7); }
@@ -246,7 +236,7 @@ main { flex: 1 0 auto; width: 100%; max-width: var(--page); margin: 0 auto; padd
 .doing-grid h3 { transition: color 0.2s ease; }
 .doing-grid li:hover h3 { color: var(--cyan-text); }
 .doing-grid h3 { margin-top: var(--s4); color: var(--ink); font-size: 1.3rem; font-weight: 400; line-height: 1.25; }
-.doing-grid p { margin-top: var(--s2); color: var(--muted); font-family: var(--font); font-size: var(--fs-meta); line-height: 1.6; }
+.doing-grid p { margin-top: var(--s2); color: var(--ink); font-family: var(--font); font-size: var(--fs-meta); line-height: 1.6; }
 
 @media (max-width: 960px) {
   .doing-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -281,6 +271,30 @@ main { flex: 1 0 auto; width: 100%; max-width: var(--page); margin: 0 auto; padd
 .timeline .item:first-child { border-top: 0; padding-top: var(--s5); }
 .entry:last-child,
 .timeline .item:last-child { padding-bottom: 0; }
+
+/* Leadership & Services: wider left column and gutter so the pictures under the dates read well */
+.activities-page { --rail: 22rem; --gutter: var(--s7); }
+
+/* EUMMA: one large photo plus a row of three that stretches down to the end of the text */
+.has-figure .when { display: flex; flex-direction: column; }
+.has-figure .when span { align-self: flex-start; }
+.mosaic {
+  flex: 1 1 auto; margin-top: var(--s3);
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: auto minmax(7rem, 1fr); gap: 6px;
+}
+.mosaic a { display: block; overflow: hidden; border: 1px solid var(--rule); border-radius: 6px; background: var(--sky); }
+.mosaic a:first-child { grid-column: 1 / -1; aspect-ratio: 4 / 3; }
+.mosaic img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease; }
+.mosaic a:hover img { transform: scale(1.04); }
+
+/* Organization names in Leadership: larger, bold, deep-ocean color */
+.org-name { color: var(--cyan-deep); font-size: var(--fs-lead); font-weight: 700; }
+
+/* SGA: short text sits centered beside its picture */
+.item.center-text > div:last-child { align-self: center; }
+.rail-figure { display: block; margin-top: var(--s3); overflow: hidden; border-radius: var(--radius); border: 1px solid var(--rule); background: var(--sky); }
+.rail-figure img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; transition: transform 0.3s ease; }
+.rail-figure:hover img { transform: scale(1.03); }
 
 /* Compact rows for short entries (a title and one line), e.g. service */
 .timeline.compact .item { padding: var(--s4) 0; }
@@ -357,7 +371,7 @@ main { flex: 1 0 auto; width: 100%; max-width: var(--page); margin: 0 auto; padd
 .paper-links { margin-top: var(--s1); font-size: var(--fs-meta); }
 .paper-links a { color: var(--cyan-text); font-weight: 500; }
 .paper-links a + a { margin-left: var(--s2); }
-.paper .summary { margin-top: var(--s3); color: var(--muted); }
+.paper .summary { margin-top: var(--s3); color: var(--ink); }
 
 /* ---------- Cards (Education on the Experience page) ---------- */
 
@@ -369,8 +383,8 @@ main { flex: 1 0 auto; width: 100%; max-width: var(--page); margin: 0 auto; padd
 .section-title + .card { margin-top: var(--s5); }
 .card + .card { margin-top: var(--s5); }
 .card h3 {
-  padding-bottom: var(--s3); border-bottom: 2px solid var(--cyan);
-  color: var(--cyan-text); font-family: var(--serif); font-size: var(--fs-section); font-weight: 700; line-height: 1.3; letter-spacing: 0;
+  padding-bottom: var(--s3); border-bottom: 2px solid #ececec;
+  color: var(--ink); font-size: var(--fs-section); font-weight: 800; line-height: 1.3; letter-spacing: -0.01em;
 }
 .facts { margin-top: var(--s4); }
 .facts p + p { margin-top: var(--s2); }
@@ -407,7 +421,7 @@ main { flex: 1 0 auto; width: 100%; max-width: var(--page); margin: 0 auto; padd
 .bg-points { list-style: none; padding: 0; margin-top: var(--s4); display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--s3); }
 .bg-points li { padding: var(--s4); border-radius: 10px; background: var(--sky); }
 .bg-points b { display: block; color: var(--cyan-deep); font-weight: 700; }
-.bg-points span { display: block; margin-top: var(--s1); color: var(--muted); font-size: var(--fs-meta); }
+.bg-points span { display: block; margin-top: var(--s1); color: var(--ink); font-size: var(--fs-meta); }
 .favorites { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s2); margin-top: var(--s4); }
 .favorites .label { margin-right: var(--s1); font-weight: 700; }
 .favorites .chip { padding: 0.125rem var(--s3); border: 1px solid var(--cyan); border-radius: 999px; color: var(--cyan-text); font-size: var(--fs-meta); font-weight: 600; }
@@ -457,6 +471,7 @@ main { flex: 1 0 auto; width: 100%; max-width: var(--page); margin: 0 auto; padd
 @media (max-width: 900px) {
   :root { --rail: 11rem; --gutter: var(--s5); --fs-name: 2.75rem; }
   .research-page { --rail: 20rem; }
+  .activities-page { --rail: 15rem; --gutter: var(--s5); }
   .about { gap: var(--s6); }
 }
 
@@ -464,8 +479,8 @@ main { flex: 1 0 auto; width: 100%; max-width: var(--page); margin: 0 auto; padd
 
 @media (max-width: 680px) {
   :root { --pad: 1.25rem; --fs-name: 2.375rem; --fs-page: 1.875rem; --fs-section: 1.25rem; }
-  .page-title { font-size: 2rem; }
-  .section-title { font-size: 1.3rem; }
+  .page-title { font-size: 1.9rem; }
+  .section-title { font-size: 1.35rem; }
 
   .site-header .inner { height: auto; padding-top: var(--s3); padding-bottom: var(--s3); }
   .site-nav ul { flex-wrap: wrap; gap: var(--s2) var(--s5); }
@@ -480,6 +495,9 @@ main { flex: 1 0 auto; width: 100%; max-width: var(--page); margin: 0 auto; padd
 
   .entry, .timeline .item { grid-template-columns: 1fr; gap: var(--s3); padding: var(--s5) 0; }
   .entry figure { max-width: 20rem; }
+  .rail-figure { max-width: 20rem; }
+  .mosaic { max-width: 24rem; grid-template-rows: auto 6rem; }
+  .item.center-text > div:last-child { align-self: start; }
   .figure-box { aspect-ratio: auto; }
   .figure-box .thumb { position: static; height: auto; }
   .figure-box .thumb:not(.figure) { aspect-ratio: 4 / 3; }
