@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Experience | Mingke Tian</title>
+  <meta name="description" content="Mingke Tian, undergraduate in applied mathematics, statistics, and computer science at Emory University.">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Charis+SIL:ital,wght@0,400;0,700;1,400;1,700&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,700;1,800&display=swap">
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="inner">
+      <nav class="site-nav" aria-label="Main">
+        <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="cv.pdf" target="_blank" rel="noopener">CV</a></li>
+        <li><a href="research.html">Research</a></li>
+        <li><a href="experience.html" aria-current="page">Experience</a></li>
+        <li><a href="activities.html">Leadership &amp; Services</a></li>
+        <li><a href="interests.html">Interests</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <h1 class="page-title">Experience</h1>
+
+    <h2 class="section-title">Education Experience</h2>
+    <article class="card">
+      <h3>Emory University</h3>
+      <div class="facts">
+        <p><b>Degree:</b> B.S. in Applied Mathematics and Statistics; B.S. in Computer Science</p>
+        <p><b>Duration:</b> Aug 2023 &ndash; May 2027</p>
+        <p><b>Current GPA:</b> 3.98 / 4.00</p>
+        <p><b>Honors:</b> Dean&rsquo;s List (2023&ndash;2026); Honors Program, Department of Mathematics</p>
+        <p><b>Awards:</b> Emory Wilson Family STEM Education Award (2026); National Science Foundation (NSF) Research
+          Award (2025); Mathematical Contest in Modeling, Honorable Mention (2025)</p>
+      </div>
+    </article>
+    <article class="card">
+      <h3>Courses Taken</h3>
+      <ul class="course-list">
+        <li>Graph Theory (Graduate)</li>
+        <li>Seminar in Analysis (Graduate)</li>
+        <li>Real Analysis I &amp; II</li>
+        <li>Numerical Analysis</li>
+        <li>Partial Differential Equations II</li>
+        <li>Mathematical Statistics I &amp; II</li>
+        <li>Probabilistic Machine Learning</li>
+        <li>Discrete Mathematics</li>
+        <li>Linear Algebra</li>
+        <li>Computer Vision</li>
+        <li>Data Structures and Algorithms</li>
+        <li>Analysis of Algorithms</li>
+        <li>Computer Architecture</li>
+        <li>Operating Systems</li>
+        <li>Database Systems</li>
+        <li>Data Science Computing</li>
+        <li>Experimental Methods</li>
+        <li>Text Data Science</li>
+        <li>Computational Linguistics</li>
+      </ul>
+    </article>
+
+    <h2 class="section-title">Internship Experience</h2>
+    <ul class="timeline">
+      <li class="item">
+        <div class="when"><span>Jun &ndash; Aug 2026</span></div>
+        <div>
+          <h3>Robotics ML Intern</h3>
+          <p class="org">SIASUN Robotics &amp; Automation Co., Ltd., Shenyang, China</p>
+          <ul>
+            <li>Built an end-to-end VLA training and real-robot deployment pipeline for parcel manipulation with NVIDIA Isaac GR00T N1.7, adapting multimodal demonstrations for task-specific policy learning and 16-step action-chunk control.</li>
+            <li>Deployed GR00T N1.7-3B with PyTorch multimodal inference, validating temporal framing, GPU memory, and concurrency.</li>
+            <li>Integrated GR00T with the SIASUN control stack, mapping normalized actions to end-effector pose and gripper commands; switching absolute positions to relative deltas cut offline position error from 18.31 cm to 5.78 cm.</li>
+            <li>Collected SpaceMouse corrections at policy failures for DAgger-style post-training, raising autonomous success from about 30% to 55% and cutting interventions from about 70% to 35%.</li>
+          </ul>
+          <div class="entry-links"><a href="https://github.com/mingketian/VLA-training-and-real-robot-deployment-for-parcel-manipulation" target="_blank" rel="noopener">Code</a></div>
+        </div>
+      </li>
+      <li class="item">
+        <div class="when"><span>Sep &ndash; Dec 2025</span></div>
+        <div>
+          <h3>AI/Machine Learning Engineer Intern (Co-op)</h3>
+          <p class="org">Ricoh USA, Atlanta, GA</p>
+          <ul>
+            <li>Built a long-document multimodal extraction system on AWS SageMaker with Qwen3-VL-7B, fusing OCR and layout signals for schema-constrained extraction across about 600 enterprise documents (3.2K pages).</li>
+            <li>Engineered cross-page state tracking for fields and evidence, preserving context and reducing repeated full-document inference.</li>
+            <li>Fine-tuned Qwen with LoRA on 2.4K labeled page groups, raising weighted F1 from 86.7% to 92.3% and schema-valid output from 93.4% to 98.6%.</li>
+            <li>Built a retrieval and evidence-attribution harness linking each value to its source page; cross-page field accuracy rose from 78.9% to 88.7% and citation precision from 87.9% to 94.2%.</li>
+            <li>Built an MLflow evaluation pipeline; prompt caching cut processing time by 20.2% with F1 within 0.3 points of peak.</li>
+          </ul>
+          <div class="entry-links"><a href="https://github.com/mingketian/Long-document-multimodal-extraction-system" target="_blank" rel="noopener">Code</a></div>
+        </div>
+      </li>
+      <li class="item">
+        <div class="when"><span>Jun &ndash; Aug 2025</span></div>
+        <div>
+          <h3>AI Engineer Intern</h3>
+          <p class="org">Innova AI Tech LLC, San Francisco, CA</p>
+          <ul>
+            <li>Built and deployed a LangChain-orchestrated agent platform for enterprise knowledge access and workflow automation, with intent routing, task planning, persona control, and tool calling, served through FastAPI and Docker.</li>
+            <li>Implemented a production RAG pipeline with FAISS and Chroma, adaptive semantic chunking, hybrid retrieval, and reranking, reaching 93.4% top-3 recall and 90.2% citation coverage.</li>
+            <li>Integrated Slack and Google Calendar and Tasks for natural-language scheduling, handling about 78% of routine employee requests and cutting scheduling time by about 65%.</li>
+            <li>Built an evaluation and reliability harness for routing, tool accuracy, retrieval, and task success; streaming and async concurrency kept p95 time to first token under 900 ms with a tool-error rate below 0.6%.</li>
+          </ul>
+        </div>
+      </li>
+    </ul>
+
+    <h2 class="section-title">Projects</h2>
+    <!-- Projects go here. The earlier project entries are still defined as PROJECTS in the build script;
+         to show them again, add: <ul class="entries">{PROJECTS}</ul> -->
+  </main>
+
+  <footer class="site-footer">
+    <div class="inner">
+      <span>&copy; 2026 Mingke Tian</span>
+      <span>Last updated October 2026</span>
+    </div>
+  </footer>
+  <script src="assets/site.js" defer></script>
+</body>
+</html>
