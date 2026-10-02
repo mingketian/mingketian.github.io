@@ -4,6 +4,8 @@ Plain HTML and CSS for GitHub Pages. No build step: the files in this folder are
 
 Live address once Pages is turned on: **https://mingketian.github.io/**
 
+**Preview (works now):** [Open the site preview](https://claude.ai/artifact/NkSpfKcTijMTeGs5nK5Qwa) — a private copy of all pages, viewable while signed in to claude.ai.
+
 ## Put it online
 
 1. Create a repository named exactly `mingketian.github.io`.
