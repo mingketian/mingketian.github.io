@@ -48,8 +48,8 @@
     <p class="pp-lede">MobilityWorld is a structured world model for human mobility built on latent state-action dynamics.</p>
 
     <figure class="pp-figure">
-      <a href="images/research/mobilityworld.webp" target="_blank" rel="noopener" title="Open full-size figure"><img src="images/research/mobilityworld.webp" alt="MobilityWorld overview: a profile-conditioned actor, a semantic-geographic world, and mobility dynamics are trained with structured consistency learning, composed by global temporal MAP inference, and queried through Roll, Plan, and Infer operators"></a>
-      <figcaption><b>Figure 1.</b> Overview. A profile-conditioned actor, a semantic&ndash;geographic world, and mobility dynamics share one latent state&ndash;action transition and are trained together with structured consistency learning. Global temporal MAP inference composes the same frozen factors over a query window, and the Roll, Plan, and Infer operators query that one core for forecasting, counterfactual planning, and completion.</figcaption>
+      <a href="images/research/mobilityworld.webp" target="_blank" rel="noopener" title="Open full-size figure"><img src="images/research/mobilityworld.webp" alt="MobilityWorld overview: input mobility data, the model architecture with local structured consistency learning, global MAP inference, and three query modes (Infer, Roll, Plan)"></a>
+      <figcaption><b>Figure 1.</b> Overview. (a) Input mobility data: spatial, temporal, POI, and OSM road-network signals. (b) An encoder maps each observation to a latent state, and a shared predictor maps the state and a latent action to the next state; local structured consistency learning keeps transitions grounded in observations, behavior, and space. (c) Global MAP inference reconciles the whole state&ndash;action path from the observation encoder, dynamics model, policy prior, and energy factor. (d) The same model answers three query modes: Infer (state smoothing and imputation), Roll (probabilistic rollout), and Plan (goal-directed planning).</figcaption>
     </figure>
 
 
