@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TopoStitch | Mingke Tian</title>
+  <meta name="description" content="Mingke Tian, undergraduate in applied mathematics, statistics, and computer science at Emory University.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Mingke Tian">
+  <meta property="og:title" content="TopoStitch | Mingke Tian">
+  <meta property="og:description" content="Mingke Tian, undergraduate in applied mathematics, statistics, and computer science at Emory University.">
+  <meta property="og:url" content="https://mingketian.github.io/project-topostitch.html">
+  <meta property="og:image" content="https://mingketian.github.io/images/profile.jpg">
+  <meta name="twitter:card" content="summary">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Charis+SIL:ital,wght@0,400;0,700;1,400;1,700&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,700;1,800&display=swap">
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="inner">
+      <nav class="site-nav" aria-label="Main">
+        <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="cv.pdf" target="_blank" rel="noopener">CV</a></li>
+        <li><a href="research.html">Research</a></li>
+        <li><a href="experience.html" aria-current="page">Experience</a></li>
+        <li><a href="activities.html">Leadership &amp; Services</a></li>
+        <li><a href="interests.html">Interests</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="paper-page project-page">
+    <a class="pp-back" href="experience.html#projects">&larr; All projects</a>
+    <header class="pp-hero">
+      <p class="project-meta">Team project &middot; Computer vision</p>
+      <h1>TopoStitch: Topology-Aware Gap Completion for Fragmented ECG Traces</h1>
+      <ul class="project-tags pp-tags" aria-label="Technologies"><li>Python</li><li>OpenCV</li><li>scikit-image</li><li>SciPy</li><li>NumPy</li><li>Computer Vision</li></ul>
+      <div class="pp-buttons"><a class="pp-btn primary" href="https://github.com/mingketian/topostitch" target="_blank" rel="noopener"><span class="btn-icon" aria-hidden="true"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg></span>Repo<span aria-hidden="true"> &#8599;</span></a></div>
+    </header>
+
+    <section class="pp-tldr" aria-label="Summary">
+      <span class="pp-label">OVERVIEW</span>
+      <p>Scanned and photographed ECGs often come apart into disconnected fragments once they are thresholded, which blocks any later digitization. TopoStitch represents the trace geometrically (skeleton, components, endpoints, and their outward directions), scores which fragments belong together, and draws smooth bridges that respect the trace's own direction, width, and pixel grid. On the example crop it reduces 10 components to 1 with 9 bridges while preserving every original foreground pixel.</p>
+    </section>
+
+    <div class="pp-gallery three">
+      <figure>
+        <a href="images/projects/ekg-card.png" target="_blank" rel="noopener" title="Open full size"><img src="images/projects/ekg-card.png" alt="Before and after on the full example crop: each color is one disconnected fragment; amber marks the only pixels the repair adds."></a>
+        <figcaption>Before and after on the full example crop: each color is one disconnected fragment; amber marks the only pixels the repair adds.</figcaption>
+      </figure>
+      <figure>
+        <a href="images/projects/ekg-geometry.png" target="_blank" rel="noopener" title="Open full size"><img src="images/projects/ekg-geometry.png" alt="Geometry of one accepted bridge: control points sit on each outward tangent, so the curve leaves and enters along the trace."></a>
+        <figcaption>Geometry of one accepted bridge: control points sit on each outward tangent, so the curve leaves and enters along the trace.</figcaption>
+      </figure>
+      <figure>
+        <a href="images/projects/ekg-results.png" target="_blank" rel="noopener" title="Open full size"><img src="images/projects/ekg-results.png" alt="Connected components left by each method on the example crop."></a>
+        <figcaption>Connected components left by each method on the example crop.</figcaption>
+      </figure>
+    </div>
+
+    <section class="pp-section">
+      <h2 class="section-title">How it works</h2>
+      <figure class="pp-figure pp-wide"><a href="images/projects/ekg-pipeline.png" target="_blank" rel="noopener"><img src="images/projects/ekg-pipeline.png" alt="The six stages, shown on a real region of the example crop: binarize, skeletonize and label components, estimate endpoint tangents, score and match candidate pairs, draw cubic bridges, then merge only new pixels."></a><figcaption>The six stages, shown on a real region of the example crop: binarize, skeletonize and label components, estimate endpoint tangents, score and match candidate pairs, draw cubic bridges, then merge only new pixels.</figcaption></figure>
+      <ol class="pp-steps">
+        <li><span class="pp-num">01</span><h3>Binarize</h3><p>The prepared crop is thresholded into a foreground mask. All later steps work on this mask and never remove any of its pixels.</p></li>
+        <li><span class="pp-num">02</span><h3>Skeleton and components</h3><p>A one-pixel skeleton (scikit-image) and 8-connected components (OpenCV) expose where the trace is broken.</p></li>
+        <li><span class="pp-num">03</span><h3>Endpoints and tangents</h3><p>Skeleton pixels with exactly one neighbor are endpoints. A geodesic walk along the skeleton gives each one an outward direction and a local trace width.</p></li>
+        <li><span class="pp-num">04</span><h3>Score and match</h3><p>Endpoint pairs from different fragments are scored by distance plus turning angle. Pairs are accepted greedily, with union-find so no fragment is linked twice.</p></li>
+        <li><span class="pp-num">05</span><h3>Cubic bridges</h3><p>Each accepted pair is joined by a cubic B&eacute;zier curve aligned with both tangents; its stroke width eases from one endpoint width to the other.</p></li>
+        <li><span class="pp-num">06</span><h3>Merge and verify</h3><p>Bridges that would cross a third fragment or cover existing trace are rejected. New pixels are snapped to the source's pixel-block grid and merged.</p></li>
+      </ol>
+    </section>
+
+    <section class="pp-section">
+      <h2 class="section-title">Formulation</h2>
+      <div class="pp-math">
+        <div class="pp-math-block">
+          <h3>Endpoints and outward tangents</h3>
+          <div class="pp-eq">\[\mathcal{E}=\{\,\mathbf{p}\in\mathcal{S}:\ |N_8(\mathbf{p})\cap\mathcal{S}|=1\,\},\qquad \mathbf{u}=\frac{\mathbf{x}-\bar{\mathbf{r}}}{\|\mathbf{x}-\bar{\mathbf{r}}\|},\qquad \bar{\mathbf{r}}=\frac{\sum_{\mathbf{q}\in Q}D(\mathbf{q})\,\mathbf{q}}{\sum_{\mathbf{q}\in Q}D(\mathbf{q})}\]</div>
+          <p>\(\mathcal{S}\) is the skeleton and \(D\) the distance transform of the mask. \(Q\) holds the skeleton points that a geodesic walk of length at most \(s=15\) px reaches at 70% or more of its range, so \(\mathbf{u}\) points from the trace body toward the gap. The local width is \(w=\max(1,\,2\,\mathrm{median}\,D-1)\).</p>
+        </div>
+        <div class="pp-math-block">
+          <h3>Which fragments belong together</h3>
+          <div class="pp-eq">\[\mathbf{d}=\frac{\mathbf{x}_b-\mathbf{x}_a}{\|\mathbf{x}_b-\mathbf{x}_a\|},\quad \theta_a=\arccos(\mathbf{u}_a^{\top}\mathbf{d}),\quad \theta_b=\arccos(-\mathbf{u}_b^{\top}\mathbf{d}),\qquad S(a,b)=\|\mathbf{x}_b-\mathbf{x}_a\|+s\,(\theta_a+\theta_b)\]</div>
+          <p>A pair is a candidate only if the gap is at most 65 px, \(\max(\theta_a,\theta_b)\le 110^\circ\), and \(\tfrac12(\theta_a+\theta_b)\le 70^\circ\). Candidates are accepted in order of increasing \(S\); an endpoint is used at most once, and union-find skips pairs whose fragments are already connected.</p>
+        </div>
+        <div class="pp-math-block">
+          <h3>Tangent-aligned bridge</h3>
+          <div class="pp-eq">\[\mathbf{B}(t)=(1-t)^3\mathbf{x}_a+3(1-t)^2t\,\mathbf{c}_a+3(1-t)t^2\,\mathbf{c}_b+t^3\mathbf{x}_b,\qquad \mathbf{c}_{a,b}=\mathbf{x}_{a,b}+h\,\mathbf{u}_{a,b},\quad h=\min\!\big(\tfrac13\|\mathbf{x}_b-\mathbf{x}_a\|,\,s\big)\]</div>
+          <p>Because the control points lie on the outward tangents, the curve leaves \(\mathbf{x}_a\) and arrives at \(\mathbf{x}_b\) along the trace. Its stroke width follows the smoothstep \(w(t)=w_a+(w_b-w_a)(3t^2-2t^3)\), so it meets each end without a thin neck.</p>
+        </div>
+        <div class="pp-math-block">
+          <h3>Matching the source pixel grid</h3>
+          <div class="pp-eq">\[R(P)=\frac{\big|\sum_k \omega_k\,e^{2\pi i\,x_k/P}\big|}{\sum_k \omega_k},\qquad P^\star=\arg\max_{2\le P\le 12} R(P),\qquad \phi=\frac{P^\star}{2\pi}\arg\Big(\sum_k \omega_k\,e^{2\pi i\,x_k/P^\star}\Big)\]</div>
+          <p>\(x_k\) are positions of foreground edges along one axis, weighted by their counts \(\omega_k\). When \(R(P^\star)\ge 0.78\) on both axes, new bridges are resampled onto the detected block lattice (about 5 px on the example), so they look like the rest of the image; with weaker evidence the native pixels are kept.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="pp-section">
+      <h2 class="section-title">Results</h2>
+      <ul class="pp-stats">
+        <li><strong>10 &rarr; 1</strong><span>connected components on the example crop</span></li>
+        <li><strong>9</strong><span>bridges accepted, none crossing another fragment</span></li>
+        <li><strong>100%</strong><span>of the original foreground pixels preserved (4,025 pixels added)</span></li>
+        <li><strong>13</strong><span>synthetic geometry regression tests</span></li>
+      </ul>
+    </section>
+
+    <p class="pp-note">The demonstration covers connectivity on prepared crops; time&ndash;voltage calibration and clinical validation are future work.</p>
+    <nav class="pp-pager" aria-label="More projects"><span></span><a class="next" href="project-im-platform.html"><span>Next &rarr;</span>Distributed Instant Messaging Platform</a></nav>
+  </main>
+  <link rel="stylesheet" href="assets/vendor/katex/katex.min.css">
+  <script defer src="assets/vendor/katex/katex.min.js"></script>
+  <script defer src="assets/vendor/katex/auto-render.min.js"></script>
+  <script>
+    window.addEventListener('load', function () {
+      if (window.renderMathInElement) renderMathInElement(document.body, {
+        delimiters: [{left: '\\[', right: '\\]', display: true}, {left: '\\(', right: '\\)', display: false}],
+        throwOnError: false
+      });
+    });
+  </script>
+
+  <footer class="site-footer">
+    <div class="inner">
+      <span>&copy; 2026 Mingke Tian</span>
+      <span>Last updated October 2026</span>
+    </div>
+  </footer>
+  <script src="assets/site.js" defer></script>
+</body>
+</html>

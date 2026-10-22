@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Spatiotemporal Evidence Grounding for Vision&ndash;Language Parkinson Gait Assessment | Mingke Tian</title>
+  <meta name="description" content="Mingke Tian, undergraduate in applied mathematics, statistics, and computer science at Emory University.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Mingke Tian">
+  <meta property="og:title" content="Spatiotemporal Evidence Grounding for Vision–Language Parkinson Gait Assessment | Mingke Tian">
+  <meta property="og:description" content="Mingke Tian, undergraduate in applied mathematics, statistics, and computer science at Emory University.">
+  <meta property="og:url" content="https://mingketian.github.io/research-gait.html">
+  <meta property="og:image" content="https://mingketian.github.io/images/profile.jpg">
+  <meta name="twitter:card" content="summary">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Charis+SIL:ital,wght@0,400;0,700;1,400;1,700&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,700;1,800&display=swap">
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="inner">
+      <nav class="site-nav" aria-label="Main">
+        <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="cv.pdf" target="_blank" rel="noopener">CV</a></li>
+        <li><a href="research.html" aria-current="page">Research</a></li>
+        <li><a href="experience.html">Experience</a></li>
+        <li><a href="activities.html">Leadership &amp; Services</a></li>
+        <li><a href="interests.html">Interests</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="paper-page">
+    <a class="pp-back" href="research.html">&larr; All research</a>
+    <header class="pp-hero">
+      <p class="paper-badges"><span class="badge review">Under review &middot; IEEE Journal of ICHI</span></p>
+      <h1>Spatiotemporal Evidence Grounding for Vision&ndash;Language Parkinson Gait Assessment</h1>
+      <p class="pp-authors">Jinrui Fang, <span class="me">Mingke Tian</span>, Zijie Liu, Zihao Zhu, Zhiwen Fan, Song Wang, Ding Ying, Gengwei Zhang, Tianlong Chen</p>
+      <div class="pp-buttons"><a class="pp-btn primary" href="papers/gait.pdf" target="_blank" rel="noopener">Paper (PDF)<span aria-hidden="true"> &#8599;</span></a><a class="pp-btn" href="images/research/gait.png" target="_blank" rel="noopener">Full-size figure<span aria-hidden="true"> &#8599;</span></a></div>
+    </header>
+
+    <p class="pp-lede">Clinicians rate Parkinson&rsquo;s gait by watching how a patient walks, and a useful model should explain its score in the same terms. This work scores gait severity from reconstructed 3D motion and grounds every prediction in biomechanical evidence, measured over time, across clips, and from several camera views.</p>
+
+    <figure class="pp-figure">
+      <a href="images/research/gait.png" target="_blank" rel="noopener" title="Open full-size figure"><img src="images/research/gait.png" alt="Architecture. Input and preprocessing (3D SMPL motion and 13 biomechanical concepts), feature extraction with a frozen motion encoder, concept-guided feature adaptation with multi-clip and multi-view pooling, and two jointly trained heads."></a>
+      <figcaption><b>Figure 1.</b> Architecture. Input and preprocessing (3D SMPL motion and 13 biomechanical concepts), feature extraction with a frozen motion encoder, concept-guided feature adaptation with multi-clip and multi-view pooling, and two jointly trained heads.</figcaption>
+    </figure>
+    <nav class="pp-toc" aria-label="On this page"><span>On this page</span><a href="#sec-1">Problem setup</a><a href="#sec-2">Concept-guided feature adaptation</a><a href="#sec-3">Evidence pooling across time, clips, and views</a><a href="#sec-4">Two heads, trained jointly</a><a href="#sec-5">Conclusion</a><a href="#refs">References</a></nav>
+
+    <article class="pp-doc">
+      <section class="pp-sec" id="sec-1">
+        <h2><span class="pp-secnum">1</span>Problem setup</h2>
+        <p>Walking video is reconstructed into 3D body motion, from which two inputs are derived:</p>
+        <div class="pp-eq">\[\begin{gathered}\mathbf{q}_t=\mathrm{Enc}_{\text{frozen}}(\text{SMPL motion})\in\mathbb{R}^{T'\times 512},\\ \mathbf{c}_t\in\mathbb{R}^{T\times 13},\qquad y\in\{0,1,2,3\}\end{gathered}\]</div>
+        <p class="pp-where-lead">where</p>
+        <dl class="pp-where">
+          <dt>\(\mathbf{c}_t\)</dt><dd>thirteen time-varying biomechanical concepts: pelvis height and tilt; seven foot measures such as clearance, heel-toe distance, and contact; left and right arm swing and flexion; trunk lean and turn angle</dd>
+          <dt>\(\mathbf{q}_t\)</dt><dd>motion tokens from a pretrained motion encoder (for example MoMask) that stays frozen</dd>
+          <dt>\(y\)</dt><dd>the MDS-UPDRS gait score</dd>
+        </dl>
+      </section>
+      <section class="pp-sec" id="sec-2">
+        <h2><span class="pp-secnum">2</span>Concept-guided feature adaptation</h2>
+        <div class="pp-eq">\[\mathbf{q}^{\text{adapt}}_t=\mathbf{q}_t+\gamma(\mathbf{c}_t)\odot\mathbf{q}_t+\beta(\mathbf{c}_t)\]</div>
+        <p class="pp-where-lead">where</p>
+        <dl class="pp-where">
+          <dt>\(\gamma(\mathbf{c}_t),\ \beta(\mathbf{c}_t)\in\mathbb{R}^{T'\times 512}\)</dt><dd>a per-token scale and shift produced by a conditioning network from the aligned concepts</dd>
+          <dt>\(\odot\)</dt><dd>element-wise product</dd>
+        </dl>
+        <p>The residual form keeps the pretrained representation unchanged when the concepts add nothing, and moves it toward clinically meaningful directions when they do.</p>
+      </section>
+      <section class="pp-sec" id="sec-3">
+        <h2><span class="pp-secnum">3</span>Evidence pooling across time, clips, and views</h2>
+        <div class="pp-eq">\[\mathbf{h}=\mathrm{MaskedPool}\Big(\big\{\mathbf{q}^{\text{adapt}}_{t,c,v}\ :\ t\ \text{valid},\ c\in\text{clips},\ v\in\text{views}\big\}\Big)\in\mathbb{R}^{512}\]</div>
+        <p class="pp-where-lead">where</p>
+        <dl class="pp-where">
+          <dt>\(t,c,v\)</dt><dd>time position, clip, and camera view</dd>
+          <dt>\(\mathbf{h}\)</dt><dd>the pooled feature used by both heads</dd>
+        </dl>
+        <p>Masking ignores padded or invalid positions, so a patient recorded with fewer or shorter clips is not penalized.</p>
+      </section>
+      <section class="pp-sec" id="sec-4">
+        <h2><span class="pp-secnum">4</span>Two heads, trained jointly</h2>
+        <div class="pp-eq">\[\mathcal{L}=\mathcal{L}_{\text{cls}}+\lambda\,\mathcal{L}_{\text{reg}},\qquad \mathcal{L}_{\text{cls}}=-\log p(y^\star\mid\mathbf{h}),\qquad \mathcal{L}_{\text{reg}}=\mathrm{MSE}(\hat{\mathbf{c}},\mathbf{c})\]</div>
+        <p class="pp-where-lead">where</p>
+        <dl class="pp-where">
+          <dt>\(p(y\mid\mathbf{h})\)</dt><dd>the gait-score classifier after a shared projection</dd>
+          <dt>\(\hat{\mathbf{c}}\in\mathbb{R}^{13}\)</dt><dd>the predicted concepts from the auxiliary regression head</dd>
+          <dt>\(\lambda\)</dt><dd>the weight of the concept term</dd>
+        </dl>
+        <p>The concept term keeps the shared representation tied to measurable gait properties, which is what lets each prediction be explained in biomechanical terms.</p>
+      </section>
+      <section class="pp-sec" id="sec-5">
+        <h2><span class="pp-secnum">5</span>Conclusion</h2>
+        <p>Conditioning a frozen motion model on biomechanical concepts, and supervising those concepts jointly, gives gait-severity predictions that are grounded in the same measurements clinicians reason about.</p>
+      </section>
+      <section class="pp-sec" id="refs">
+        <h2>Key references</h2>
+        <ol class="pp-refs">
+          <li>M. Loper, N. Mahmood, J. Romero, G. Pons-Moll, and M. J. Black. SMPL: A Skinned Multi-Person Linear Model. <i>ACM Transactions on Graphics</i> 34(6), 2015.</li>
+          <li>C. Guo et al. MoMask: Generative Masked Modeling of 3D Human Motions. <i>CVPR</i>, 2024.</li>
+          <li>E. Perez, F. Strub, H. de Vries, V. Dumoulin, and A. Courville. FiLM: Visual Reasoning with a General Conditioning Layer. <i>AAAI</i>, 2018.</li>
+          <li>C. G. Goetz et al. Movement Disorder Society-Sponsored Revision of the Unified Parkinson&rsquo;s Disease Rating Scale (MDS-UPDRS). <i>Movement Disorders</i> 23(15), 2008.</li>
+        </ol>
+      </section>
+    </article>
+
+    <nav class="pp-pager" aria-label="More research"><a class="prev" href="research-magi.html"><span>&larr; Previous</span>Structured MAGI</a><span></span></nav>
+  </main>
+
+  <link rel="stylesheet" href="assets/vendor/katex/katex.min.css">
+  <script defer src="assets/vendor/katex/katex.min.js"></script>
+  <script defer src="assets/vendor/katex/auto-render.min.js"></script>
+  <script>
+    window.addEventListener('load', function () {
+      if (window.renderMathInElement) renderMathInElement(document.body, {
+        delimiters: [{left: '\\[', right: '\\]', display: true}, {left: '\\(', right: '\\)', display: false}],
+        throwOnError: false
+      });
+    });
+  </script>
+
+
+
+
+
+  <footer class="site-footer">
+    <div class="inner">
+      <span>&copy; 2026 Mingke Tian</span>
+      <span>Last updated October 2026</span>
+    </div>
+  </footer>
+  <script src="assets/site.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Patent Prior-Art Agent | Mingke Tian</title>
+  <meta name="description" content="Mingke Tian, undergraduate in applied mathematics, statistics, and computer science at Emory University.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Mingke Tian">
+  <meta property="og:title" content="Patent Prior-Art Agent | Mingke Tian">
+  <meta property="og:description" content="Mingke Tian, undergraduate in applied mathematics, statistics, and computer science at Emory University.">
+  <meta property="og:url" content="https://mingketian.github.io/project-patentagent.html">
+  <meta property="og:image" content="https://mingketian.github.io/images/profile.jpg">
+  <meta name="twitter:card" content="summary">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Charis+SIL:ital,wght@0,400;0,700;1,400;1,700&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,700;1,800&display=swap">
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="inner">
+      <nav class="site-nav" aria-label="Main">
+        <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="cv.pdf" target="_blank" rel="noopener">CV</a></li>
+        <li><a href="research.html">Research</a></li>
+        <li><a href="experience.html" aria-current="page">Experience</a></li>
+        <li><a href="activities.html">Leadership &amp; Services</a></li>
+        <li><a href="interests.html">Interests</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="paper-page project-page">
+    <a class="pp-back" href="experience.html#projects">&larr; All projects</a>
+    <header class="pp-hero">
+      <p class="project-meta">Independent project</p>
+      <h1>Patent Prior-Art Agent: From Retrieval to Evidence-Grounded Analysis</h1>
+      <ul class="project-tags pp-tags" aria-label="Technologies"><li>LangGraph</li><li>FAISS</li><li>PatentSBERTa</li><li>BM25</li><li>Reranking</li><li>RAG</li></ul>
+      <div class="pp-buttons"><a class="pp-btn primary" href="https://github.com/mingketian/PatentAgent" target="_blank" rel="noopener"><span class="btn-icon" aria-hidden="true"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg></span>Repo<span aria-hidden="true"> &#8599;</span></a><a class="pp-btn" href="https://github.com/mingketian/PatentAgent/tree/main/slides" target="_blank" rel="noopener"><span class="btn-icon" aria-hidden="true"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg></span>Slides<span aria-hidden="true"> &#8599;</span></a></div>
+    </header>
+
+    <section class="pp-tldr" aria-label="Summary">
+      <span class="pp-label">OVERVIEW</span>
+      <p>A tool-using LLM agent that turns a patent claim, an invention idea, or a vague search query into a ranked prior-art set, a limitation-level evidence chart, and a grounded answer in which every statement traces back to retrieved patent text. Retrieval, evidence alignment, synthesis, and verification are separate, inspectable steps.</p>
+    </section>
+
+    <div class="pp-gallery three">
+      <figure>
+        <a href="images/projects/patent-architecture.png" target="_blank" rel="noopener" title="Open full size"><img src="images/projects/patent-architecture.png" alt="System architecture: one shared FAISS patent index; the agent adds planning, learned reranking, evidence alignment, synthesis, and verification on top of plain RAG."></a>
+        <figcaption>System architecture: one shared FAISS patent index; the agent adds planning, learned reranking, evidence alignment, synthesis, and verification on top of plain RAG.</figcaption>
+      </figure>
+      <figure>
+        <a href="images/research/patentagent.png" target="_blank" rel="noopener" title="Open full size"><img src="images/research/patentagent.png" alt="Prior-art ranking on PANORAMA PAR4PC (3,029 validation cases, 8 candidates each)."></a>
+        <figcaption>Prior-art ranking on PANORAMA PAR4PC (3,029 validation cases, 8 candidates each).</figcaption>
+      </figure>
+      <figure>
+        <a href="images/projects/patent-human-eval.png" target="_blank" rel="noopener" title="Open full size"><img src="images/projects/patent-human-eval.png" alt="Human evaluation of answer quality on 20 prompts."></a>
+        <figcaption>Human evaluation of answer quality on 20 prompts.</figcaption>
+      </figure>
+    </div>
+
+    <section class="pp-section">
+      <h2 class="section-title">How it works</h2>
+      <ol class="pp-steps">
+        <li><span class="pp-num">01</span><h3>Plan</h3><p>Classifies the turn (new search, follow-up, comparison, filter) and decomposes the claim into limitations.</p></li>
+        <li><span class="pp-num">02</span><h3>Recall</h3><p>Coarse recall of candidates from a persistent FAISS index of 17,877 patents, using 768-dimensional PatentSBERTa vectors.</p></li>
+        <li><span class="pp-num">03</span><h3>Rerank</h3><p>A learned linear reranker over dense, BM25, and field-lexical scores, trained on PAR4PC.</p></li>
+        <li><span class="pp-num">04</span><h3>Align</h3><p>Picks the strongest title, abstract, or claim snippet for each limitation and builds the claim chart.</p></li>
+        <li><span class="pp-num">05</span><h3>Synthesise</h3><p>Writes the answer from the extracted evidence only.</p></li>
+        <li><span class="pp-num">06</span><h3>Verify</h3><p>Checks the answer against the evidence and labels it supported, partially supported, or unsupported, with a reason.</p></li>
+      </ol>
+    </section>
+
+    <section class="pp-section">
+      <h2 class="section-title">Results</h2>
+      <ul class="pp-stats">
+        <li><strong>0.754</strong><span>Hit@1 on PAR4PC, versus 0.718 for BM25 and 0.714 for PatentSBERTa</span></li>
+        <li><strong>+5.2 pts</strong><span>Exact@|gold| over the PatentSBERTa baseline (0.570 &rarr; 0.622)</span></li>
+        <li><strong>0.906</strong><span>overall human-rated answer quality, versus 0.581 for plain RAG</span></li>
+        <li><strong>0.98</strong><span>context reuse across follow-up turns</span></li>
+      </ul>
+    </section>
+
+    
+    <nav class="pp-pager" aria-label="More projects"><a class="prev" href="project-im-platform.html"><span>&larr; Previous</span>Distributed Instant Messaging Platform</a><a class="next" href="project-eumma-website.html"><span>Next &rarr;</span>Official Website for the Emory Undergraduate Mathematics Association</a></nav>
+  </main>
+
+
+  <footer class="site-footer">
+    <div class="inner">
+      <span>&copy; 2026 Mingke Tian</span>
+      <span>Last updated October 2026</span>
+    </div>
+  </footer>
+  <script src="assets/site.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Distributed Instant Messaging Platform | Mingke Tian</title>
+  <meta name="description" content="Mingke Tian, undergraduate in applied mathematics, statistics, and computer science at Emory University.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Mingke Tian">
+  <meta property="og:title" content="Distributed Instant Messaging Platform | Mingke Tian">
+  <meta property="og:description" content="Mingke Tian, undergraduate in applied mathematics, statistics, and computer science at Emory University.">
+  <meta property="og:url" content="https://mingketian.github.io/project-im-platform.html">
+  <meta property="og:image" content="https://mingketian.github.io/images/profile.jpg">
+  <meta name="twitter:card" content="summary">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Charis+SIL:ital,wght@0,400;0,700;1,400;1,700&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,700;1,800&display=swap">
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="inner">
+      <nav class="site-nav" aria-label="Main">
+        <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="cv.pdf" target="_blank" rel="noopener">CV</a></li>
+        <li><a href="research.html">Research</a></li>
+        <li><a href="experience.html" aria-current="page">Experience</a></li>
+        <li><a href="activities.html">Leadership &amp; Services</a></li>
+        <li><a href="interests.html">Interests</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="paper-page project-page">
+    <a class="pp-back" href="experience.html#projects">&larr; All projects</a>
+    <header class="pp-hero">
+      <p class="project-meta">Team project</p>
+      <h1>Distributed Instant Messaging Platform</h1>
+      <ul class="project-tags pp-tags" aria-label="Technologies"><li>Java</li><li>Spring Cloud</li><li>Netty</li><li>WebSocket</li><li>ZooKeeper</li><li>RabbitMQ</li><li>Redis</li><li>MinIO</li></ul>
+      
+    </header>
+
+    <section class="pp-tldr" aria-label="Summary">
+      <span class="pp-label">OVERVIEW</span>
+      <p>A hybrid distributed instant messaging platform: Java Spring Cloud microservices behind a horizontally scalable Netty WebSocket cluster, with ordered, lossless asynchronous delivery and zero-downtime releases.</p>
+    </section>
+
+    <div class="pp-gallery">
+      <figure>
+        <a href="images/projects/im-platform.png" target="_blank" rel="noopener" title="Open full size"><img src="images/projects/im-platform.png" alt="Architecture: clients connect to a Netty WebSocket cluster discovered through ZooKeeper; RabbitMQ fans messages out to Spring Cloud services backed by Redis, relational databases, and MinIO."></a>
+        <figcaption>Architecture: clients connect to a Netty WebSocket cluster discovered through ZooKeeper; RabbitMQ fans messages out to Spring Cloud services backed by Redis, relational databases, and MinIO.</figcaption>
+      </figure>
+    </div>
+
+    <section class="pp-section">
+      <h2 class="section-title">How it works</h2>
+      <ol class="pp-steps">
+        <li><span class="pp-num">01</span><h3>Hybrid architecture</h3><p>Java Spring Cloud microservices work alongside a Netty-based WebSocket cluster, with every tier designed to scale horizontally.</p></li>
+        <li><span class="pp-num">02</span><h3>Discovery and routing</h3><p>ZooKeeper-based service discovery tracks the stateful Netty nodes, and RabbitMQ fan-out routing is tuned for low intra-cluster latency.</p></li>
+        <li><span class="pp-num">03</span><h3>Asynchronous pipelines</h3><p>High-throughput asynchronous messaging handles burst traffic with ordered delivery and no message loss; Redis holds distributed sessions and drives failover recovery.</p></li>
+        <li><span class="pp-num">04</span><h3>Deployment and storage</h3><p>Containerized services roll out with rolling upgrades and horizontal scaling for zero-downtime releases; MinIO object storage and relational databases support multimedia and social features.</p></li>
+      </ol>
+    </section>
+
+    <section class="pp-section">
+      <h2 class="section-title">Results</h2>
+      <ul class="pp-stats">
+        <li><strong>80k&ndash;120k</strong><span>concurrent connections</span></li>
+        <li><strong>15k&ndash;25k</strong><span>messages per second in bursts, delivered in order with no loss</span></li>
+        <li><strong>40&ndash;70 ms</strong><span>p95 intra-cluster latency under high concurrency</span></li>
+        <li><strong>Zero</strong><span>downtime during releases</span></li>
+      </ul>
+    </section>
+
+    
+    <nav class="pp-pager" aria-label="More projects"><a class="prev" href="project-topostitch.html"><span>&larr; Previous</span>TopoStitch</a><a class="next" href="project-patentagent.html"><span>Next &rarr;</span>Patent Prior-Art Agent</a></nav>
+  </main>
+
+
+  <footer class="site-footer">
+    <div class="inner">
+      <span>&copy; 2026 Mingke Tian</span>
+      <span>Last updated October 2026</span>
+    </div>
+  </footer>
+  <script src="assets/site.js" defer></script>
+</body>
+</html>

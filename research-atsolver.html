@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ATSolver | Mingke Tian</title>
+  <meta name="description" content="Mingke Tian, undergraduate in applied mathematics, statistics, and computer science at Emory University.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Mingke Tian">
+  <meta property="og:title" content="ATSolver | Mingke Tian">
+  <meta property="og:description" content="Mingke Tian, undergraduate in applied mathematics, statistics, and computer science at Emory University.">
+  <meta property="og:url" content="https://mingketian.github.io/research-atsolver.html">
+  <meta property="og:image" content="https://mingketian.github.io/images/profile.jpg">
+  <meta name="twitter:card" content="summary">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Charis+SIL:ital,wght@0,400;0,700;1,400;1,700&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,700;1,800&display=swap">
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="inner">
+      <nav class="site-nav" aria-label="Main">
+        <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="cv.pdf" target="_blank" rel="noopener">CV</a></li>
+        <li><a href="research.html" aria-current="page">Research</a></li>
+        <li><a href="experience.html">Experience</a></li>
+        <li><a href="activities.html">Leadership &amp; Services</a></li>
+        <li><a href="interests.html">Interests</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="paper-page">
+    <a class="pp-back" href="research.html">&larr; All research</a>
+    <header class="pp-hero">
+      <p class="paper-badges"><span class="badge review">Under review &middot; ICLR 2027</span></p>
+      <h1>ATSolver: Agentic Tuning of Sparse Linear Solvers with Numerical Feedback</h1>
+      <p class="pp-authors"><span class="me">Mingke Tian</span>, Yiyun Chen, Ruipeng Li, Tianshi Xu, Yuanzhe Xi</p>
+      <div class="pp-buttons"><a class="pp-btn primary" href="papers/atsolver.pdf" target="_blank" rel="noopener">Paper (PDF)<span aria-hidden="true"> &#8599;</span></a><a class="pp-btn" href="images/research/atsolver.png" target="_blank" rel="noopener">Full-size figure<span aria-hidden="true"> &#8599;</span></a></div>
+    </header>
+
+    <p class="pp-lede">Picking a solver and preconditioner for a large sparse linear system is usually done by expert intuition or brute-force search. ATSolver hands the choice to an LLM agent, but never lets the agent decide what counts as solved: every proposal passes a legality gate, runs on a real numerical worker, and is accepted only if an independent verifier confirms the residual.</p>
+
+    <figure class="pp-figure">
+      <a href="images/research/atsolver.png" target="_blank" rel="noopener" title="Open full-size figure"><img src="images/research/atsolver.png" alt="System overview. The workload contract and a public decision state feed a configuration and execution loop: a frozen LLM proposes, a schema and legality gate filters, a numerical worker executes, and an independent verifier decides; a state manager keeps history and the best configuration."></a>
+      <figcaption><b>Figure 1.</b> System overview. The workload contract and a public decision state feed a configuration and execution loop: a frozen LLM proposes, a schema and legality gate filters, a numerical worker executes, and an independent verifier decides; a state manager keeps history and the best configuration.</figcaption>
+    </figure>
+    <nav class="pp-toc" aria-label="On this page"><span>On this page</span><a href="#sec-1">Problem setup</a><a href="#sec-2">What the agent sees</a><a href="#sec-3">Actions</a><a href="#sec-4">Independent verification</a><a href="#sec-5">Results</a><a href="#sec-6">Conclusion</a><a href="#refs">References</a></nav>
+
+    <article class="pp-doc">
+      <section class="pp-sec" id="sec-1">
+        <h2><span class="pp-secnum">1</span>Problem setup</h2>
+        <p>Each request is a sparse linear system together with a contract that says what a good answer must satisfy and what it may cost:</p>
+        <div class="pp-eq">\[A\mathbf{x}=\mathbf{b},\qquad A\in\mathbb{R}^{n\times n}\ \text{sparse},\qquad \mathcal{W}=(L,\,R,\,H,\,B)\]</div>
+        <p class="pp-where-lead">where</p>
+        <dl class="pp-where">
+          <dt>\(L\)</dt><dd>the regime: matrix size, structure, and number of right-hand sides</dd>
+          <dt>\(R\)</dt><dd>requirements: target accuracy and coverage</dd>
+          <dt>\(H\)</dt><dd>available hardware: CPU, GPU, and memory</dd>
+          <dt>\(B\)</dt><dd>budgets: time, memory, and number of trials</dd>
+        </dl>
+        <p>The task is to find a configuration that meets \(R\) within \(B\), using as few trials as possible.</p>
+      </section>
+      <section class="pp-sec" id="sec-2">
+        <h2><span class="pp-secnum">2</span>What the agent sees</h2>
+        <p>The agent never receives raw matrix entries. It receives a public decision state built from the matrix and from previous attempts:</p>
+        <div class="pp-eq">\[s_k=\big(\mathcal{V}(A),\ \mathcal{C}(A),\ \mathcal{H}_k\big)\]</div>
+        <p class="pp-where-lead">where</p>
+        <dl class="pp-where">
+          <dt>\(\mathcal{V}(A)\)</dt><dd>multimodal channel views of the sparsity pattern: natural ordering, reverse Cuthill&ndash;McKee ordering, and positive and negative entries</dd>
+          <dt>\(\mathcal{C}(A)\)</dt><dd>a numeric workload card: symmetry, scaling, evidence of positive definiteness, and sparsity statistics</dd>
+          <dt>\(\mathcal{H}_k\)</dt><dd>the history of the first \(k\) attempts, their outcomes, and diagnoses</dd>
+        </dl>
+      </section>
+      <section class="pp-sec" id="sec-3">
+        <h2><span class="pp-secnum">3</span>Actions</h2>
+        <p>At each step the frozen LLM proposes one configuration, or stops:</p>
+        <div class="pp-eq">\[a_k\in\mathcal{A}=\big\{(\text{solver},\ \text{preconditioner},\ \boldsymbol{\theta},\ \text{lifecycle})\big\}\cup\{\textsf{STOP}\}\]</div>
+        <p class="pp-where-lead">where</p>
+        <dl class="pp-where">
+          <dt>solver</dt><dd>an iterative method (PCG, GMRES, FGMRES, BiCGSTAB) from hypre, or a direct SuperLU factorization</dd>
+          <dt>preconditioner</dt><dd>none, algebraic multigrid (AMG), incomplete LU (ILU), or FSAI</dd>
+          <dt>\(\boldsymbol{\theta}\)</dt><dd>the numerical parameters of the chosen methods</dd>
+          <dt>lifecycle</dt><dd>whether to build a new setup or reuse an existing one</dd>
+        </dl>
+        <p>A schema and legality gate rejects malformed or unsafe actions before anything runs; rejected proposals cost no solver time.</p>
+      </section>
+      <section class="pp-sec" id="sec-4">
+        <h2><span class="pp-secnum">4</span>Independent verification</h2>
+        <p>A configuration is accepted only if the returned solution passes a residual check that the solver itself does not perform:</p>
+        <div class="pp-eq">\[\mathbf{r}=\mathbf{b}-A\hat{\mathbf{x}},\qquad \rho=\frac{\lVert\mathbf{r}\rVert_2}{\max\!\big(\lVert\mathbf{b}\rVert_2,\ \varepsilon_b\big)}\ \le\ \tau\]</div>
+        <p class="pp-where-lead">where</p>
+        <dl class="pp-where">
+          <dt>\(\hat{\mathbf{x}}\)</dt><dd>the solution returned by the numerical worker</dd>
+          <dt>\(\rho\)</dt><dd>the relative residual</dd>
+          <dt>\(\varepsilon_b\)</dt><dd>a floor that keeps the ratio defined when \(\lVert\mathbf{b}\rVert_2\) is tiny</dd>
+          <dt>\(\tau\)</dt><dd>the tolerance required by \(R\)</dd>
+        </dl>
+        <p>Failures are diagnosed (for example, a violated constraint or a stalled iteration) and written back into \(\mathcal{H}_{k+1}\). Retrieved numerical knowledge and past runs also guide proposals on new workloads.</p>
+      </section>
+      <section class="pp-sec" id="sec-5">
+        <h2><span class="pp-secnum">5</span>Results</h2>
+        <ul class="pp-stats">
+          <li><strong>75 / 105</strong><span>configurations accepted on 35 matrices, versus 64 / 105 for matched-budget Best-of-6</span></li>
+          <li><strong>30.1%</strong><span>lower replay solve time</span></li>
+          <li><strong>19 &rarr; 38</strong><span>of 42 held-out PDE targets met once retrieval is added</span></li>
+        </ul>
+      </section>
+      <section class="pp-sec" id="sec-6">
+        <h2><span class="pp-secnum">6</span>Conclusion</h2>
+        <p>Grounding an LLM agent in independent numerical verification makes it a reliable solver tuner: it accepts more configurations than sampling with the same budget, finds faster ones, and generalizes better when it can retrieve past experience.</p>
+      </section>
+      <section class="pp-sec" id="refs">
+        <h2>Key references</h2>
+        <ol class="pp-refs">
+          <li>R. D. Falgout and U. M. Yang. hypre: A Library of High Performance Preconditioners. <i>International Conference on Computational Science (ICCS)</i>, 2002.</li>
+          <li>X. S. Li. An Overview of SuperLU: Algorithms, Implementation, and User Interface. <i>ACM Transactions on Mathematical Software</i> 31(3), 2005.</li>
+          <li>Y. Saad. <i>Iterative Methods for Sparse Linear Systems</i>, 2nd ed. SIAM, 2003.</li>
+          <li>E. Cuthill and J. McKee. Reducing the Bandwidth of Sparse Symmetric Matrices. <i>Proceedings of the 24th ACM National Conference</i>, 1969.</li>
+        </ol>
+      </section>
+    </article>
+
+    <nav class="pp-pager" aria-label="More research"><a class="prev" href="research-constrainer.html"><span>&larr; Previous</span>CONSTRAINER</a><a class="next" href="research-mobilityworld.html"><span>Next &rarr;</span>MobilityWorld</a></nav>
+  </main>
+
+  <link rel="stylesheet" href="assets/vendor/katex/katex.min.css">
+  <script defer src="assets/vendor/katex/katex.min.js"></script>
+  <script defer src="assets/vendor/katex/auto-render.min.js"></script>
+  <script>
+    window.addEventListener('load', function () {
+      if (window.renderMathInElement) renderMathInElement(document.body, {
+        delimiters: [{left: '\\[', right: '\\]', display: true}, {left: '\\(', right: '\\)', display: false}],
+        throwOnError: false
+      });
+    });
+  </script>
+
+
+
+
+
+  <footer class="site-footer">
+    <div class="inner">
+      <span>&copy; 2026 Mingke Tian</span>
+      <span>Last updated October 2026</span>
+    </div>
+  </footer>
+  <script src="assets/site.js" defer></script>
+</body>
+</html>

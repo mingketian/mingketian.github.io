@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CONSTRAINER | Mingke Tian</title>
+  <meta name="description" content="Mingke Tian, undergraduate in applied mathematics, statistics, and computer science at Emory University.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Mingke Tian">
+  <meta property="og:title" content="CONSTRAINER | Mingke Tian">
+  <meta property="og:description" content="Mingke Tian, undergraduate in applied mathematics, statistics, and computer science at Emory University.">
+  <meta property="og:url" content="https://mingketian.github.io/research-constrainer.html">
+  <meta property="og:image" content="https://mingketian.github.io/images/profile.jpg">
+  <meta name="twitter:card" content="summary">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Charis+SIL:ital,wght@0,400;0,700;1,400;1,700&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,700;1,800&display=swap">
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="inner">
+      <nav class="site-nav" aria-label="Main">
+        <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="cv.pdf" target="_blank" rel="noopener">CV</a></li>
+        <li><a href="research.html" aria-current="page">Research</a></li>
+        <li><a href="experience.html">Experience</a></li>
+        <li><a href="activities.html">Leadership &amp; Services</a></li>
+        <li><a href="interests.html">Interests</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="paper-page">
+    <a class="pp-back" href="research.html">&larr; All research</a>
+    <header class="pp-hero">
+      <p class="paper-badges"><span class="badge accepted">NeurIPS 2026 &middot; Main Track</span></p>
+      <h1>CONSTRAINER: Promptable Graph-Structured Optimization via Constraint Conditioning</h1>
+      <p class="pp-authors">Zeeshan Memon, <span class="me">Mingke Tian</span>, Xinyuan Song, Hongwei Jin, Kibaek Kim, Liang Zhao</p>
+      <div class="pp-buttons"><a class="pp-btn primary" href="papers/constrainer.pdf" target="_blank" rel="noopener">Paper (PDF)<span aria-hidden="true"> &#8599;</span></a><a class="pp-btn" href="images/research/constrainer.png" target="_blank" rel="noopener">Full-size figure<span aria-hidden="true"> &#8599;</span></a><a class="pp-btn" href="#citation">Cite</a></div>
+    </header>
+
+    <p class="pp-lede">Learned solvers for graph-structured optimization usually bake their constraints into training, so a new constraint means a new model. CONSTRAINER treats constraints as a prompt: they are written down symbolically, encoded on their own, and injected into a graph transformer when the problem is solved. One model can then follow the constraint set it is given, including on a problem family it was not trained on.</p>
+
+    <figure class="pp-figure">
+      <a href="images/research/constrainer.png" target="_blank" rel="noopener" title="Open full-size figure"><img src="images/research/constrainer.png" alt="Methodology overview. (a) Constraints are encoded and condition a graph transformer. (b) Each constraint is parsed into an operator DAG and embedded by a GNN. (c) Node states attend over the constraint embeddings between HGT layers."></a>
+      <figcaption><b>Figure 1.</b> Methodology overview. (a) Constraints are encoded and condition a graph transformer. (b) Each constraint is parsed into an operator DAG and embedded by a GNN. (c) Node states attend over the constraint embeddings between HGT layers.</figcaption>
+    </figure>
+    <nav class="pp-toc" aria-label="On this page"><span>On this page</span><a href="#sec-1">Problem setup</a><a href="#sec-2">Encoding constraints as operator graphs</a><a href="#sec-3">Conditioning the graph transformer</a><a href="#sec-4">Results</a><a href="#sec-5">Conclusion</a><a href="#citation">Citation</a><a href="#refs">References</a></nav>
+
+    <article class="pp-doc">
+      <section class="pp-sec" id="sec-1">
+        <h2><span class="pp-secnum">1</span>Problem setup</h2>
+        <p>We consider optimization problems defined on a graph, where the instance fixes the structure and a separate list of constraints restricts which solutions are allowed:</p>
+        <div class="pp-eq">\[\min_{\mathbf{x}}\ f_G(\mathbf{x})\qquad \text{subject to}\qquad c_j(\mathbf{x})\le 0,\quad j=1,\dots,m\]</div>
+        <p class="pp-where-lead">where</p>
+        <dl class="pp-where">
+          <dt>\(G=(V,E)\)</dt><dd>the problem graph, for example a power network or a routing graph</dd>
+          <dt>\(\mathbf{x}\)</dt><dd>decision variables attached to nodes and edges</dd>
+          <dt>\(f_G\)</dt><dd>the objective of the instance</dd>
+          <dt>\(c_j\)</dt><dd>the \(j\)-th constraint, given as a symbolic expression such as a line limit \(P^2+Q^2\le S_{\max}^2\)</dd>
+        </dl>
+        <p>The goal is a single model that reads both \(G\) and the constraint list \(\{c_j\}\), instead of one model per constraint set.</p>
+      </section>
+      <section class="pp-sec" id="sec-2">
+        <h2><span class="pp-secnum">2</span>Encoding constraints as operator graphs</h2>
+        <p>Each constraint is parsed into a directed acyclic graph of operators and encoded by a graph neural network:</p>
+        <div class="pp-eq">\[c_j\;\longmapsto\;\mathrm{DAG}(c_j),\qquad \mathbf{e}_j=\mathrm{GNN}\big(\mathrm{DAG}(c_j)\big)\in\mathbb{R}^d\]</div>
+        <p class="pp-where-lead">where</p>
+        <dl class="pp-where">
+          <dt>\(\mathrm{DAG}(c_j)\)</dt><dd>the operator graph of \(c_j\): leaves are variables and constants, internal nodes are operators such as \(+\), \(\mathrm{pow}\), and \(\le\)</dd>
+          <dt>\(\mathbf{e}_j\)</dt><dd>the constraint embedding used as a prompt</dd>
+          <dt>\(d\)</dt><dd>the embedding width</dd>
+        </dl>
+        <p>The encoder is trained contrastively: algebraically equivalent rewrites of a constraint are pulled together, and edits that change which solutions are feasible are pushed apart. The embedding therefore reflects what a constraint allows, not how it happens to be written.</p>
+      </section>
+      <section class="pp-sec" id="sec-3">
+        <h2><span class="pp-secnum">3</span>Conditioning the graph transformer</h2>
+        <p>The problem graph is processed by heterogeneous graph transformer (HGT) layers. Between them, a cross-attention block lets every node read the constraint prompt:</p>
+        <div class="pp-eq">\[\alpha_{vj}=\operatorname*{softmax}_{j}\!\left(\frac{(\mathbf{W}_Q\mathbf{h}_v)^{\top}(\mathbf{W}_K\mathbf{e}_j)}{\sqrt{d}}\right),\qquad \tilde{\mathbf{h}}_v=\sum_{j=1}^{m}\alpha_{vj}\,\mathbf{W}_V\mathbf{e}_j\]</div>
+        <p class="pp-where-lead">where</p>
+        <dl class="pp-where">
+          <dt>\(\mathbf{h}_v\)</dt><dd>the state of node \(v\) after the preceding HGT layers</dd>
+          <dt>\(\mathbf{W}_Q,\mathbf{W}_K,\mathbf{W}_V\)</dt><dd>learned query, key, and value projections</dd>
+          <dt>\(\alpha_{vj}\)</dt><dd>how much node \(v\) attends to constraint \(j\)</dd>
+          <dt>\(\tilde{\mathbf{h}}_v\)</dt><dd>the constraint information passed to the remaining HGT layers and the task decoder</dd>
+        </dl>
+        <p>Because constraints enter only through this attention, adding, removing, or replacing a constraint changes the prompt rather than the network.</p>
+      </section>
+      <section class="pp-sec" id="sec-4">
+        <h2><span class="pp-secnum">4</span>Results</h2>
+        <ul class="pp-stats">
+          <li><strong>45%</strong><span>lower optimality gap on ATSP than GOAL (0.91% &rarr; 0.50%)</span></li>
+          <li><strong>99.02%</strong><span>feasibility on DC optimal power flow</span></li>
+          <li><strong>Zero-shot</strong><span>transfer to DC optimal power flow on IEEE power-grid benchmarks</span></li>
+        </ul>
+      </section>
+      <section class="pp-sec" id="sec-5">
+        <h2><span class="pp-secnum">5</span>Conclusion</h2>
+        <p>Separating what the problem is (the graph) from what is allowed (the constraints) turns a learned solver into a promptable one. Constraint conditioning improves solution quality on routing and carries over, without retraining, to power-flow problems with physical constraints.</p>
+      </section>
+      <section class="pp-sec" id="citation">
+        <h2>Citation</h2>
+        <div class="pp-bib"><button type="button" class="pp-copy" data-copy="#bib-constrainer">Copy</button><pre id="bib-constrainer">@inproceedings{memon2026constrainer,
+  title     = {{CONSTRAINER}: Promptable Graph-Structured Optimization via Constraint Conditioning},
+  author    = {Memon, Zeeshan and Tian, Mingke and Song, Xinyuan and Jin, Hongwei and Kim, Kibaek and Zhao, Liang},
+  booktitle = {Advances in Neural Information Processing Systems (NeurIPS)},
+  year      = {2026}
+}</pre></div>
+      </section>
+      <section class="pp-sec" id="refs">
+        <h2>Key references</h2>
+        <ol class="pp-refs">
+          <li>Z. Hu, Y. Dong, K. Wang, and Y. Sun. Heterogeneous Graph Transformer. <i>The Web Conference (WWW)</i>, 2020.</li>
+          <li>A. Vaswani et al. Attention Is All You Need. <i>Advances in Neural Information Processing Systems (NeurIPS)</i>, 2017.</li>
+        </ol>
+      </section>
+    </article>
+
+    <nav class="pp-pager" aria-label="More research"><span></span><a class="next" href="research-atsolver.html"><span>Next &rarr;</span>ATSolver</a></nav>
+  </main>
+
+  <link rel="stylesheet" href="assets/vendor/katex/katex.min.css">
+  <script defer src="assets/vendor/katex/katex.min.js"></script>
+  <script defer src="assets/vendor/katex/auto-render.min.js"></script>
+  <script>
+    window.addEventListener('load', function () {
+      if (window.renderMathInElement) renderMathInElement(document.body, {
+        delimiters: [{left: '\\[', right: '\\]', display: true}, {left: '\\(', right: '\\)', display: false}],
+        throwOnError: false
+      });
+    });
+  </script>
+
+
+
+
+
+  <footer class="site-footer">
+    <div class="inner">
+      <span>&copy; 2026 Mingke Tian</span>
+      <span>Last updated October 2026</span>
+    </div>
+  </footer>
+  <script src="assets/site.js" defer></script>
+</body>
+</html>

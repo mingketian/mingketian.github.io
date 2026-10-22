@@ -5,6 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Interests | Mingke Tian</title>
   <meta name="description" content="Mingke Tian, undergraduate in applied mathematics, statistics, and computer science at Emory University.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Mingke Tian">
+  <meta property="og:title" content="Interests | Mingke Tian">
+  <meta property="og:description" content="Mingke Tian, undergraduate in applied mathematics, statistics, and computer science at Emory University.">
+  <meta property="og:url" content="https://mingketian.github.io/interests.html">
+  <meta property="og:image" content="https://mingketian.github.io/images/profile.jpg">
+  <meta name="twitter:card" content="summary">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -29,70 +36,74 @@
     </div>
   </header>
 
+  <link rel="stylesheet" href="assets/pm-dashboard.css">
   <main id="main">
     <h1 class="page-title">Interests</h1>
 
+    <h2 class="section-title" id="trading-modeling">Trading &amp; Modeling</h2>
     <article class="card interest">
       <h3>Prediction Markets Trading</h3>
-      <div class="interest-body">
-        <p>
-          I enjoy trading on prediction markets and in crypto, where probabilistic reasoning meets real-world events.
-          I treat each position as a forecasting problem: estimating probabilities from data, sizing risk carefully,
-          and updating as new information arrives.
-        </p>
-        <p class="stat"><span class="stat-num">25&times;</span><span class="stat-label">growth of my trading portfolio</span></p>
-      </div>
-      <!-- Portfolio visualizations: put charts or screenshots in images/trading/ as chart-1.png, chart-2.png, ...
-           To add more, copy one <li> and use the next number. -->
-      <ul class="viz-grid">
-        <li>
-          <figure>
-            <a href="images/trading/chart-1.png" target="_blank" rel="noopener"><img src="images/trading/chart-1.png" alt="Trading portfolio chart 1" loading="lazy" onerror="this.onerror=null; this.src='images/placeholder.svg';"></a>
-            <figcaption><span class="todo">[Caption, e.g. Portfolio value over time]</span></figcaption>
-          </figure>
-        </li>
-        <li>
-          <figure>
-            <a href="images/trading/chart-2.png" target="_blank" rel="noopener"><img src="images/trading/chart-2.png" alt="Trading portfolio chart 2" loading="lazy" onerror="this.onerror=null; this.src='images/placeholder.svg';"></a>
-            <figcaption><span class="todo">[Caption, e.g. Returns by market]</span></figcaption>
-          </figure>
-        </li>
-      </ul>
-    </article>
-
-    <article class="card interest">
-      <h3>Arts</h3>
-      <!-- Optional: one sentence about your art, e.g. <p class="card-intro">...</p> -->
-      <!-- Put your pictures in images/arts/ as art-1.jpg to art-4.jpg. To show more, copy one <li> and use art-5.jpg, and so on. -->
-      <ul class="gallery">
-        <li><a href="images/arts/art-1.jpg" target="_blank" rel="noopener"><img src="images/arts/art-1.jpg" alt="Artwork 1" loading="lazy" onerror="this.onerror=null; this.src='images/placeholder.svg';"></a></li>
-        <li><a href="images/arts/art-2.jpg" target="_blank" rel="noopener"><img src="images/arts/art-2.jpg" alt="Artwork 2" loading="lazy" onerror="this.onerror=null; this.src='images/placeholder.svg';"></a></li>
-        <li><a href="images/arts/art-3.jpg" target="_blank" rel="noopener"><img src="images/arts/art-3.jpg" alt="Artwork 3" loading="lazy" onerror="this.onerror=null; this.src='images/placeholder.svg';"></a></li>
-        <li><a href="images/arts/art-4.jpg" target="_blank" rel="noopener"><img src="images/arts/art-4.jpg" alt="Artwork 4" loading="lazy" onerror="this.onerror=null; this.src='images/placeholder.svg';"></a></li>
-      </ul>
-    </article>
-
-    <article class="card interest">
-      <h3>Board Games</h3>
       <p class="card-intro">
-        Board games are where I practice the same habits I use in research and trading, in a friendlier setting.
-        I enjoy games that reward thinking a few moves ahead, weighing the odds, and reading the people around the table.
+        I trade short-horizon crypto price markets, contracts that settle on whether BTC, ETH, or XRP finishes above a
+        price at the end of a short window. I treat each position as a forecasting problem: estimating probabilities
+        from data, sizing risk carefully, and updating as new information arrives.
       </p>
-      <ul class="bg-points">
-        <li><b>Strategy</b><span>Planning several moves ahead</span></li>
-        <li><b>Probability</b><span>Making decisions under uncertainty</span></li>
-        <li><b>People</b><span>Reading the table and negotiating</span></li>
-      </ul>
-      <p class="favorites">
-        <span class="label">Favorite games:</span>
-        <span class="chip"><span class="todo">[Game]</span></span>
-        <span class="chip"><span class="todo">[Game]</span></span>
-        <span class="chip"><span class="todo">[Game]</span></span>
-      </p>
-    </article>
 
-    <!-- More interests go here: copy one <article class="card interest"> block per interest. -->
+      <!-- Track record. Data in assets/pm-data.js is normalized (shares of the period total, no dollar amounts);
+           drawing in assets/pm-dashboard.js. -->
+      <div class="tr" data-tr data-active="all">
+        <div class="tr-top">
+          <div>
+            <span class="tr-eyebrow">Verified track record
+              <span class="tr-badge"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Reconciled</span>
+            </span>
+            <p class="tr-title">Aug 16 &ndash; Oct 18, 2026</p>
+            <p class="tr-scope" data-tr-scope>All markets</p>
+          </div>
+          <div class="tr-seg" role="group" aria-label="Market">
+            <button type="button" data-series="all" aria-pressed="true"><i></i>All</button>
+            <button type="button" data-series="btc" aria-pressed="false"><i></i>BTC</button>
+            <button type="button" data-series="eth" aria-pressed="false"><i></i>ETH</button>
+            <button type="button" data-series="xrp" aria-pressed="false"><i></i>XRP</button>
+          </div>
+        </div>
+
+        <dl class="tr-kpis">
+          <div class="lead" data-kpi="days"><dt>Profitable days</dt><dd>&mdash;</dd><small></small></div>
+          <div data-kpi="pf"><dt>Profit factor</dt><dd>&mdash;</dd><small></small></div>
+          <div data-kpi="payoff"><dt>Payoff ratio</dt><dd>&mdash;</dd><small></small></div>
+          <div data-kpi="win"><dt>Market win rate</dt><dd>&mdash;</dd><small></small></div>
+          <div data-kpi="pull"><dt>Max pullback</dt><dd>&mdash;</dd><small></small></div>
+          <div data-kpi="streak"><dt>Win streak</dt><dd>&mdash;</dd><small></small></div>
+        </dl>
+
+        <div class="tr-chart" tabindex="0" role="img" aria-describedby="tr-summary">
+          <div class="tr-tip" hidden></div>
+          <div class="tr-legend">
+            <span><i></i>Cumulative result (period total = 100%)</span>
+            <span class="multi"><i class="btc"></i>BTC</span><span class="multi"><i class="eth"></i>ETH</span><span class="multi"><i class="xrp"></i>XRP</span>
+            <span><i class="bar"></i><i class="bar down"></i>Daily contribution</span>
+          </div>
+        </div>
+        <p class="sr-only" id="tr-summary" data-tr-summary></p>
+        <noscript><p class="tr-note">The interactive chart needs JavaScript.</p></noscript>
+
+        <div class="tr-mix">
+          <h4>Contribution by asset</h4>
+          <div class="tr-share" data-tr-share></div>
+        </div>
+
+        <p class="tr-note">
+          Every fill, settlement, and position was reconciled market by market against the exchange&rsquo;s records
+          (51,142 fills across 6,258 settled markets, no mismatches). Results are grouped by UTC settlement date and are net
+          of fees; deposits and withdrawals are excluded. Dollar amounts are withheld: the curve shows the cumulative result
+          as a share of the period total, and pullback is measured against that running peak, not account equity.
+        </p>
+      </div>
+    </article>
   </main>
+  <script src="assets/pm-data.js" defer></script>
+  <script src="assets/pm-dashboard.js" defer></script>
 
   <footer class="site-footer">
     <div class="inner">

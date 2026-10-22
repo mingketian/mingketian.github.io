@@ -5,6 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Research | Mingke Tian</title>
   <meta name="description" content="Mingke Tian, undergraduate in applied mathematics, statistics, and computer science at Emory University.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Mingke Tian">
+  <meta property="og:title" content="Research | Mingke Tian">
+  <meta property="og:description" content="Mingke Tian, undergraduate in applied mathematics, statistics, and computer science at Emory University.">
+  <meta property="og:url" content="https://mingketian.github.io/research.html">
+  <meta property="og:image" content="https://mingketian.github.io/images/profile.jpg">
+  <meta name="twitter:card" content="summary">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -36,72 +43,69 @@
     <!-- Copy one <li class="entry"> block per paper. Put figures in images/research/. -->
     <ul class="entries">
       <li class="entry paper" id="constrainer">
-        <figure>
-          <div class="venue-bar">NeurIPS 2026</div>
-          <a class="figure-box figure-link" href="images/research/constrainer.png" target="_blank" rel="noopener" title="Open full-size figure"><img class="thumb figure" src="images/research/constrainer.png" alt="CONSTRAINER architecture: constraint encoder, constraint cross-attention, and graph transformer" loading="lazy"></a>
-        </figure>
-        <div>
-          <h3>CONSTRAINER: Promptable Graph-Structured Optimization via Constraint Conditioning</h3>
+        <figure><a class="figure-box figure-link" href="research-constrainer.html" title="Open the project page"><img class="thumb figure" src="images/research/constrainer.png" alt="CONSTRAINER architecture: constraint encoder, constraint cross-attention, and graph transformer" loading="lazy"></a></figure>
+        <div class="paper-body">
+          <p class="paper-badges"><span class="badge accepted">NeurIPS 2026 &middot; Main Track</span></p>
+          <h3><a class="paper-title-link" href="research-constrainer.html">CONSTRAINER: Promptable Graph-Structured Optimization via Constraint Conditioning</a></h3>
           <p class="authors">Zeeshan Memon, <span class="me">Mingke Tian</span>, Xinyuan Song, Hongwei Jin, Kibaek Kim, Liang Zhao</p>
-          <p class="venue"><span class="v-name">NeurIPS 2026</span>, <span class="v-note">Main Track</span></p>
-          <p class="paper-links"><a href="papers/constrainer.pdf" target="_blank" rel="noopener">[PDF]</a></p>
-          <p class="summary">CONSTRAINER is a constraint-conditioned foundation model for graph-structured optimization. An operator-DAG constraint encoder conditions a heterogeneous graph transformer through cross-attention. It transfers zero-shot to DC optimal power flow and reaches 99.02% feasibility on DCOPF.</p>
+          <p class="summary">CONSTRAINER is a constraint-conditioned foundation model for graph-structured optimization. An operator-DAG constraint encoder conditions a heterogeneous graph transformer through cross-attention. It transfers zero-shot to DC optimal power flow and reaches 99.02% feasibility.</p>
+          <p class="paper-links"><a class="primary" href="research-constrainer.html">Learn more<span aria-hidden="true"> &rarr;</span></a><a href="papers/constrainer.pdf" target="_blank" rel="noopener">PDF<span aria-hidden="true"> &#8599;</span></a></p>
         </div>
       </li>
     </ul>
 
-    <h2 class="section-title">Manuscripts</h2>
+    <h2 class="section-title">Conference Manuscripts</h2>
     <ul class="entries">
       <li class="entry paper" id="atsolver">
-        <figure>
-          <div class="venue-bar review">Under Review</div>
-          <a class="figure-box figure-link" href="images/research/atsolver.png" target="_blank" rel="noopener" title="Open full-size figure"><img class="thumb figure" src="images/research/atsolver.png" alt="ATSolver overview: workload input, public decision state, and the configuration and execution loop" loading="lazy"></a>
-        </figure>
-        <div>
-          <h3>ATSolver: Agentic Tuning of Sparse Linear Solvers with Numerical Feedback</h3>
+        <figure><a class="figure-box figure-link" href="research-atsolver.html" title="Open the project page"><img class="thumb figure" src="images/research/atsolver.png" alt="ATSolver overview: workload input, public decision state, and the configuration and execution loop" loading="lazy"></a></figure>
+        <div class="paper-body">
+          <p class="paper-badges"><span class="badge review">Under review &middot; ICLR 2027</span></p>
+          <h3><a class="paper-title-link" href="research-atsolver.html">ATSolver: Agentic Tuning of Sparse Linear Solvers with Numerical Feedback</a></h3>
           <p class="authors"><span class="me">Mingke Tian</span>, Yiyun Chen, Ruipeng Li, Tianshi Xu, Yuanzhe Xi</p>
-          <p class="venue"><span class="v-review">Under review at ICLR 2027</span></p>
-          <p class="paper-links"><a href="papers/atsolver.pdf" target="_blank" rel="noopener">[PDF]</a></p>
-          <p class="summary">ATSolver is a verifier-grounded LLM agent that tunes sparse linear solvers from numerical feedback. It runs a gated propose, execute, diagnose, and repair loop under resource budgets. On 35 matrices, it beats matched-budget Best-of-6 (75/105 vs. 64/105 accepted) with 30.1% lower solve time.</p>
+          <p class="summary">ATSolver is a verifier-grounded LLM agent that tunes sparse linear solvers from numerical feedback, through a gated propose, execute, diagnose, and repair loop. On 35 matrices, it beats matched-budget Best-of-6 (75/105 vs. 64/105 accepted) with 30.1% less solve time.</p>
+          <p class="paper-links"><a class="primary" href="research-atsolver.html">Learn more<span aria-hidden="true"> &rarr;</span></a><a href="papers/atsolver.pdf" target="_blank" rel="noopener">PDF<span aria-hidden="true"> &#8599;</span></a></p>
         </div>
       </li>
-      <li class="entry paper" id="mobilityworld">
-        <figure>
-          <div class="venue-bar review">Under Review</div>
-          <div class="figure-box"><img class="thumb" src="images/placeholder.svg" alt="" loading="lazy"></div>
-        </figure>
-        <div>
-          <h3>MobilityWorld: Learning a Structured World Model for Human Mobility via Latent State-Action Dynamics</h3>
+      <li class="entry paper no-figure" id="mobilityworld">
+        <div class="paper-body">
+          <p class="paper-badges"><span class="badge review">Under review &middot; AAAI 2027</span></p>
+          <h3><a class="paper-title-link" href="research-mobilityworld.html">MobilityWorld: Learning a Structured World Model for Human Mobility via Latent State-Action Dynamics</a></h3>
           <p class="authors"><span class="me">Mingke Tian</span>*, Riyang Bao*, Ruiyu Ning, Dazhou Yu, Andreas Z&uuml;fle, Liang Zhao</p>
-          <p class="venue"><span class="v-review">Under review at AAAI 2027</span></p>
-          <p class="paper-links"><a href="papers/mobilityworld.pdf" target="_blank" rel="noopener">[PDF]</a></p>
-          <p class="summary">MobilityWorld is a structured world model for human mobility built on latent state-action dynamics. <span class="todo">[Add two short sentences: the method and a headline result.]</span></p>
+          <p class="summary">MobilityWorld is a structured world model for human mobility built on latent state-action dynamics.</p>
+          <p class="paper-links"><a class="primary" href="research-mobilityworld.html">Learn more<span aria-hidden="true"> &rarr;</span></a><a href="papers/mobilityworld.pdf" target="_blank" rel="noopener">PDF<span aria-hidden="true"> &#8599;</span></a></p>
         </div>
       </li>
       <li class="entry paper" id="staybert">
-        <figure>
-          <div class="venue-bar review">Under Review</div>
-          <a class="figure-box figure-link" href="images/research/staybert.png" target="_blank" rel="noopener" title="Open full-size figure"><img class="thumb figure" src="images/research/staybert.png" alt="StayBERT architecture: motion-place encoder, dwell learning, and geo-conditioned test-time self-training" loading="lazy"></a>
-        </figure>
-        <div>
-          <h3>StayBERT: Staypoint Detection as the Pretext Task for Trajectory Foundation Models</h3>
+        <figure><a class="figure-box figure-link" href="research-staybert.html" title="Open the project page"><img class="thumb figure" src="images/research/staybert.png" alt="StayBERT architecture: motion-place encoder, dwell learning, and geo-conditioned test-time self-training" loading="lazy"></a></figure>
+        <div class="paper-body">
+          <p class="paper-badges"><span class="badge review">Under review &middot; AAAI 2027</span></p>
+          <h3><a class="paper-title-link" href="research-staybert.html">StayBERT: Staypoint Detection as the Pretext Task for Trajectory Foundation Models</a></h3>
           <p class="authors">Riyang Bao*, <span class="me">Mingke Tian</span>*, Andreas Z&uuml;fle, Liang Zhao</p>
-          <p class="venue"><span class="v-review">Under review at AAAI 2027</span></p>
-          <p class="paper-links"><a href="papers/staybert.pdf" target="_blank" rel="noopener">[PDF]</a></p>
-          <p class="summary">StayBERT uses staypoint detection as the pretext task for pretraining trajectory foundation models. A gated motion-place encoder feeds a CRF decoder trained with dwell-structured objectives. Geo-conditioned test-time self-training then adapts the model to new cities.</p>
+          <p class="summary">StayBERT uses staypoint detection as the pretext task for pretraining trajectory foundation models. A gated motion-place encoder feeds a CRF decoder trained with dwell-structured objectives. Geo-conditioned test-time self-training then adapts the model to new cities without labels.</p>
+          <p class="paper-links"><a class="primary" href="research-staybert.html">Learn more<span aria-hidden="true"> &rarr;</span></a><a href="papers/staybert.pdf" target="_blank" rel="noopener">PDF<span aria-hidden="true"> &#8599;</span></a></p>
         </div>
       </li>
-      <li class="entry paper" id="magi">
-        <figure>
-          <div class="venue-bar review">Under Review</div>
-          <a class="figure-box figure-link" href="images/research/magi.jpg" target="_blank" rel="noopener" title="Open full-size figure"><img class="thumb figure" src="images/research/magi.jpg" alt="PINN-in-MAGI framework: multi-task GP smoothing, PINN parameter estimation, and MAGI joint posterior sampling" loading="lazy"></a>
-        </figure>
-        <div>
-          <h3>Structured MAGI with Warm Starts for Partially Observed Bayesian ODE Inverse Problems</h3>
+    </ul>
+    <p class="pub-note">* Equal contribution</p>
+
+    <h2 class="section-title">Journal Manuscripts</h2>
+    <ul class="entries">
+      <li class="entry paper no-figure" id="magi">
+        <div class="paper-body">
+          <p class="paper-badges"><span class="badge review">Emory NSF REU</span></p>
+          <h3><a class="paper-title-link" href="research-magi.html">Structured MAGI with Warm Starts for Partially Observed Bayesian ODE Inverse Problems</a></h3>
           <p class="authors">Tianshi Xu, <span class="me">Mingke Tian</span>, Yuanzhe Xi</p>
-          <p class="venue"><span class="v-review">Under review at IEEE Journal of <span class="todo">[journal name]</span></span><span class="v-extra"> &middot; Emory NSF REU</span></p>
-          <p class="paper-links"><a href="papers/magi.pdf" target="_blank" rel="noopener">[PDF]</a></p>
-          <p class="summary">Structured MAGI targets Bayesian ODE inverse problems in which only part of the system is observed. Multi-task Gaussian processes denoise the data, and a physics-informed neural network supplies initial parameter and trajectory estimates. These estimates warm-start MAGI's HMC sampling, which returns estimates with uncertainty quantification.</p>
+          <p class="summary">Structured MAGI targets Bayesian ODE inverse problems with partially observed systems. Multi-task GPs denoise the data, a physics-informed network supplies initial estimates, and these warm-start MAGI&rsquo;s HMC sampling for parameters and trajectories with uncertainty estimates.</p>
+          <p class="paper-links"><a class="primary" href="research-magi.html">Learn more<span aria-hidden="true"> &rarr;</span></a><a href="papers/magi.pdf" target="_blank" rel="noopener">PDF<span aria-hidden="true"> &#8599;</span></a></p>
+        </div>
+      </li>
+      <li class="entry paper no-figure" id="gait">
+        <div class="paper-body">
+          <p class="paper-badges"><span class="badge review">Under review &middot; IEEE Journal of ICHI</span></p>
+          <h3><a class="paper-title-link" href="research-gait.html">Spatiotemporal Evidence Grounding for Vision&ndash;Language Parkinson Gait Assessment</a></h3>
+          <p class="authors">Jinrui Fang, <span class="me">Mingke Tian</span>, Zijie Liu, Zihao Zhu, Zhiwen Fan, Song Wang, Ding Ying, Gengwei Zhang, Tianlong Chen</p>
+          <p class="summary">The model scores Parkinson&rsquo;s gait severity (UPDRS-gait) from 3D body motion and grounds each prediction in biomechanical evidence. Thirteen concepts modulate frozen motion tokens, pooling merges clips and views, and joint concept regression keeps predictions interpretable.</p>
+          <p class="paper-links"><a class="primary" href="research-gait.html">Learn more<span aria-hidden="true"> &rarr;</span></a><a href="papers/gait.pdf" target="_blank" rel="noopener">PDF<span aria-hidden="true"> &#8599;</span></a></p>
         </div>
       </li>
     </ul>

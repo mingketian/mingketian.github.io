@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>StayBERT | Mingke Tian</title>
+  <meta name="description" content="Mingke Tian, undergraduate in applied mathematics, statistics, and computer science at Emory University.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Mingke Tian">
+  <meta property="og:title" content="StayBERT | Mingke Tian">
+  <meta property="og:description" content="Mingke Tian, undergraduate in applied mathematics, statistics, and computer science at Emory University.">
+  <meta property="og:url" content="https://mingketian.github.io/research-staybert.html">
+  <meta property="og:image" content="https://mingketian.github.io/images/profile.jpg">
+  <meta name="twitter:card" content="summary">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Charis+SIL:ital,wght@0,400;0,700;1,400;1,700&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,700;1,800&display=swap">
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="inner">
+      <nav class="site-nav" aria-label="Main">
+        <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="cv.pdf" target="_blank" rel="noopener">CV</a></li>
+        <li><a href="research.html" aria-current="page">Research</a></li>
+        <li><a href="experience.html">Experience</a></li>
+        <li><a href="activities.html">Leadership &amp; Services</a></li>
+        <li><a href="interests.html">Interests</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="paper-page">
+    <a class="pp-back" href="research.html">&larr; All research</a>
+    <header class="pp-hero">
+      <p class="paper-badges"><span class="badge review">Under review &middot; AAAI 2027</span></p>
+      <h1>StayBERT: Staypoint Detection as the Pretext Task for Trajectory Foundation Models</h1>
+      <p class="pp-authors">Riyang Bao*, <span class="me">Mingke Tian</span>*, Andreas Z&uuml;fle, Liang Zhao</p><p class="pp-eqnote">* Equal contribution</p>
+      <div class="pp-buttons"><a class="pp-btn primary" href="papers/staybert.pdf" target="_blank" rel="noopener">Paper (PDF)<span aria-hidden="true"> &#8599;</span></a><a class="pp-btn" href="images/research/staybert.png" target="_blank" rel="noopener">Full-size figure<span aria-hidden="true"> &#8599;</span></a></div>
+    </header>
+
+    <p class="pp-lede">Where people stop matters more than how they move between stops. StayBERT pretrains trajectory foundation models on exactly that: deciding, point by point, whether a person is staying or moving, using both motion and the places around them. A geo-conditioned self-training step then carries the model to new cities without any labels there.</p>
+
+    <figure class="pp-figure">
+      <a href="images/research/staybert.png" target="_blank" rel="noopener" title="Open full-size figure"><img src="images/research/staybert.png" alt="Overview. (A) A motion view and a place view are fused by a learned gate. (B) A CRF decoder labels stops and moves, staypoints are pooled into embeddings, and pretraining combines objectives at four scales. Geo-TTST adapts the CRF head in a target city."></a>
+      <figcaption><b>Figure 1.</b> Overview. (A) A motion view and a place view are fused by a learned gate. (B) A CRF decoder labels stops and moves, staypoints are pooled into embeddings, and pretraining combines objectives at four scales. Geo-TTST adapts the CRF head in a target city.</figcaption>
+    </figure>
+    <nav class="pp-toc" aria-label="On this page"><span>On this page</span><a href="#sec-1">Problem setup</a><a href="#sec-2">Place view: context attention</a><a href="#sec-3">Gated motion-place fusion</a><a href="#sec-4">Stop and move labeling</a><a href="#sec-5">Staypoint embeddings</a><a href="#sec-6">Dwell-structured pretraining</a><a href="#sec-7">Adapting to a new city (Geo-TTST)</a><a href="#sec-8">Conclusion</a><a href="#refs">References</a></nav>
+
+    <article class="pp-doc">
+      <section class="pp-sec" id="sec-1">
+        <h2><span class="pp-secnum">1</span>Problem setup</h2>
+        <p>A trajectory is a sequence of GPS points with timestamps, and every point is either part of a stay or part of a move:</p>
+        <div class="pp-eq">\[\mathcal{T}=\{(\ell_i,t_i)\}_{i=1}^{T},\qquad y_i\in\{\mathrm{M},\mathrm{S}\}\]</div>
+        <p class="pp-where-lead">where</p>
+        <dl class="pp-where">
+          <dt>\(\ell_i\)</dt><dd>the location of point \(i\)</dd>
+          <dt>\(t_i\)</dt><dd>its timestamp</dd>
+          <dt>\(y_i\)</dt><dd>its label: move (M) or stay (S)</dd>
+        </dl>
+        <p>A staypoint \(s\) is a maximal run of consecutive S labels. Trajectories are adaptively resampled (ATR) before training.</p>
+      </section>
+      <section class="pp-sec" id="sec-2">
+        <h2><span class="pp-secnum">2</span>Place view: context attention</h2>
+        <p>Each point is embedded on the sphere and queries three sources of place context:</p>
+        <div class="pp-eq">\[\mathbf{g}_i=\sum_{k}\operatorname{softmax}\!\left(\frac{\mathbf{q}_i^{\top}K_k}{\sqrt{d}}\right)V_k,\qquad k\in\{\text{POI},\ \text{graph},\ \text{region}\}\]</div>
+        <p class="pp-where-lead">where</p>
+        <dl class="pp-where">
+          <dt>\(\mathbf{q}_i\)</dt><dd>a Sphere2Vec embedding of \(\ell_i\), used as the query</dd>
+          <dt>\(K_k,V_k\)</dt><dd>keys and values from nearby points of interest, mobility graphs, and region semantics</dd>
+          <dt>\(\mathbf{g}_i\in\mathbb{R}^d\)</dt><dd>the place representation of point \(i\)</dd>
+        </dl>
+        <p>In parallel, a motion view smooths raw steps with a dilated causal TCN and encodes time gaps and log-speed with a Transformer, giving \(\mathbf{m}_i\in\mathbb{R}^d\).</p>
+      </section>
+      <section class="pp-sec" id="sec-3">
+        <h2><span class="pp-secnum">3</span>Gated motion-place fusion</h2>
+        <div class="pp-eq">\[\alpha_i=\sigma\big(W_g[\mathbf{m}_i;\mathbf{g}_i]+b_g\big),\qquad \mathbf{h}_i=\alpha_i\odot\mathbf{m}_i+(1-\alpha_i)\odot\mathbf{g}_i\]</div>
+        <p class="pp-where-lead">where</p>
+        <dl class="pp-where">
+          <dt>\(\alpha_i\)</dt><dd>a per-feature gate between 0 and 1</dd>
+          <dt>\([\mathbf{m}_i;\mathbf{g}_i]\)</dt><dd>the concatenated motion and place features</dd>
+          <dt>\(\mathbf{h}_i\)</dt><dd>the fused representation of point \(i\)</dd>
+        </dl>
+        <p>Where movement alone is ambiguous, such as slow walking near a store, place context can dominate; where place context is sparse, motion takes over.</p>
+      </section>
+      <section class="pp-sec" id="sec-4">
+        <h2><span class="pp-secnum">4</span>Stop and move labeling</h2>
+        <div class="pp-eq">\[p(\mathbf{y}\mid\mathbf{h})\;\propto\;\exp\Big(\sum_{i}\psi(y_i,\mathbf{h}_i)+\sum_{i}A_{y_{i-1},y_i}\Big)\]</div>
+        <p class="pp-where-lead">where</p>
+        <dl class="pp-where">
+          <dt>\(\psi(y_i,\mathbf{h}_i)\)</dt><dd>the evidence for label \(y_i\) at point \(i\)</dd>
+          <dt>\(A_{y_{i-1},y_i}\)</dt><dd>a learned transition score between consecutive labels</dd>
+        </dl>
+        <p>The transition scores make the CRF prefer coherent stay and move spans over flickering labels. Each staypoint is then summarized by pooling its points, weighted by how confidently each is a stop:</p>
+      </section>
+      <section class="pp-sec" id="sec-5">
+        <h2><span class="pp-secnum">5</span>Staypoint embeddings</h2>
+        <div class="pp-eq">\[\mathbf{z}_s=\frac{\sum_{i\in s}\pi_i\,\mathbf{h}_i}{\sum_{i\in s}\pi_i},\qquad \pi_i=p(y_i=\mathrm{S}\mid\mathbf{h}),\qquad \mathbf{z}_s\in\mathbb{R}^{128}\]</div>
+        <p class="pp-where-lead">where</p>
+        <dl class="pp-where">
+          <dt>\(\pi_i\)</dt><dd>the CRF marginal probability that point \(i\) is a stop</dd>
+          <dt>\(\mathbf{z}_s\)</dt><dd>the embedding of staypoint \(s\)</dd>
+        </dl>
+      </section>
+      <section class="pp-sec" id="sec-6">
+        <h2><span class="pp-secnum">6</span>Dwell-structured pretraining</h2>
+        <div class="pp-eq">\[\mathcal{L}_{\text{dwell}}=\mathcal{L}_{\text{bal-CRF}}+\lambda_{\text{rec}}\,\mathcal{L}_{\text{rec}}+\lambda_{\text{bnd}}\,\mathcal{L}_{\text{bnd}}+\lambda_{\text{seg}}\,\mathcal{L}_{\text{seg}}\]</div>
+        <p class="pp-where-lead">where</p>
+        <dl class="pp-where">
+          <dt>\(\mathcal{L}_{\text{bal-CRF}}\)</dt><dd>a class-balanced CRF loss on whole sequences, the primary term</dd>
+          <dt>\(\mathcal{L}_{\text{rec}}\)</dt><dd>point-level coordinate reconstruction</dd>
+          <dt>\(\mathcal{L}_{\text{bnd}}\)</dt><dd>transition-level boundary awareness</dd>
+          <dt>\(\mathcal{L}_{\text{seg}}\)</dt><dd>segment-level consistency</dd>
+          <dt>\(\lambda\)</dt><dd>weights of the auxiliary terms</dd>
+        </dl>
+      </section>
+      <section class="pp-sec" id="sec-7">
+        <h2><span class="pp-secnum">7</span>Adapting to a new city (Geo-TTST)</h2>
+        <p>In a target city \(\mathcal{D}_{\text{tgt}}=\{(\ell_i,t_i)\}\) there are no labels. The encoder and fusion stay frozen, confident points become pseudo-labels, and only the CRF head is updated:</p>
+        <div class="pp-eq">\[\begin{gathered}c_i=\max_{y}\,p(y_i=y\mid\mathbf{h})\cdot r_{\text{geo}}(\ell_i),\qquad \hat{\mathcal{Y}}=\{(i,\hat y_i):c_i\ge\tau\},\\ \theta_{\text{CRF}}\leftarrow\theta_{\text{CRF}}-\eta\,\nabla_{\theta_{\text{CRF}}}\mathcal{L}_{\text{CE}}(\hat{\mathcal{Y}})\end{gathered}\]</div>
+        <p class="pp-where-lead">where</p>
+        <dl class="pp-where">
+          <dt>\(r_{\text{geo}}(\ell_i)\)</dt><dd>a geographic reliance score for the location</dd>
+          <dt>\(c_i\)</dt><dd>the confidence of point \(i\)</dd>
+          <dt>\(\tau\)</dt><dd>the pseudo-label threshold</dd>
+          <dt>\(\eta\)</dt><dd>the step size</dd>
+        </dl>
+      </section>
+      <section class="pp-sec" id="sec-8">
+        <h2><span class="pp-secnum">8</span>Conclusion</h2>
+        <p>Using staypoint detection as the pretext task gives trajectory models a representation organized around stays, the units that downstream mobility tasks care about, and geo-conditioned self-training lets that representation move to new cities without labels.</p>
+      </section>
+      <section class="pp-sec" id="refs">
+        <h2>Key references</h2>
+        <ol class="pp-refs">
+          <li>J. Lafferty, A. McCallum, and F. Pereira. Conditional Random Fields: Probabilistic Models for Segmenting and Labeling Sequence Data. <i>ICML</i>, 2001.</li>
+          <li>G. Mai et al. Sphere2Vec: A General-Purpose Location Representation Learning over a Spherical Surface for Large-Scale Geospatial Predictions. <i>ISPRS Journal of Photogrammetry and Remote Sensing</i>, 2023.</li>
+          <li>S. Bai, J. Z. Kolter, and V. Koltun. An Empirical Evaluation of Generic Convolutional and Recurrent Networks for Sequence Modeling. <i>arXiv:1803.01271</i>, 2018.</li>
+          <li>D. Wang, E. Shelhamer, S. Liu, B. Olshausen, and T. Darrell. Tent: Fully Test-Time Adaptation by Entropy Minimization. <i>ICLR</i>, 2021.</li>
+        </ol>
+      </section>
+    </article>
+
+    <nav class="pp-pager" aria-label="More research"><a class="prev" href="research-mobilityworld.html"><span>&larr; Previous</span>MobilityWorld</a><a class="next" href="research-magi.html"><span>Next &rarr;</span>Structured MAGI</a></nav>
+  </main>
+
+  <link rel="stylesheet" href="assets/vendor/katex/katex.min.css">
+  <script defer src="assets/vendor/katex/katex.min.js"></script>
+  <script defer src="assets/vendor/katex/auto-render.min.js"></script>
+  <script>
+    window.addEventListener('load', function () {
+      if (window.renderMathInElement) renderMathInElement(document.body, {
+        delimiters: [{left: '\\[', right: '\\]', display: true}, {left: '\\(', right: '\\)', display: false}],
+        throwOnError: false
+      });
+    });
+  </script>
+
+
+
+
+
+  <footer class="site-footer">
+    <div class="inner">
+      <span>&copy; 2026 Mingke Tian</span>
+      <span>Last updated October 2026</span>
+    </div>
+  </footer>
+  <script src="assets/site.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Structured MAGI with Warm Starts for Partially Observed Bayesian ODE Inverse Problems | Mingke Tian</title>
+  <meta name="description" content="Mingke Tian, undergraduate in applied mathematics, statistics, and computer science at Emory University.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Mingke Tian">
+  <meta property="og:title" content="Structured MAGI with Warm Starts for Partially Observed Bayesian ODE Inverse Problems | Mingke Tian">
+  <meta property="og:description" content="Mingke Tian, undergraduate in applied mathematics, statistics, and computer science at Emory University.">
+  <meta property="og:url" content="https://mingketian.github.io/research-magi.html">
+  <meta property="og:image" content="https://mingketian.github.io/images/profile.jpg">
+  <meta name="twitter:card" content="summary">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Charis+SIL:ital,wght@0,400;0,700;1,400;1,700&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,700;1,800&display=swap">
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="inner">
+      <nav class="site-nav" aria-label="Main">
+        <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="cv.pdf" target="_blank" rel="noopener">CV</a></li>
+        <li><a href="research.html" aria-current="page">Research</a></li>
+        <li><a href="experience.html">Experience</a></li>
+        <li><a href="activities.html">Leadership &amp; Services</a></li>
+        <li><a href="interests.html">Interests</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="paper-page">
+    <a class="pp-back" href="research.html">&larr; All research</a>
+    <header class="pp-hero">
+      <p class="paper-badges"><span class="badge review">Emory NSF REU</span></p>
+      <h1>Structured MAGI with Warm Starts for Partially Observed Bayesian ODE Inverse Problems</h1>
+      <p class="pp-authors">Tianshi Xu, <span class="me">Mingke Tian</span>, Yuanzhe Xi</p>
+      <div class="pp-buttons"><a class="pp-btn primary" href="papers/magi.pdf" target="_blank" rel="noopener">Paper (PDF)<span aria-hidden="true"> &#8599;</span></a><a class="pp-btn" href="images/research/magi.jpg" target="_blank" rel="noopener">Full-size figure<span aria-hidden="true"> &#8599;</span></a></div>
+    </header>
+
+    <p class="pp-lede">Estimating the parameters of an ODE from noisy data is hard when some components are never observed. MAGI solves the inverse problem without numerical integration, but its sampler is slow to find good regions from a cold start. Structured MAGI adds two stages that hand MAGI a strong starting point: multi-task GP smoothing, then a physics-informed network.</p>
+
+    <figure class="pp-figure">
+      <a href="images/research/magi.jpg" target="_blank" rel="noopener" title="Open full-size figure"><img src="images/research/magi.jpg" alt="The PINN-in-MAGI framework: (1) multi-task GP smoothing of noisy, partial observations; (2) a physics-informed network that estimates parameters and trajectories; (3) MAGI joint posterior sampling initialized from those estimates."></a>
+      <figcaption><b>Figure 1.</b> The PINN-in-MAGI framework: (1) multi-task GP smoothing of noisy, partial observations; (2) a physics-informed network that estimates parameters and trajectories; (3) MAGI joint posterior sampling initialized from those estimates.</figcaption>
+    </figure>
+    <nav class="pp-toc" aria-label="On this page"><span>On this page</span><a href="#sec-1">Problem setup</a><a href="#sec-2">Stage 1: multi-task Gaussian process smoothing</a><a href="#sec-3">Stage 2: physics-informed network</a><a href="#sec-4">Stage 3: MAGI joint posterior, warm-started</a><a href="#sec-5">Conclusion</a><a href="#refs">References</a></nav>
+
+    <article class="pp-doc">
+      <section class="pp-sec" id="sec-1">
+        <h2><span class="pp-secnum">1</span>Problem setup</h2>
+        <p>The system follows an ODE with unknown parameters, and only some components are observed, at their own times and with noise:</p>
+        <div class="pp-eq">\[\begin{gathered}\dot{\mathbf{X}}(t)=\mathbf{f}\big(\mathbf{X}(t),\boldsymbol{\theta},t\big),\\ Y_d(\tau_{d,j})=X_d(\tau_{d,j})+\epsilon_{d,j},\qquad \epsilon_{d,j}\sim\mathcal{N}(0,\sigma_d^2)\end{gathered}\]</div>
+        <p class="pp-where-lead">where</p>
+        <dl class="pp-where">
+          <dt>\(\mathbf{X}(t)\)</dt><dd>the system state, for example the S, I, R, W compartments of an epidemic model</dd>
+          <dt>\(\boldsymbol{\theta}\)</dt><dd>the unknown parameters</dd>
+          <dt>\(Y_d(\tau_{d,j})\)</dt><dd>the \(j\)-th observation of component \(d\)</dd>
+          <dt>\(\sigma_d\)</dt><dd>the noise level of component \(d\)</dd>
+        </dl>
+        <p>The goal is the joint posterior of \(\boldsymbol{\theta}\) and the full trajectory \(\mathbf{X}\), including the unobserved components.</p>
+      </section>
+      <section class="pp-sec" id="sec-2">
+        <h2><span class="pp-secnum">2</span>Stage 1: multi-task Gaussian process smoothing</h2>
+        <div class="pp-eq">\[\hat{\mathbf{X}}(t_i):=\mathbb{E}_{\text{MTGP}}\big[\mathbf{f}(t_i)\mid\mathcal{Y}\big],\qquad \mathbb{V}\big[\mathbf{f}(t_i)\mid\mathcal{Y}\big]=\Sigma_{\text{MTGP}}(t_i)\]</div>
+        <p class="pp-where-lead">where</p>
+        <dl class="pp-where">
+          <dt>\(\mathcal{Y}\)</dt><dd>all observations</dd>
+          <dt>\(\hat{\mathbf{X}}(t_i)\)</dt><dd>the denoised trajectory at grid time \(t_i\)</dd>
+          <dt>\(\Sigma_{\text{MTGP}}(t_i)\)</dt><dd>its posterior covariance</dd>
+        </dl>
+        <p>Sharing information across components lets the GP fill gaps in one compartment using the others. The variance tells the next stage how much to trust each point.</p>
+      </section>
+      <section class="pp-sec" id="sec-3">
+        <h2><span class="pp-secnum">3</span>Stage 2: physics-informed network</h2>
+        <div class="pp-eq">\[\begin{aligned}\mathcal{L}_{\text{PINN}}(\phi,\boldsymbol{\theta})=\;&\lambda_{\text{data}}\sum_{d\in\mathcal{D}_{\text{obs}}}\sum_{i=1}^{M}w_d(t_i)\big\|g_d(t_i;\phi)-\hat{X}_d(t_i)\big\|^2\\ &+\lambda_{\text{ODE}}\sum_{d=1}^{D}\sum_{i=1}^{M}\big\|\mathcal{R}_d(t_i;\phi,\boldsymbol{\theta})\big\|^2+\lambda_{\text{norm}}\sum_{i=1}^{M}\Big(\sum_{d\in\mathcal{L}}g_d(t_i;\phi)-1\Big)^2\end{aligned}\]</div>
+        <p class="pp-where-lead">where</p>
+        <dl class="pp-where">
+          <dt>\(g_d(\cdot;\phi)\)</dt><dd>the network's estimate of component \(d\)</dd>
+          <dt>\(w_d(t_i)\)</dt><dd>weights from the GP uncertainty</dd>
+          <dt>\(\mathcal{R}_d=\dot g_d-f_d(g,\boldsymbol{\theta},t)\)</dt><dd>the ODE residual</dd>
+          <dt>\(\mathcal{L}\)</dt><dd>the compartments that must sum to one</dd>
+          <dt>\(\lambda_{\text{data}},\lambda_{\text{ODE}},\lambda_{\text{norm}}\)</dt><dd>term weights</dd>
+        </dl>
+        <p>The network is trained on data alone first, then jointly on denoised data, then jointly on the noisy observations, giving parameter and trajectory estimates that respect the dynamics.</p>
+      </section>
+      <section class="pp-sec" id="sec-4">
+        <h2><span class="pp-secnum">4</span>Stage 3: MAGI joint posterior, warm-started</h2>
+        <div class="pp-eq">\[\begin{aligned}p\big(\boldsymbol{\theta},\mathbf{X}\mid\mathbf{Y},W_{\mathcal{T}}=0\big)\;&\propto\;\pi_\Theta(\boldsymbol{\theta})\cdot p\big(\mathbf{X}(\mathcal{T})\big)\cdot p(\mathbf{Y}\mid\mathbf{X})\cdot p\big(W_{\mathcal{T}}=0\mid\mathbf{X},\boldsymbol{\theta}\big),\\ W_{\mathcal{T}}\;&=\;\max_{t\in\mathcal{T},\,d}\big|\dot{X}_d(t)-f_d(\mathbf{X}(t),\boldsymbol{\theta},t)\big|\end{aligned}\]</div>
+        <p class="pp-where-lead">where</p>
+        <dl class="pp-where">
+          <dt>\(\pi_\Theta\)</dt><dd>the parameter prior</dd>
+          <dt>\(p(\mathbf{X}(\mathcal{T}))\)</dt><dd>a GP prior \(\mathbf{f}(x)\sim\mathcal{GP}(\mathbf{0},K((x,d),(x',d')))\) on a discretization \(\mathcal{T}\)</dd>
+          <dt>\(p(\mathbf{Y}\mid\mathbf{X})\)</dt><dd>the Gaussian likelihood \(\mathcal{N}(x_d,\sigma_d^2 I)\)</dd>
+          <dt>\(W_{\mathcal{T}}=0\)</dt><dd>the manifold constraint that ties the trajectory to the ODE</dd>
+        </dl>
+        <p>The PINN's estimates initialize \(\mathbf{X}\), \(\boldsymbol{\theta}\), and \(\sigma\) for Hamiltonian Monte Carlo, which then returns parameter and trajectory estimates with uncertainty.</p>
+      </section>
+      <section class="pp-sec" id="sec-5">
+        <h2><span class="pp-secnum">5</span>Conclusion</h2>
+        <p>Smoothing and physics-informed estimation are cheap, and MAGI's sampling is principled. Chaining them gives MAGI a starting point near the posterior mode, so it keeps full Bayesian uncertainty while spending its effort where the posterior actually is.</p>
+      </section>
+      <section class="pp-sec" id="refs">
+        <h2>Key references</h2>
+        <ol class="pp-refs">
+          <li>S. Yang, S. W. K. Wong, and S. C. Kou. Inference of Dynamic Systems from Noisy and Sparse Data via Manifold-Constrained Gaussian Processes. <i>PNAS</i> 118(15), 2021.</li>
+          <li>M. Raissi, P. Perdikaris, and G. E. Karniadakis. Physics-Informed Neural Networks. <i>Journal of Computational Physics</i> 378, 2019.</li>
+          <li>E. V. Bonilla, K. M. A. Chai, and C. K. I. Williams. Multi-task Gaussian Process Prediction. <i>NeurIPS</i>, 2007.</li>
+          <li>R. M. Neal. MCMC Using Hamiltonian Dynamics. <i>Handbook of Markov Chain Monte Carlo</i>, 2011.</li>
+        </ol>
+      </section>
+    </article>
+
+    <nav class="pp-pager" aria-label="More research"><a class="prev" href="research-staybert.html"><span>&larr; Previous</span>StayBERT</a><a class="next" href="research-gait.html"><span>Next &rarr;</span>Gait Assessment</a></nav>
+  </main>
+
+  <link rel="stylesheet" href="assets/vendor/katex/katex.min.css">
+  <script defer src="assets/vendor/katex/katex.min.js"></script>
+  <script defer src="assets/vendor/katex/auto-render.min.js"></script>
+  <script>
+    window.addEventListener('load', function () {
+      if (window.renderMathInElement) renderMathInElement(document.body, {
+        delimiters: [{left: '\\[', right: '\\]', display: true}, {left: '\\(', right: '\\)', display: false}],
+        throwOnError: false
+      });
+    });
+  </script>
+
+
+
+
+
+  <footer class="site-footer">
+    <div class="inner">
+      <span>&copy; 2026 Mingke Tian</span>
+      <span>Last updated October 2026</span>
+    </div>
+  </footer>
+  <script src="assets/site.js" defer></script>
+</body>
+</html>

@@ -5,6 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Mingke Tian</title>
   <meta name="description" content="Mingke Tian, undergraduate in applied mathematics, statistics, and computer science at Emory University.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Mingke Tian">
+  <meta property="og:title" content="Mingke Tian">
+  <meta property="og:description" content="Mingke Tian, undergraduate in applied mathematics, statistics, and computer science at Emory University.">
+  <meta property="og:url" content="https://mingketian.github.io/">
+  <meta property="og:image" content="https://mingketian.github.io/images/profile.jpg">
+  <meta name="twitter:card" content="summary">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -48,9 +55,11 @@
         </ul>
       </div>
       <figure class="home-photo">
-        <!-- Put your photo at images/profile.jpg (portrait, 3:4). Until then, your GitHub avatar is shown. -->
-        <img src="images/profile.jpg" alt="Mingke Tian"
-             onerror="this.onerror=null; this.src='https://avatars.githubusercontent.com/u/143450726?v=4';">
+        <!-- Arch-framed photo (images/profile.jpg, portrait 3:4) with a white mat -->
+        <div class="photo-arch">
+          <img src="images/profile.jpg" alt="Mingke Tian"
+               onerror="this.onerror=null; this.src='https://avatars.githubusercontent.com/u/143450726?v=4';">
+        </div>
       </figure>
     </section>
 
@@ -58,47 +67,59 @@
       I am an <strong>undergraduate student in Applied Mathematics and Statistics and Computer Science at Emory
       University</strong>. My research interests lie at the <strong>intersection of agentic AI, foundation models,
       and world models</strong>, with the goal of developing learning systems for modeling and decision-making in
-      complex scientific and engineering systems. I am particularly interested in bringing computational and
-      mathematical structure into machine learning, building LLM agents that reason from feedback and experience,
-      and learning world models that capture how states and actions evolve, to support inference, generation, and
-      planning.
+      complex scientific and engineering systems. I am particularly interested in bringing mathematical structure
+      into machine learning, building LLM agents that reason from feedback and experience, and learning world models
+      that capture how states and actions evolve for inference, generation, and planning tasks. My work spans scientific computing, optimization, human mobility, robotics, and healthcare.
     </p>
+
+    <section class="home-interests" aria-labelledby="interests-title">
+      <h2 id="interests-title">Research Interests</h2>
+      <ul>
+        <li><b>Agentic AI</b> (e.g., LLM agents, tool use, verifier-grounded reasoning)</li>
+        <li><b>Foundation and world models</b> (e.g., trajectory pretraining, latent state-action dynamics)</li>
+        <li><b>Scientific machine learning</b> (e.g., physics-informed networks, Bayesian inverse problems, optimization)</li>
+        <li><b>Multimodal and embodied AI</b> (e.g., vision-language models, vision-language-action policies)</li>
+      </ul>
+    </section>
 
     <section class="home-news" aria-labelledby="news-title">
       <h2 id="news-title">Recent News</h2>
       <!-- Newest first. Copy one <li> per item. -->
       <ul>
-        <li><b>Sep. 2026:</b> Our work &ldquo;CONSTRAINER: Promptable Graph-Structured Optimization via Constraint
-          Conditioning&rdquo; has been accepted to <a class="key" href="research.html#constrainer">NeurIPS 2026 (Main Track)</a>.</li>
+        <li><b>Nov. 2026:</b> Recent first-author preprints: <a class="key" href="research-atsolver.html">ATSolver</a> and <a class="key" href="research-mobilityworld.html">MobilityWorld</a>.</li>
+        <li><b>Sep. 2026:</b> Our work <strong><em>&ldquo;CONSTRAINER: Promptable Graph-Structured Optimization via Constraint
+          Conditioning&rdquo;</em></strong> has been accepted to <a class="key" href="research.html#constrainer">NeurIPS 2026 (Main Track)</a>.</li>
         <li><b>May 2026:</b> I am honored to receive the <span class="key">Emory Wilson Family STEM Education Award (2026)</span>.
           This award is given to outstanding undergraduate students to recognize and support their research activities.</li>
+        <li><b>Jun. 2025:</b> Excited to be selected for the <a class="key" href="https://www.math.emory.edu/site/cmds-reuret" target="_blank" rel="noopener">Emory NSF REU Program in Computational Mathematics for Data Science</a>,
+          and to receive a grant for our research on Bayesian inverse problems.</li>
       </ul>
     </section>
 
     <section class="home-doing" aria-labelledby="doing-title">
       <h2 id="doing-title">What I&rsquo;m Doing</h2>
-      <!-- Each card's photo goes in images/doing/ with the file name shown in its src (4:3 works best). -->
+      <!-- Each card's picture is in images/doing/ (16:10 works best). -->
       <ul class="doing-grid">
-        <li>
-          <img src="images/doing/ai-ml-research.jpg" alt="" loading="lazy" onerror="this.onerror=null; this.src='images/placeholder.svg';">
+        <li><a class="doing-link" href="research.html">
+          <img class="plain" src="images/doing/ai-ml-research.jpg" alt="ATSolver system overview" loading="lazy" onerror="this.onerror=null; this.src='images/placeholder.svg';">
           <h3>AI/ML Research</h3>
-          <p>Building structure-aware learning systems and agents for science and engineering.</p>
-        </li>
-        <li>
-          <img src="images/doing/applied-ai-engineering.jpg" alt="" loading="lazy" onerror="this.onerror=null; this.src='images/placeholder.svg';">
-          <h3>Applied AI Engineering</h3>
-          <p>Deploying AI systems in industry, from robot learning to document understanding.</p>
-        </li>
-        <li>
-          <img src="images/doing/community-leadership.jpg" alt="" loading="lazy" onerror="this.onerror=null; this.src='images/placeholder.svg';">
+          <p>Building structure-aware learning systems and agents for science and engineering with agentic AI and world models.</p>
+        </a></li>
+        <li><a class="doing-link" href="experience.html#industry">
+          <img src="images/doing/applied-engineering.jpg" alt="SIASUN humanoid reaching for a parcel" loading="lazy" onerror="this.onerror=null; this.src='images/placeholder.svg';">
+          <h3>Applied Engineering</h3>
+          <p>Deploying AI systems in industry, from real robot learning to multimodal understanding and retrieval-augmented agents.</p>
+        </a></li>
+        <li><a class="doing-link" href="activities.html#leadership">
+          <img src="images/doing/community-leadership.jpg" alt="EUMMA members in a lecture hall" loading="lazy" onerror="this.onerror=null; this.src='images/placeholder.svg';">
           <h3>Community Leadership</h3>
-          <p>Leading the Emory Undergraduate Mathematics Association to grow the math community.</p>
-        </li>
-        <li>
-          <img src="images/doing/prediction-markets.jpg" alt="" loading="lazy" onerror="this.onerror=null; this.src='images/placeholder.svg';">
-          <h3>Forecasting &amp; Trading</h3>
-          <p>Forecasting real-world events and managing risk on prediction markets.</p>
-        </li>
+          <p>Leading 100+ members as President of EUMMA to grow the math community and the &ldquo;AI4SE&rdquo; initiative to promote AI literacy.</p>
+        </a></li>
+        <li><a class="doing-link" href="interests.html#trading-modeling">
+          <img class="on-white" src="images/doing/prediction-markets.png" alt="Illustration: a market price line converging toward a model&rsquo;s probability estimate" loading="lazy" onerror="this.onerror=null; this.src='images/placeholder.svg';">
+          <h3>Trading &amp; Modeling</h3>
+          <p>Forecasting real-world events with probabilistic models and managing risk on prediction markets and crypto trading.</p>
+        </a></li>
       </ul>
     </section>
   </main>
