@@ -12,9 +12,9 @@
   <meta property="og:url" content="https://mingketian.github.io/">
   <meta property="og:image" content="https://mingketian.github.io/images/profile.jpg">
   <meta name="twitter:card" content="summary">
-  <link rel="icon" href="assets/favicon-32.png" sizes="32x32" type="image/png">
-  <link rel="icon" href="assets/favicon-192.png" sizes="192x192" type="image/png">
-  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+  <link rel="icon" href="assets/mk-32.png" sizes="32x32" type="image/png">
+  <link rel="icon" href="assets/mk-192.png" sizes="192x192" type="image/png">
+  <link rel="apple-touch-icon" href="assets/mk-apple-touch.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Charis+SIL:ital,wght@0,400;0,700;1,400;1,700&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,700;1,800&display=swap">
@@ -25,6 +25,7 @@
 
   <header class="site-header">
     <div class="inner">
+      <a class="brand" href="index.html" aria-label="Mingke Tian, home"><span class="brand-mark" aria-hidden="true">MK</span><span class="brand-name">Mingke Tian</span></a>
       <nav class="site-nav" aria-label="Main">
         <ul>
         <li><a href="index.html" aria-current="page">Home</a></li>
@@ -74,53 +75,91 @@
       that capture how states and actions evolve for inference, generation, and planning tasks. My work spans scientific computing, optimization, human mobility, robotics, and healthcare.
     </p>
 
-    <section class="home-interests" aria-labelledby="interests-title">
+    <section class="home-sec home-interests" aria-labelledby="interests-title">
+      <p class="eyebrow"><span>01</span>Focus</p>
       <h2 id="interests-title">Research Interests</h2>
-      <ul>
-        <li><b>Agentic AI</b> (e.g., LLM agents, tool use, verifier-grounded reasoning)</li>
-        <li><b>Foundation and world models</b> (e.g., trajectory pretraining, latent state-action dynamics)</li>
-        <li><b>Scientific machine learning</b> (e.g., physics-informed networks, Bayesian inverse problems, optimization)</li>
-        <li><b>Multimodal and embodied AI</b> (e.g., vision-language models, vision-language-action policies)</li>
+      <ul class="interest-grid">
+        <li><b>Agentic AI</b><span>LLM agents, tool use, verifier-grounded reasoning</span></li>
+        <li><b>Foundation and world models</b><span>Trajectory pretraining, latent state-action dynamics</span></li>
+        <li><b>Scientific machine learning</b><span>Physics-informed networks, Bayesian inverse problems, optimization</span></li>
+        <li><b>Multimodal and embodied AI</b><span>Vision-language models, vision-language-action policies</span></li>
       </ul>
     </section>
 
-    <section class="home-news" aria-labelledby="news-title">
+    <section class="home-sec home-news" aria-labelledby="news-title">
+      <p class="eyebrow"><span>02</span>Updates</p>
       <h2 id="news-title">Recent News</h2>
-      <!-- Newest first. Copy one <li> per item. -->
-      <ul>
-        <li><b>Nov. 2026:</b> Recent first-author preprints: <a class="key" href="research-atsolver.html">ATSolver</a> and <a class="key" href="research-mobilityworld.html">MobilityWorld</a>.</li>
-        <li><b>Sep. 2026:</b> Our work <strong><em>&ldquo;CONSTRAINER: Promptable Graph-Structured Optimization via Constraint
-          Conditioning&rdquo;</em></strong> has been accepted to <a class="key" href="research.html#constrainer">NeurIPS 2026 (Main Track)</a>.</li>
-        <li><b>May 2026:</b> I am honored to receive the <span class="key">Emory Wilson Family STEM Education Award (2026)</span>.
-          This award is given to outstanding undergraduate students to recognize and support their research activities.</li>
-        <li><b>Jun. 2025:</b> Excited to be selected for the <a class="key" href="https://www.math.emory.edu/site/cmds-reuret" target="_blank" rel="noopener">Emory NSF REU Program in Computational Mathematics for Data Science</a>,
-          and to receive a grant for our research on Bayesian inverse problems.</li>
+      <!-- Newest first. Copy one <li> per item: the date goes in <time>, the news in <p>. -->
+      <ul class="news-list">
+        <li><time>Nov 2026</time><p>Recent first-author preprints: <a class="key" href="research-atsolver.html">ATSolver</a> and <a class="key" href="research-mobilityworld.html">MobilityWorld</a>.</p></li>
+        <li><time>Sep 2026</time><p>Our work <strong><em>&ldquo;CONSTRAINER: Promptable Graph-Structured Optimization via Constraint
+          Conditioning&rdquo;</em></strong> has been accepted to <a class="key" href="research.html#constrainer">NeurIPS 2026 (Main Track)</a>.</p></li>
+        <li><time>May 2026</time><p>I am honored to receive the <span class="key">Emory Wilson Family STEM Education Award (2026)</span>.
+          This award is given to outstanding undergraduate students to recognize and support their research activities.</p></li>
+        <li><time>Jun 2025</time><p>Excited to be selected for the <a class="key" href="https://www.math.emory.edu/site/cmds-reuret" target="_blank" rel="noopener">Emory NSF REU Program in Computational Mathematics for Data Science</a>,
+          and to receive a grant for our research on Bayesian inverse problems.</p></li>
       </ul>
     </section>
 
-    <section class="home-doing" aria-labelledby="doing-title">
+    <section class="home-sec home-doing" aria-labelledby="doing-title">
+      <p class="eyebrow"><span>03</span>Explore</p>
       <h2 id="doing-title">What I&rsquo;m Doing</h2>
-      <!-- Each card's picture is in images/doing/ (16:10 works best). -->
-      <ul class="doing-grid">
-        <li><a class="doing-link" href="research.html">
-          <img class="plain" src="images/doing/ai-ml-research.jpg" alt="ATSolver system overview" loading="lazy" onerror="this.onerror=null; this.src='images/placeholder.svg';">
-          <h3>AI/ML Research</h3>
-          <p>Building structure-aware learning systems and agents for science and engineering with agentic AI and world models.</p>
+      <!-- Each card: a collage of pictures on a tinted panel, then a label. Pictures live in images/. -->
+      <ul class="explore-grid">
+        <li><a class="explore-card tint-blue" href="research.html">
+          <div class="ex-art">
+            <span class="ex-tile big fig"><img src="images/research/atsolver.png" alt="ATSolver system overview" loading="lazy"></span>
+            <span class="ex-tile fig"><img src="images/research/mobilityworld-overview.webp" alt="MobilityWorld overview" loading="lazy"></span>
+            <span class="ex-tile fig"><img src="images/research/constrainer.png" alt="CONSTRAINER architecture" loading="lazy"></span>
+          </div>
+          <div class="ex-label">
+            <span class="ex-index">01 &middot; Research</span>
+            <h3>AI/ML Research</h3>
+            <p>Building structure-aware learning systems and agents for science and engineering with agentic AI and world models.</p>
+            <span class="ex-arrow" aria-hidden="true">&#8599;</span>
+          </div>
         </a></li>
-        <li><a class="doing-link" href="experience.html#industry">
-          <img src="images/doing/applied-engineering.jpg" alt="SIASUN humanoid reaching for a parcel" loading="lazy" onerror="this.onerror=null; this.src='images/placeholder.svg';">
-          <h3>Applied Engineering</h3>
-          <p>Deploying AI systems in industry, from real robot learning to multimodal understanding and retrieval-augmented agents.</p>
+        <li><a class="explore-card tint-slate" href="experience.html#industry">
+          <div class="ex-art">
+            <span class="ex-tile big"><img src="images/doing/applied-engineering.jpg" alt="SIASUN humanoid reaching for a parcel" loading="lazy"></span>
+            <span class="ex-tile fig"><img src="images/research/throughline.svg" alt="Throughline: cross-page state for long-document extraction" loading="lazy"></span>
+            <span class="ex-tile"><img src="images/research/parcelvla.jpg" alt="Robot arm during parcel picking" loading="lazy"></span>
+          </div>
+          <div class="ex-label">
+            <span class="ex-index">02 &middot; Industry</span>
+            <h3>Applied Engineering</h3>
+            <p>Deploying AI systems in industry, from real robot learning to multimodal understanding and retrieval-augmented agents.</p>
+            <span class="ex-arrow" aria-hidden="true">&#8599;</span>
+          </div>
         </a></li>
-        <li><a class="doing-link" href="activities.html#leadership">
-          <img src="images/doing/community-leadership.jpg" alt="EUMMA members in a lecture hall" loading="lazy" onerror="this.onerror=null; this.src='images/placeholder.svg';">
-          <h3>Community Leadership</h3>
-          <p>Leading 100+ members as President of EUMMA to grow the math community and the &ldquo;AI4SE&rdquo; initiative to promote AI literacy.</p>
+        <li><a class="explore-card tint-rose" href="activities.html#leadership">
+          <div class="ex-art">
+            <span class="ex-tile big"><img src="images/doing/community-leadership.jpg" alt="EUMMA members in a lecture hall" loading="lazy"></span>
+            <span class="ex-tile logo" aria-label="EUMMA logo">
+              <svg viewBox="0 0 100 100" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="square"><path d="M14 12 H86 M14 12 V88 M14 88 H86 M32 30 H86 M32 30 V52 M32 52 H68 M50 52 V70 M50 70 H86"/></svg>
+              <b>EUMMA</b>
+            </span>
+            <span class="ex-tile"><img src="images/leadership/eumma-2.jpg" alt="An EUMMA training session" loading="lazy"></span>
+          </div>
+          <div class="ex-label">
+            <span class="ex-index">03 &middot; Community</span>
+            <h3>Community Leadership</h3>
+            <p>Leading 100+ members as President of EUMMA to grow the math community and the &ldquo;AI4SE&rdquo; initiative to promote AI literacy.</p>
+            <span class="ex-arrow" aria-hidden="true">&#8599;</span>
+          </div>
         </a></li>
-        <li><a class="doing-link" href="interests.html#trading-modeling">
-          <img class="on-white" src="images/doing/prediction-markets.png" alt="Illustration: a market price line converging toward a model&rsquo;s probability estimate" loading="lazy" onerror="this.onerror=null; this.src='images/placeholder.svg';">
-          <h3>Trading &amp; Modeling</h3>
-          <p>Forecasting real-world events with probabilistic models and managing risk on prediction markets and crypto trading.</p>
+        <li><a class="explore-card tint-mint" href="interests.html#trading-modeling">
+          <div class="ex-art">
+            <span class="ex-tile big fig"><img src="images/doing/prediction-markets.png" alt="Illustration: a market price line converging toward a model&rsquo;s probability estimate" loading="lazy"></span>
+            <span class="ex-tile note"><small>Markets</small><b>BTC &middot; ETH &middot; XRP</b><small>short-horizon contracts</small></span>
+            <span class="ex-tile note"><small>Process</small><b>Forecast &rarr; size &rarr; update</b></span>
+          </div>
+          <div class="ex-label">
+            <span class="ex-index">04 &middot; Markets</span>
+            <h3>Trading &amp; Modeling</h3>
+            <p>Forecasting real-world events with probabilistic models and managing risk on prediction markets and crypto trading.</p>
+            <span class="ex-arrow" aria-hidden="true">&#8599;</span>
+          </div>
         </a></li>
       </ul>
     </section>
