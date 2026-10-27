@@ -1083,3 +1083,7 @@ html, body { overflow-x: clip; }   /* full-width backdrops never cause sideways 
 @media (prefers-reduced-motion: reduce) {
   .explore-card:hover, .interest-grid li:hover { transform: none; }
 }
+
+/* Removed items stay hidden even if a browser still shows a cached copy of an older page */
+.brand { display: none !important; }
+.site-nav li:has(> a[href="interests.html"]), .site-nav li:has(> a[href="cv.pdf"]) { display: none !important; }

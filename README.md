@@ -18,7 +18,6 @@ Note: with a free GitHub account, Pages only publishes from **public** repositor
 | File | Page |
 |---|---|
 | `index.html` | Home: name, links, photo, introduction, Recent News, What I'm Doing |
-| `cv.pdf` | CV (the CV menu item opens this PDF in a new tab) |
 | `research.html` | Publications and manuscripts |
 | `experience.html` | Education, internships, projects |
 | `activities.html` | Leadership & Services |
@@ -37,7 +36,7 @@ Prediction markets chart (Interests page): `assets/pm-dashboard.js` draws it, `a
 
 Text placeholders in `[square brackets]` with a light-blue highlight still need your content. Search the HTML files for `todo` to find them.
 
-`cv.pdf` currently includes a phone number; replace the file if you do not want it public.
+The CV menu item is removed until a new CV is added; the PDF buttons on the Research pages are hidden (marked with HTML comments) until the files in `papers/` are added.
 
 ## Technical Skills icons (Experience page)
 

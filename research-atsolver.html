@@ -28,7 +28,7 @@
       <nav class="site-nav" aria-label="Main">
         <ul>
         <li><a href="index.html">Home</a></li>
-        <li><a href="cv.pdf" target="_blank" rel="noopener">CV</a></li>
+        <!-- CV link returns when the new CV is added -->
         <li><a href="research.html" aria-current="page">Research</a></li>
         <li><a href="experience.html">Experience</a></li>
         <li><a href="activities.html">Leadership &amp; Services</a></li>
@@ -43,7 +43,7 @@
       <p class="paper-badges"><span class="badge review">Under review &middot; ICLR 2027</span></p>
       <h1>ATSolver: Agentic Tuning of Sparse Linear Solvers with Numerical Feedback</h1>
       <p class="pp-authors"><span class="me">Mingke Tian</span>, Yiyun Chen, Ruipeng Li, Tianshi Xu, Yuanzhe Xi</p>
-      <div class="pp-buttons"><a class="pp-btn primary" href="papers/atsolver.pdf" target="_blank" rel="noopener">Paper (PDF)<span aria-hidden="true"> &#8599;</span></a><a class="pp-btn" href="images/research/atsolver.png" target="_blank" rel="noopener">Full-size figure<span aria-hidden="true"> &#8599;</span></a></div>
+      <div class="pp-buttons"><!-- Paper (PDF) button hidden until papers/atsolver.pdf is added --><a class="pp-btn" href="images/research/atsolver.png" target="_blank" rel="noopener">Full-size figure<span aria-hidden="true"> &#8599;</span></a></div>
     </header>
 
     <p class="pp-lede">Picking a solver and preconditioner for a large sparse linear system is usually done by expert intuition or brute-force search. ATSolver hands the choice to an LLM agent, but never lets the agent decide what counts as solved: every proposal passes a legality gate, runs on a real numerical worker, and is accepted only if an independent verifier confirms the residual.</p>
