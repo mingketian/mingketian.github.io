@@ -169,8 +169,8 @@ main { flex: 1 0 auto; width: 100%; max-width: var(--page); margin: 0 auto; padd
 /* The block is exactly as wide as the name, so the M of Mingke lines up with the text below; the lines under it are centered */
 .home-id { width: min-content; text-align: center; }
 @media (min-width: 1000px) {
-  .home-id { position: relative; left: 5.5rem; top: 4.25rem; }
-  .home-hero .home-photo { margin-right: 2rem; }   /* photo nudged slightly left */
+  .home-id { position: relative; left: 5.5rem; top: 6.25rem; }
+  .home-hero .home-photo { margin-right: 4.5rem; }   /* photo nudged slightly left */
 }   /* nudged right and down beside the photo */
 .home-id h1 { font-size: 4rem; font-weight: 400; line-height: 1.1; color: var(--ink); white-space: nowrap; }
 .home-title { margin-top: var(--s5); font-size: 1.25rem; line-height: 1.45; color: var(--ink); }
