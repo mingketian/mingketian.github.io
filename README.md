@@ -22,7 +22,6 @@ Note: with a free GitHub account, Pages only publishes from **public** repositor
 | `research.html` | Publications and manuscripts |
 | `experience.html` | Education, internships, projects |
 | `activities.html` | Leadership & Services |
-| `interests.html` | Interests: prediction markets chart, arts gallery, board games |
 
 Styles: `assets/style.css` (colors, type, and spacing are defined once at the top). Small behaviors (navigation shadow, fade-in on scroll): `assets/site.js`.
 

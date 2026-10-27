@@ -972,33 +972,6 @@ body { color: var(--ink); }
    ========================================================== */
 html, body { overflow-x: clip; }   /* full-width backdrops never cause sideways scrolling */
 
-/* MK mark: left end of the navigation bar */
-.site-header .inner { position: relative; }
-.brand { position: absolute; left: var(--pad); top: 50%; transform: translateY(-50%);
-  display: flex; align-items: center; gap: 0.6rem; color: #fff; }
-.brand:hover { color: #fff; text-decoration: none; }
-.brand-mark { position: relative; display: grid; place-items: center; width: 2.1rem; height: 2.1rem; padding-bottom: 3px;
-  border: 1px solid rgba(255, 255, 255, 0.28); border-radius: 8px;
-  font-family: var(--serif); font-size: 0.95rem; font-weight: 700; letter-spacing: 0.02em;
-  transition: border-color 0.2s ease, background-color 0.2s ease; }
-.brand-mark::after { content: ""; position: absolute; left: 50%; bottom: 5px; width: 0.65rem; height: 2px; margin-left: -0.325rem;
-  border-radius: 2px; background: #60a5fa; }
-.brand:hover .brand-mark { border-color: #60a5fa; background: rgba(96, 165, 250, 0.12); }
-.brand-name { font-family: var(--serif); font-size: 1.05rem; font-weight: 700; white-space: nowrap; }
-@media (max-width: 1440px) { .brand-name { display: none; } }
-@media (max-width: 900px) { .brand { display: none; } }
-
-/* Hero: smaller name and photo, more air around them */
-@media (min-width: 761px) {
-  main.home { padding-top: 4rem; }
-  .home-hero { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: var(--s8); align-items: center; }
-  .home-id { position: static; left: auto; top: auto; justify-self: center; width: max-content; }
-  .home-hero .home-photo { width: 19rem; margin-right: 0; }
-  .home .home-intro { margin-top: 4.5rem; }
-}
-.home-id h1 { font-size: 3.1rem; letter-spacing: -0.01em; }
-.home-title { margin-top: var(--s4); font-size: 1.0625rem; line-height: 1.55; }
-.home-intro { font-size: 1.125rem; line-height: 1.7; }
 
 /* Section rhythm: wide gaps, a soft rule that fades at both ends, numbered eyebrows */
 .home-sec { position: relative; margin-top: 6.5rem; padding-top: 3.5rem; }
@@ -1075,8 +1048,6 @@ html, body { overflow-x: clip; }   /* full-width backdrops never cause sideways 
 .explore-card:hover .ex-arrow { transform: translate(2px, -2px); border-color: var(--tint-ink); background: var(--tint-ink); color: #fff; }
 
 @media (max-width: 760px) {
-  .home-id h1 { font-size: 2.5rem; }
-  .home-photo { width: min(15rem, 70%); }
   .home-sec { margin-top: 4rem; padding-top: 2.5rem; }
   .home-sec h2 { font-size: 1.7rem; }
   .home-interests ul.interest-grid, .explore-grid { grid-template-columns: 1fr; }
