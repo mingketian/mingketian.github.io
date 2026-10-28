@@ -1000,7 +1000,7 @@ a.doing-card:hover { color: inherit; text-decoration: none; }
 .d-side img { object-fit: contain; padding: 2px; }
 /* Industry: photo with a small inset */
 .d-photo { inset: 5px; }
-.d-inset { right: 12px; top: 12px; width: 38%; aspect-ratio: 1120 / 677; border: 2px solid #fff; transform: rotate(-2deg); }
+.d-inset { left: 12px; top: 12px; width: 38%; aspect-ratio: 1120 / 677; border: 2px solid #fff; transform: rotate(-2deg); }
 /* Community: three photos fanned out */
 .d-fan .d-c { left: 15%; top: 5%; width: 70%; height: 90%; z-index: 2; border: 2px solid #fff; }
 .d-fan .d-l, .d-fan .d-r { top: 16%; width: 38%; height: 68%; border: 2px solid #fff; }
