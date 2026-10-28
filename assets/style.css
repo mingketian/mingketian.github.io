@@ -1030,8 +1030,6 @@ a.doing-card:hover .d-arrow { opacity: 1; transform: translateX(3px); }
 .svc-figure.is-logo { background: #fff; }
 .svc-figure.is-logo img { object-fit: contain; padding: 0.75rem 1.25rem; }
 .svc-figure.is-logo:hover img { transform: none; }
-/* EUMMA logo above the role */
-.org-logo { display: block; height: 1.9rem; width: auto; margin-bottom: var(--s3); }
 /* Home community card: EUMMA logo on a small white tag */
 .d-logo { position: absolute; left: 10px; bottom: 10px; z-index: 3; display: block; padding: 4px 8px; border-radius: 6px; background: #fff;
   box-shadow: 0 4px 12px -6px rgba(15, 23, 42, 0.5); }
@@ -1047,5 +1045,5 @@ a.doing-card:hover .d-arrow { opacity: 1; transform: translateX(3px); }
 @media (max-width: 760px) { .xp-logo { width: 5.5rem; height: 2.75rem; } }
 
 /* Home: name block sits a little right of and below its centred spot beside the photo */
-@media (min-width: 1000px) { .home-id { position: relative; left: 1.75rem; top: 1.25rem; } }
+@media (min-width: 1000px) { .home-id { position: relative; left: 1.75rem; top: 2.75rem; } }
 @media (max-width: 760px) { .svc-figure { max-width: 14rem; } }
