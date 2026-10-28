@@ -163,15 +163,11 @@ main { flex: 1 0 auto; width: 100%; max-width: var(--page); margin: 0 auto; padd
 .home { font-family: "Charis SIL", Charter, "Bitstream Charter", Georgia, "Times New Roman", serif; }
 
 .home-hero {
-  display: flex; align-items: center; justify-content: space-between; gap: var(--s7);
+  display: grid; grid-template-columns: minmax(0, 1fr) 22rem; align-items: center; gap: var(--s7);
 }
 
-/* The block is exactly as wide as the name, so the M of Mingke lines up with the text below; the lines under it are centered */
-.home-id { width: min-content; text-align: center; }
-@media (min-width: 1000px) {
-  .home-id { position: relative; left: 5.5rem; top: 2.5rem; }
-  .home-hero .home-photo { margin-right: 4.5rem; }   /* photo nudged slightly left */
-}   /* nudged right and down beside the photo */
+/* The name block is centred in the left column; the lines under the name are centred */
+.home-id { justify-self: center; text-align: center; }
 .home-id h1 { font-size: 4rem; font-weight: 400; line-height: 1.1; color: var(--ink); white-space: nowrap; }
 .home-title { margin-top: var(--s5); font-size: 1.25rem; line-height: 1.45; color: var(--ink); }
 .home-title span { display: block; }
@@ -188,14 +184,14 @@ main { flex: 1 0 auto; width: 100%; max-width: var(--page); margin: 0 auto; padd
 .home-icons svg { width: 1.15rem; height: 1.15rem; }
 
 /* Round photo with a white mat */
-.home-photo { flex: none; width: 25rem; margin: 0; padding: 0; }
+.home-photo { width: 100%; margin: 0; padding: 0; }
 .photo-arch {
   padding: 10px; background: #fff;
   border-radius: 50%;
   box-shadow: 0 2px 8px rgba(19, 48, 77, 0.06), 0 30px 60px -28px rgba(19, 48, 77, 0.45);
 }
 .home-photo img {
-  display: block; width: 100%; aspect-ratio: 1 / 1; object-fit: cover; object-position: 50% 42%;
+  display: block; width: 100%; aspect-ratio: 1 / 1; object-fit: cover;
   background: var(--sky); border-radius: 50%;
 }
 .home-intro {
@@ -221,14 +217,14 @@ main { flex: 1 0 auto; width: 100%; max-width: var(--page); margin: 0 auto; padd
 }
 .home-news .key:hover { color: var(--red); text-decoration-color: var(--red); }
 
-/* What I'm Doing: section spacing (the cards are styled under "bento cards" below) */
+/* What I'm Doing: section spacing (the cards are styled under "four cards" below) */
 .home-doing { margin-top: var(--s8); }
 .home-doing h2 { color: var(--navy); font-size: 2rem; font-weight: 700; line-height: 1.2; }
 /* Jump targets from the home cards land below the sticky navigation bar */
 .section-title[id], .card[id] { scroll-margin-top: 5rem; }
 
 @media (max-width: 760px) {
-  .home-hero { flex-direction: column; gap: var(--s6); }
+  .home-hero { grid-template-columns: 1fr; gap: var(--s6); }
   .home-photo { order: -1; width: min(18rem, 80%); margin: 0 auto; }
   .home-id { width: auto; }
   .home-id h1 { font-size: 2.75rem; white-space: normal; }
@@ -974,83 +970,54 @@ html, body { overflow-x: clip; }   /* full-width backdrops never cause sideways 
 .site-nav li:has(> a[href="interests.html"]), .site-nav li:has(> a[href="cv.pdf"]) { display: none !important; }
 
 /* ---------- CV page ---------- */
-.cv-page { text-align: center; }
 .cv-page .cv-lede { margin-top: var(--s3); color: var(--muted, #555); }
-.cv-page .actions { justify-content: center; }
 .cv-page .cv-frame { height: min(90vh, 1250px); background: #fff; }
 
-/* ---------- What I'm Doing (home): bento cards ----------
-   Wide and narrow cards alternate (7 + 5, then 5 + 7 columns). Each art panel
-   layers a main picture with smaller ones on a tinted, dotted mat. */
-.bento { list-style: none; padding: 0; margin-top: var(--s6);
-  display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: var(--s5); }
-.bento > li { grid-column: span 5; margin: 0; }
-.bento > li.b-wide { grid-column: span 7; }
-.b-card { --tone: #1d4ed8; --mat-a: #eef4ff; --mat-b: #dbe7fb;
-  display: flex; flex-direction: column; height: 100%; overflow: hidden; color: inherit;
-  border: 1px solid var(--rule); border-radius: 20px; background: #fff;
-  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04), 0 16px 36px -30px rgba(15, 23, 42, 0.5);
-  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease; }
-.b-card.tone-slate { --tone: #334155; --mat-a: #f2f4f8; --mat-b: #e0e5ee; }
-.b-card.tone-rose  { --tone: #9f1239; --mat-a: #fdf2f3; --mat-b: #f4dfe2; }
-.b-card.tone-mint  { --tone: #0f766e; --mat-a: #eff8f5; --mat-b: #d9eee7; }
-a.b-card:hover { color: inherit; text-decoration: none; transform: translateY(-3px); border-color: #cbd5e1;
-  box-shadow: 0 2px 4px rgba(15, 23, 42, 0.04), 0 28px 52px -30px rgba(15, 23, 42, 0.55); }
+/* ---------- What I'm Doing (home): four cards ----------
+   Picture panel on top (a main image layered with smaller ones), then the title and one line.
+   Panels are a pale neutral that warms to the card's colour on hover; the arrow slides a little. */
+.doing-grid { list-style: none; padding: 0; margin-top: var(--s5);
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--s6) var(--s5); }
+.doing-grid > li { margin: 0; }
+.doing-card { --tone: #1d4ed8; --tint: #e4ecfb; display: block; color: inherit; }
+.doing-card.tone-slate { --tone: #334155; --tint: #e3e8f0; }
+.doing-card.tone-rose  { --tone: #9f1239; --tint: #f6e2e5; }
+.doing-card.tone-mint  { --tone: #0f766e; --tint: #dcefe8; }
+a.doing-card:hover { color: inherit; text-decoration: none; }
 
-.b-art { position: relative; display: block; height: 16rem; overflow: hidden;
-  background:
-    radial-gradient(rgba(15, 23, 42, 0.09) 1px, transparent 1.2px) 0 0 / 14px 14px,
-    linear-gradient(150deg, var(--mat-a), var(--mat-b));
-  border-bottom: 1px solid rgba(148, 163, 184, 0.25); }
-.b-sheet { position: absolute; display: block; overflow: hidden; border-radius: 10px; background: #fff;
-  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.08), 0 12px 26px -14px rgba(15, 23, 42, 0.45); }
-.b-sheet img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.d-art { position: relative; display: block; aspect-ratio: 16 / 10; overflow: hidden; border-radius: 12px;
+  background-color: #f3f5f8;
+  background-image: linear-gradient(150deg, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0));
+  box-shadow: inset 0 0 0 1px rgba(148, 163, 184, 0.22);
+  transition: background-color 0.35s ease, box-shadow 0.35s ease; }
+.doing-card:hover .d-art { background-color: var(--tint); box-shadow: inset 0 0 0 1px rgba(148, 163, 184, 0.1), 0 16px 30px -22px rgba(15, 23, 42, 0.45); }
+.d-sheet { position: absolute; display: block; overflow: hidden; border-radius: 7px; background: #fff;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.08), 0 8px 18px -10px rgba(15, 23, 42, 0.45); }
+.d-sheet img { display: block; width: 100%; height: 100%; object-fit: cover; }
+/* Research: system figure with a second paper figure tucked behind it */
+.d-main { left: 6%; top: 10%; width: 66%; height: 80%; z-index: 2; }
+.d-main img { object-fit: contain; padding: 5px; }
+.d-side { right: 5%; top: 7%; width: 30%; height: 86%; transform: rotate(3deg); }
+.d-side img { object-fit: contain; padding: 4px; }
+/* Industry: photo with a small inset */
+.d-photo { inset: 8px; }
+.d-inset { right: 16px; top: 16px; width: 36%; aspect-ratio: 1120 / 677; border: 2px solid #fff; transform: rotate(-2deg); }
+/* Community: three photos fanned out */
+.d-fan .d-c { left: 20%; top: 12%; width: 60%; height: 76%; z-index: 2; border: 2px solid #fff; }
+.d-fan .d-l, .d-fan .d-r { top: 22%; width: 40%; height: 56%; border: 2px solid #fff; }
+.d-fan .d-l { left: 5%; transform: rotate(-6deg); }
+.d-fan .d-r { right: 5%; transform: rotate(6deg); }
+/* Markets: the chart on a white sheet */
+.d-chart { left: 6%; right: 6%; top: 14%; bottom: 14%; }
+.d-chart img { object-fit: contain; padding: 4px 6px; }
 
-/* 01 Research: system figure with a second paper figure tucked behind it */
-.b-main { left: 5%; top: 11%; width: 66%; height: 78%; z-index: 2; }
-.b-main img { object-fit: contain; padding: 8px; }
-.b-side { right: 4%; top: 8%; width: 30%; height: 84%; transform: rotate(3deg); }
-.b-side img { object-fit: contain; padding: 6px; }
-/* 02 Industry: photo with a small inset */
-.b-photo { inset: 14px; }
-.b-inset { right: 26px; top: 26px; width: 34%; aspect-ratio: 1120 / 677; border: 3px solid #fff; transform: rotate(-2deg); }
-/* 03 Community: three photos fanned out */
-.b-fan .b-c { left: 21%; top: 12%; width: 58%; height: 76%; z-index: 2; border: 3px solid #fff; }
-.b-fan .b-l, .b-fan .b-r { top: 20%; width: 42%; height: 60%; border: 3px solid #fff; }
-.b-fan .b-l { left: 5%; transform: rotate(-6deg); }
-.b-fan .b-r { right: 5%; transform: rotate(6deg); }
-/* 04 Markets: the chart on a white sheet */
-.b-chart { left: 5%; right: 5%; top: 11%; bottom: 11%; }
-.b-chart img { object-fit: contain; padding: 8px 12px; }
+.doing-grid h3 { display: flex; align-items: baseline; gap: 0.45rem; margin-top: var(--s4);
+  color: var(--ink); font-size: 1.3rem; font-weight: 400; line-height: 1.25; transition: color 0.25s ease; }
+.d-arrow { color: var(--tone); font-family: var(--font); font-size: 1rem; opacity: 0.55; transition: transform 0.25s ease, opacity 0.25s ease; }
+a.doing-card:hover h3 { color: var(--tone); }
+a.doing-card:hover .d-arrow { opacity: 1; transform: translateX(3px); }
+.doing-grid p { margin-top: var(--s2); color: var(--ink); font-family: var(--font); font-size: var(--fs-meta); line-height: 1.6; }
 
-.b-badge { position: absolute; left: 14px; bottom: 14px; z-index: 3; display: flex; align-items: baseline; gap: 0.4rem;
-  padding: 0.35rem 0.75rem; border-radius: 999px; background: var(--tone); color: #fff;
-  font-family: var(--font); font-size: 0.75rem; font-weight: 500; box-shadow: 0 8px 18px -10px rgba(15, 23, 42, 0.6); }
-.b-badge b { font-size: 0.8125rem; font-weight: 800; letter-spacing: 0.01em; }
-.b-fan .b-badge { left: auto; right: 14px; top: 14px; bottom: auto; }
-
-.b-body { display: flex; flex: 1; flex-direction: column; padding: var(--s5) var(--s6) var(--s6); }
-.b-kicker { color: var(--tone); font-family: var(--font); font-size: 0.72rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; }
-.bento h3 { margin-top: var(--s2); color: var(--ink); font-size: 1.5rem; font-weight: 400; line-height: 1.25; letter-spacing: -0.01em; transition: color 0.2s ease; }
-.bento p { margin-top: var(--s2); color: var(--muted); font-family: var(--font); font-size: 0.95rem; line-height: 1.65; }
-.b-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: var(--s4); }
-.b-tags span { padding: 0.2rem 0.65rem; border: 1px solid rgba(148, 163, 184, 0.45); border-radius: 999px;
-  color: #475569; font-family: var(--font); font-size: 0.75rem; font-weight: 600; white-space: nowrap; }
-.b-go { display: inline-flex; align-items: center; gap: 0.4rem; margin-top: auto; padding-top: var(--s5);
-  color: var(--tone); font-family: var(--font); font-size: var(--fs-meta); font-weight: 700; }
-.b-go span { transition: transform 0.2s ease; }
-a.b-card:hover h3 { color: var(--tone); }
-a.b-card:hover .b-go span { transform: translateX(3px); }
-
-@media (max-width: 1000px) {
-  .bento > li, .bento > li.b-wide { grid-column: span 6; }
-  .b-art { height: 14rem; }
-}
-@media (max-width: 680px) {
-  .bento { grid-template-columns: 1fr; gap: var(--s5); }
-  .bento > li, .bento > li.b-wide { grid-column: auto; }
-  .b-art { height: 13rem; }
-  .b-body { padding: var(--s5); }
-  .bento h3 { font-size: 1.35rem; }
-}
-@media (prefers-reduced-motion: reduce) { a.b-card:hover, a.b-card:hover .b-go span { transform: none; } }
+@media (max-width: 960px) { .doing-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 760px) { .doing-grid { grid-template-columns: 1fr; gap: var(--s6); } }
+@media (prefers-reduced-motion: reduce) { a.doing-card:hover .d-arrow { transform: none; } }

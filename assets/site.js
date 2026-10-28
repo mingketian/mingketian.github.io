@@ -14,7 +14,7 @@
   if (reduce || !('IntersectionObserver' in window)) return;
 
   var targets = document.querySelectorAll(
-    '.section-title, .entry, .timeline .item, .card, .home-intro, .home-news li, .bento > li, .proj-tile'
+    '.section-title, .entry, .timeline .item, .card, .home-intro, .home-news li, .doing-grid > li, .proj-tile'
   );
   if (!targets.length) return;
   document.documentElement.classList.add('reveal-on');
