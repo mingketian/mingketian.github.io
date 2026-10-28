@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 200" font-family="Helvetica, Arial, sans-serif">
+<rect width="320" height="200" fill="#fff"/>
+<text x="22" y="30" font-size="13" font-weight="700" fill="#0f172a">Event contract</text>
+<text x="22" y="48" font-size="11" fill="#64748b">Chance of YES</text>
+<rect x="222" y="16" width="76" height="30" rx="15" fill="#dcfce7"/>
+<text x="260" y="36" font-size="15" font-weight="800" fill="#15803d" text-anchor="middle">71%</text>
+<line x1="22" x2="298" y1="160.0" y2="160.0" stroke="#e2e8f0" stroke-width="1"/><line x1="22" x2="298" y1="128.0" y2="128.0" stroke="#e2e8f0" stroke-width="1"/><line x1="22" x2="298" y1="96.0" y2="96.0" stroke="#e2e8f0" stroke-width="1"/><line x1="22" x2="298" y1="64.0" y2="64.0" stroke="#e2e8f0" stroke-width="1"/>
+<path d="M22.0,159.4 H28.9 V161.2 H35.8 V158.5 H42.7 V161.1 H49.6 V159.1 H56.5 V159.1 H63.4 V161.1 H70.3 V158.9 H77.2 V160.7 H84.1 V158.6 H91.0 V159.7 H97.9 V159.7 H104.8 V156.8 H111.7 V151.8 H118.6 V153.2 H125.5 V152.4 H132.4 V148.1 H139.3 V142.4 H146.2 V140.5 H153.1 V139.3 H160.0 V133.1 H166.9 V134.6 H173.8 V128.0 H180.7 V126.7 H187.6 V125.5 H194.5 V123.4 H201.4 V119.5 H208.3 V112.5 H215.2 V112.0 H222.1 V107.8 H229.0 V104.3 H235.9 V103.5 H242.8 V101.1 H249.7 V102.8 H256.6 V103.2 H263.5 V102.1 H270.4 V97.9 H277.3 V97.1 H284.2 V97.2 H291.1 V95.3 H298.0 V95.0 V176 H22 Z" fill="#16a34a" fill-opacity="0.08"/>
+<path d="M22.0,159.4 H28.9 V161.2 H35.8 V158.5 H42.7 V161.1 H49.6 V159.1 H56.5 V159.1 H63.4 V161.1 H70.3 V158.9 H77.2 V160.7 H84.1 V158.6 H91.0 V159.7 H97.9 V159.7 H104.8 V156.8 H111.7 V151.8 H118.6 V153.2 H125.5 V152.4 H132.4 V148.1 H139.3 V142.4 H146.2 V140.5 H153.1 V139.3 H160.0 V133.1 H166.9 V134.6 H173.8 V128.0 H180.7 V126.7 H187.6 V125.5 H194.5 V123.4 H201.4 V119.5 H208.3 V112.5 H215.2 V112.0 H222.1 V107.8 H229.0 V104.3 H235.9 V103.5 H242.8 V101.1 H249.7 V102.8 H256.6 V103.2 H263.5 V102.1 H270.4 V97.9 H277.3 V97.1 H284.2 V97.2 H291.1 V95.3 H298.0 V95.0" fill="none" stroke="#16a34a" stroke-width="2.4" stroke-linejoin="round"/>
+<circle cx="298.0" cy="95.0" r="4.5" fill="#16a34a" stroke="#fff" stroke-width="2"/>
+<rect x="22" y="184" width="130" height="10" rx="5" fill="#16a34a" fill-opacity="0.85"/>
+<rect x="156" y="184" width="142" height="10" rx="5" fill="#e11d48" fill-opacity="0.75"/>
+</svg>
