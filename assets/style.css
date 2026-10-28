@@ -1008,9 +1008,8 @@ a.doing-card:hover { color: inherit; text-decoration: none; }
 .d-fan .d-r { right: 4%; transform: rotate(6deg); }
 /* Markets: the chart on a white sheet */
 .d-chart { left: 3.5%; right: 3.5%; top: 7%; bottom: 7%; }
-/* Markets: a prediction-market contract card and a small candlestick chart tucked over the main chart */
+/* Markets: a prediction-market contract card tucked over the main chart */
 .d-contract { left: 6px; top: 6px; width: 40%; aspect-ratio: 320 / 200; z-index: 2; border: 2px solid #fff; transform: rotate(-3deg); }
-.d-candles { right: 6px; bottom: 6px; width: 34%; aspect-ratio: 260 / 170; z-index: 2; border: 2px solid #fff; transform: rotate(3deg); }
 .d-chart img { object-fit: contain; padding: 2px 4px; }
 
 .doing-grid h3 { display: flex; align-items: baseline; gap: 0.45rem; margin-top: var(--s4);
