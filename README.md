@@ -14,7 +14,7 @@ Live site: **https://mingketian.github.io/** (GitHub Pages, branch `main`, folde
 | `activities.html` | Leadership & Services |
 | `cv.html` | CV page; shows `cv.pdf` (replace that file to update the CV) |
 
-Styles: `assets/style.css` (colors, type, and spacing are defined once at the top). Small behaviors (navigation shadow, fade-in on scroll): `assets/site.js`.
+Styles: `assets/style.css` (every page links it as `style.css?v=...`; after editing the CSS or `site.js`, change that version string on all pages so browsers fetch the new file) (colors, type, and spacing are defined once at the top). Small behaviors (navigation shadow, fade-in on scroll): `assets/site.js`.
 
 ## Kept offline
 

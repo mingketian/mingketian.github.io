@@ -1022,7 +1022,10 @@ a.doing-card:hover .d-arrow { opacity: 1; transform: translateX(3px); }
 @media (prefers-reduced-motion: reduce) { a.doing-card:hover .d-arrow { transform: none; } }
 
 /* Services: one picture per item under the date (a photo, or a logo on white), all the same shape */
-.activities-page .timeline.compact { --rail: 15rem; }   /* narrower picture column for the short service entries */
+.activities-page .timeline.compact { --rail: 18.5rem; }   /* year and picture side by side, then the text */
+.timeline.compact .item.has-figure > .when { display: flex; align-items: flex-start; gap: var(--s4); }
+.timeline.compact .item.has-figure > .when > span { flex: none; }
+.svc-figure { flex: 1 1 auto; min-width: 0; margin-top: 0; }
 .svc-figure img { aspect-ratio: 16 / 9; }
 .svc-figure.is-logo { background: #fff; }
 .svc-figure.is-logo img { object-fit: contain; padding: 0.75rem 1.25rem; }
@@ -1035,6 +1038,7 @@ a.doing-card:hover .d-arrow { opacity: 1; transform: translateX(3px); }
 .d-logo img { display: block; height: 14px; width: auto; }
 
 /* Experience: company logo tile at the start of each internship header */
+.xp-head { align-items: center; column-gap: var(--s5); }   /* logo, title block, and date share one centre line */
 .xp-head > div { flex: 1 1 16rem; }
 .xp-logo { flex: none; display: grid; place-items: center; width: 6.5rem; height: 3.25rem; padding: 0.4rem 0.6rem;
   border: 1px solid var(--rule); border-radius: 10px; background: #fff; overflow: hidden; }
@@ -1045,4 +1049,4 @@ a.doing-card:hover .d-arrow { opacity: 1; transform: translateX(3px); }
 
 /* Home: name block sits a little right of and below its centred spot beside the photo */
 @media (min-width: 1000px) { .home-id { position: relative; left: 1.75rem; top: 1.25rem; } }
-@media (max-width: 760px) { .svc-figure { max-width: 15rem; } }
+@media (max-width: 760px) { .svc-figure { max-width: 14rem; } }
