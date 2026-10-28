@@ -167,20 +167,20 @@ main { flex: 1 0 auto; width: 100%; max-width: var(--page); margin: 0 auto; padd
   display: grid; grid-template-columns: auto 22rem; justify-content: center; align-items: center; column-gap: 7rem;
 }
 .home-id { text-align: center; }
-.home-id h1 { font-size: 3.6rem; font-weight: 400; line-height: 1.1; color: var(--ink); white-space: nowrap; }
-.home-title { margin-top: var(--s5); font-size: 1.15rem; line-height: 1.45; color: var(--ink); }
+.home-id h1 { font-size: 3.25rem; font-weight: 400; line-height: 1.1; color: var(--ink); white-space: nowrap; }
+.home-title { margin-top: var(--s4); font-size: 1.05rem; line-height: 1.45; color: var(--ink); }
 .home-title span { display: block; }
 .home-title a { color: var(--cyan-text); font-weight: 400; }
 
 .home-icons { list-style: none; padding: 0; margin-top: var(--s5); display: flex; justify-content: center; gap: var(--s3); }
 .home-icons a {
   display: grid; place-items: center;
-  width: 2.5rem; height: 2.5rem; border-radius: 50%;
+  width: 2.3rem; height: 2.3rem; border-radius: 50%;
   background: var(--cyan-text); color: #fff;
   transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 .home-icons a:hover { background: var(--cyan); color: #fff; text-decoration: none; transform: translateY(-2px); box-shadow: 0 8px 16px -8px rgba(13, 84, 112, 0.6); }
-.home-icons svg { width: 1.15rem; height: 1.15rem; }
+.home-icons svg { width: 1.05rem; height: 1.05rem; }
 
 /* Round photo with a white mat */
 .home-photo { width: 100%; margin: 0; padding: 0; }
