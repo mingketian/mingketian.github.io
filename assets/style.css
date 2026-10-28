@@ -1087,3 +1087,9 @@ html, body { overflow-x: clip; }   /* full-width backdrops never cause sideways 
 /* Removed items stay hidden even if a browser still shows a cached copy of an older page */
 .brand { display: none !important; }
 .site-nav li:has(> a[href="interests.html"]), .site-nav li:has(> a[href="cv.pdf"]) { display: none !important; }
+
+/* ---------- CV page ---------- */
+.cv-page { text-align: center; }
+.cv-page .cv-lede { margin-top: var(--s3); color: var(--muted, #555); }
+.cv-page .actions { justify-content: center; }
+.cv-page .cv-frame { height: min(90vh, 1250px); background: #fff; }

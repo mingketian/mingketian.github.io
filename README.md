@@ -21,6 +21,7 @@ Note: with a free GitHub account, Pages only publishes from **public** repositor
 | `research.html` | Publications and manuscripts |
 | `experience.html` | Education, internships, projects |
 | `activities.html` | Leadership & Services |
+| `cv.html` | CV page; shows `cv.pdf` (replace that file to update the CV) |
 
 Styles: `assets/style.css` (colors, type, and spacing are defined once at the top). Small behaviors (navigation shadow, fade-in on scroll): `assets/site.js`.
 
@@ -36,7 +37,7 @@ Prediction markets chart (Interests page): `assets/pm-dashboard.js` draws it, `a
 
 Text placeholders in `[square brackets]` with a light-blue highlight still need your content. Search the HTML files for `todo` to find them.
 
-The CV menu item is removed until a new CV is added; the PDF buttons on the Research pages are hidden (marked with HTML comments) until the files in `papers/` are added.
+The PDF buttons on the Research pages are hidden (marked with HTML comments) until the files in `papers/` are added.
 
 ## Technical Skills icons (Experience page)
 
