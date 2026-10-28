@@ -2,16 +2,7 @@
 
 Plain HTML and CSS for GitHub Pages. No build step: the files in this folder are the whole site.
 
-Live address once Pages is turned on: **https://mingketian.github.io/**
-
-## Put it online
-
-1. Create a repository named exactly `mingketian.github.io`.
-2. Upload everything in this folder to the root of the repository (so `index.html` sits at the top level) and commit.
-3. In the repository, open **Settings → Pages**. Under "Build and deployment", choose **Deploy from a branch**, branch `main`, folder `/ (root)`, and save.
-4. After a minute or two, the site is live at https://mingketian.github.io/.
-
-Note: with a free GitHub account, Pages only publishes from **public** repositories. A private repository can publish with GitHub Pro (or Team/Enterprise), and the published site is still visible to anyone who has the link.
+Live site: **https://mingketian.github.io/** (GitHub Pages, branch `main`, folder `/ (root)`). Pushing to `main` republishes it in about a minute.
 
 ## Pages
 
@@ -25,20 +16,20 @@ Note: with a free GitHub account, Pages only publishes from **public** repositor
 
 Styles: `assets/style.css` (colors, type, and spacing are defined once at the top). Small behaviors (navigation shadow, fade-in on scroll): `assets/site.js`.
 
-Prediction markets chart (Interests page): `assets/pm-dashboard.js` draws it, `assets/pm-dashboard.css` styles it, and `assets/pm-data.js` holds the data. The data is currently **illustrative**. To show real results, replace the points in `pm-data.js` with an approved public portfolio index (one aggregate value per week or day, no trades or method details) and set `illustrative: false`.
+## Kept offline
 
-## Images and files still to add
+The Interests page and its files (prediction-markets chart scripts and images) are kept outside this repository, in `../held/`, until they are published again. To restore it, move `held/interests.html` and its `assets/` and `images/` files back here and add `<li><a href="interests.html">Interests</a></li>` to the menu on every page.
+
+## Still to add
 
 | Put this file | It appears |
 |---|---|
-| `images/profile.jpg` | Home page photo (portrait, 3:4). Until then your GitHub avatar shows. |
-| `papers/constrainer.pdf`, `atsolver.pdf`, `mobilityworld.pdf`, `staybert.pdf`, `magi.pdf` | The [PDF] links on the Research page |
-| `images/arts/art-1.jpg` to `art-4.jpg` | Arts gallery on the Interests page (square) |
+| `papers/constrainer.pdf`, `atsolver.pdf`, `mobilityworld.pdf`, `staybert.pdf`, `magi.pdf` | The PDF buttons on the Research pages (currently hidden with HTML comments) |
 
-Text placeholders in `[square brackets]` with a light-blue highlight still need your content. Search the HTML files for `todo` to find them.
+## Updating the CV
 
-The PDF buttons on the Research pages are hidden (marked with HTML comments) until the files in `papers/` are added.
+Replace `cv.pdf` with the new file (same name). The CV page and its Open PDF / Download buttons pick it up automatically.
 
 ## Technical Skills icons (Experience page)
 
-Each tool in the scrolling row shows `images/tech/<name>.svg` when that file exists, and a two-letter tile otherwise. File names: python, cplusplus, java, sql, bash, pytorch, tensorflow, scikitlearn, huggingface, langchain, langgraph, faiss, chroma, docker, aws, fastapi, git, linux, nvidia (all `.svg`). Official icons are available from each project's brand page or from open icon sets such as Simple Icons (simpleicons.org) or Devicon (devicon.dev); check each brand's usage guidelines.
+Each tool in the scrolling row shows a two-letter tile. To use a real icon, add `images/tech/<name>.svg` and put `<img src="images/tech/<name>.svg" alt="">` inside that tool's `tech-icon` span (both copies of the row). File names: python, cplusplus, java, sql, bash, pytorch, tensorflow, scikitlearn, huggingface, langchain, langgraph, faiss, chroma, docker, aws, fastapi, git, linux, nvidia (all `.svg`). Official icons are available from each project's brand page or from open icon sets such as Simple Icons (simpleicons.org) or Devicon (devicon.dev); check each brand's usage guidelines.

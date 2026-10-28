@@ -56,7 +56,7 @@
         </ul>
       </div>
       <figure class="home-photo">
-        <!-- Arch-framed photo (images/profile.jpg, portrait 3:4) with a white mat -->
+        <!-- Round photo (images/profile.jpg) with a white mat -->
         <div class="photo-arch">
           <img src="images/profile.jpg" alt="Mingke Tian"
                onerror="this.onerror=null; this.src='https://avatars.githubusercontent.com/u/143450726?v=4';">
@@ -99,27 +99,60 @@
 
     <section class="home-doing" aria-labelledby="doing-title">
       <h2 id="doing-title">What I&rsquo;m Doing</h2>
-      <!-- Each card's picture is in images/doing/ (16:10 works best). -->
-      <ul class="doing-grid">
-        <li><a class="doing-link" href="research.html">
-          <img class="plain" src="images/doing/ai-ml-research.jpg" alt="ATSolver system overview" loading="lazy" onerror="this.onerror=null; this.src='images/placeholder.svg';">
-          <h3>AI/ML Research</h3>
-          <p>Building structure-aware learning systems and agents for science and engineering with agentic AI and world models.</p>
+      <!-- Bento cards: each art panel layers one main picture with smaller ones (images/doing/, images/research/, images/leadership/). -->
+      <ul class="bento">
+        <li class="b-wide"><a class="b-card tone-blue" href="research.html">
+          <span class="b-art" aria-hidden="true">
+            <span class="b-sheet b-main"><img src="images/doing/ai-ml-research.jpg" alt="" loading="lazy"></span>
+            <span class="b-sheet b-side"><img src="images/research/constrainer.png" alt="" loading="lazy"></span>
+            <span class="b-badge"><b>NeurIPS 2026</b>Main Track</span>
+          </span>
+          <span class="b-body">
+            <span class="b-kicker">01 &middot; Research</span>
+            <h3>AI/ML Research</h3>
+            <p>Building structure-aware learning systems and agents for science and engineering with agentic AI and world models.</p>
+            <span class="b-tags"><span>Agentic AI</span><span>World models</span><span>Scientific ML</span></span>
+            <span class="b-go">Research <span aria-hidden="true">&rarr;</span></span>
+          </span>
         </a></li>
-        <li><a class="doing-link" href="experience.html#industry">
-          <img src="images/doing/applied-engineering.jpg" alt="SIASUN humanoid reaching for a parcel" loading="lazy" onerror="this.onerror=null; this.src='images/placeholder.svg';">
-          <h3>Applied Engineering</h3>
-          <p>Deploying AI systems in industry, from real robot learning to multimodal understanding and retrieval-augmented agents.</p>
+        <li><a class="b-card tone-slate" href="experience.html#industry">
+          <span class="b-art" aria-hidden="true">
+            <span class="b-sheet b-photo"><img src="images/doing/applied-engineering.jpg" alt="" loading="lazy"></span>
+            <span class="b-sheet b-inset"><img src="images/research/parcelvla.jpg" alt="" loading="lazy"></span>
+          </span>
+          <span class="b-body">
+            <span class="b-kicker">02 &middot; Industry</span>
+            <h3>Applied Engineering</h3>
+            <p>Deploying AI systems in industry, from real robot learning to multimodal understanding and retrieval-augmented agents.</p>
+            <span class="b-tags"><span>SIASUN</span><span>Ricoh USA</span><span>Innova AI</span></span>
+            <span class="b-go">Experience <span aria-hidden="true">&rarr;</span></span>
+          </span>
         </a></li>
-        <li><a class="doing-link" href="activities.html#leadership">
-          <img src="images/doing/community-leadership.jpg" alt="EUMMA members in a lecture hall" loading="lazy" onerror="this.onerror=null; this.src='images/placeholder.svg';">
-          <h3>Community Leadership</h3>
-          <p>Leading 100+ members as President of EUMMA to grow the math community and the &ldquo;AI4SE&rdquo; initiative to promote AI literacy.</p>
+        <li><a class="b-card tone-rose" href="activities.html#leadership">
+          <span class="b-art b-fan" aria-hidden="true">
+            <span class="b-sheet b-l"><img src="images/leadership/eumma-2.jpg" alt="" loading="lazy"></span>
+            <span class="b-sheet b-r"><img src="images/leadership/eumma-4.jpg" alt="" loading="lazy"></span>
+            <span class="b-sheet b-c"><img src="images/doing/community-leadership.jpg" alt="" loading="lazy"></span>
+            <span class="b-badge"><b>100+</b>members</span>
+          </span>
+          <span class="b-body">
+            <span class="b-kicker">03 &middot; Community</span>
+            <h3>Community Leadership</h3>
+            <p>Leading 100+ members as President of EUMMA to grow the math community and the &ldquo;AI4SE&rdquo; initiative to promote AI literacy.</p>
+            <span class="b-tags"><span>EUMMA President</span><span>AI4SE</span><span>Kaggle &amp; MCM training</span></span>
+            <span class="b-go">Leadership <span aria-hidden="true">&rarr;</span></span>
+          </span>
         </a></li>
-        <li><div class="doing-link">
-          <img class="on-white" src="images/doing/prediction-markets.png" alt="Illustration: a market price line converging toward a model&rsquo;s probability estimate" loading="lazy" onerror="this.onerror=null; this.src='images/placeholder.svg';">
-          <h3>Trading &amp; Modeling</h3>
-          <p>Forecasting real-world events with probabilistic models and managing risk on prediction markets and crypto trading.</p>
+        <li class="b-wide"><div class="b-card tone-mint">
+          <span class="b-art" aria-hidden="true">
+            <span class="b-sheet b-chart"><img src="images/doing/prediction-markets-wide.png" alt="" loading="lazy"></span>
+          </span>
+          <span class="b-body">
+            <span class="b-kicker">04 &middot; Markets</span>
+            <h3>Trading &amp; Modeling</h3>
+            <p>Forecasting real-world events with probabilistic models and managing risk on prediction markets and crypto trading.</p>
+            <span class="b-tags"><span>Prediction markets</span><span>Probabilistic forecasting</span><span>Risk management</span></span>
+          </span>
         </div></li>
       </ul>
     </section>

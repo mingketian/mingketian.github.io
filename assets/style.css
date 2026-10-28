@@ -169,7 +169,7 @@ main { flex: 1 0 auto; width: 100%; max-width: var(--page); margin: 0 auto; padd
 /* The block is exactly as wide as the name, so the M of Mingke lines up with the text below; the lines under it are centered */
 .home-id { width: min-content; text-align: center; }
 @media (min-width: 1000px) {
-  .home-id { position: relative; left: 5.5rem; top: 6.25rem; }
+  .home-id { position: relative; left: 5.5rem; top: 2.5rem; }
   .home-hero .home-photo { margin-right: 4.5rem; }   /* photo nudged slightly left */
 }   /* nudged right and down beside the photo */
 .home-id h1 { font-size: 4rem; font-weight: 400; line-height: 1.1; color: var(--ink); white-space: nowrap; }
@@ -187,16 +187,16 @@ main { flex: 1 0 auto; width: 100%; max-width: var(--page); margin: 0 auto; padd
 .home-icons a:hover { background: var(--cyan); color: #fff; text-decoration: none; transform: translateY(-2px); box-shadow: 0 8px 16px -8px rgba(13, 84, 112, 0.6); }
 .home-icons svg { width: 1.15rem; height: 1.15rem; }
 
-/* Arch photo with a white mat; its right edge lines up with the text below */
+/* Round photo with a white mat */
 .home-photo { flex: none; width: 25rem; margin: 0; padding: 0; }
 .photo-arch {
   padding: 10px; background: #fff;
-  border-radius: 999px 999px 22px 22px;
+  border-radius: 50%;
   box-shadow: 0 2px 8px rgba(19, 48, 77, 0.06), 0 30px 60px -28px rgba(19, 48, 77, 0.45);
 }
 .home-photo img {
-  display: block; width: 100%; aspect-ratio: 3 / 4; object-fit: cover; object-position: 50% 35%;
-  background: var(--sky); border-radius: 999px 999px 14px 14px;
+  display: block; width: 100%; aspect-ratio: 1 / 1; object-fit: cover; object-position: 50% 42%;
+  background: var(--sky); border-radius: 50%;
 }
 .home-intro {
   margin-top: var(--s8);
@@ -221,31 +221,11 @@ main { flex: 1 0 auto; width: 100%; max-width: var(--page); margin: 0 auto; padd
 }
 .home-news .key:hover { color: var(--red); text-decoration-color: var(--red); }
 
-/* What I'm Doing: four cards, photo on top */
+/* What I'm Doing: section spacing (the cards are styled under "bento cards" below) */
 .home-doing { margin-top: var(--s8); }
 .home-doing h2 { color: var(--navy); font-size: 2rem; font-weight: 700; line-height: 1.2; }
-.doing-grid { list-style: none; padding: 0; margin-top: var(--s5); display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--s6) var(--s5); }
-.doing-grid img {
-  width: 100%; aspect-ratio: 16 / 10; object-fit: cover; border-radius: 12px; background: var(--sky);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-/* A figure shown as itself: no frame, no fill, whole figure visible */
-.doing-grid img.plain { object-fit: contain; background: transparent; border: 0; border-radius: 0; }
-.doing-grid li:hover img.plain { box-shadow: none; }
-.doing-grid img.on-white { background: #fff; object-fit: contain; border: 1px solid var(--rule); }
-.doing-grid li:hover img { transform: translateY(-4px); box-shadow: 0 18px 36px -20px rgba(6, 60, 75, 0.5); }
-.doing-grid h3 { transition: color 0.2s ease; }
-.doing-link { display: block; color: inherit; }
 /* Jump targets from the home cards land below the sticky navigation bar */
 .section-title[id], .card[id] { scroll-margin-top: 5rem; }
-.doing-link:hover { color: inherit; text-decoration: none; }
-.doing-grid li:hover h3 { color: var(--cyan-text); }
-.doing-grid h3 { margin-top: var(--s4); color: var(--ink); font-size: 1.3rem; font-weight: 400; line-height: 1.25; }
-.doing-grid p { margin-top: var(--s2); color: var(--ink); font-family: var(--font); font-size: var(--fs-meta); line-height: 1.6; }
-
-@media (max-width: 960px) {
-  .doing-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-}
 
 @media (max-width: 760px) {
   .home-hero { flex-direction: column; gap: var(--s6); }
@@ -259,8 +239,6 @@ main { flex: 1 0 auto; width: 100%; max-width: var(--page); margin: 0 auto; padd
   .home-news li { font-size: 1rem; }
   .home-doing { margin-top: var(--s7); }
   .home-doing h2 { font-size: 1.625rem; }
-  .doing-grid { grid-template-columns: 1fr; gap: var(--s6); }
-  .doing-grid h3 { min-height: 0; }
 }
 
 /* ---------- Rows: a left rail (figure or date) and a text column ---------- */
@@ -854,7 +832,7 @@ main { flex: 1 0 auto; width: 100%; max-width: var(--page); margin: 0 auto; padd
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition: none !important; animation: none !important; }
   .card:hover, .paper:hover .figure-box, .viz-grid a:hover, .gallery a:hover, .gallery a:hover img,
-  .home-icons a:hover, .doing-grid li:hover img { transform: none; }
+  .home-icons a:hover { transform: none; }
   .marquee-track { animation: none; flex-wrap: wrap; width: auto; }
   .marquee-group { flex-wrap: wrap; row-gap: var(--s4); }
   .marquee-group[aria-hidden] { display: none; }
@@ -897,7 +875,6 @@ body { color: var(--ink); }
 .home-news .key:hover { color: var(--cyan-deep); text-decoration-color: var(--cyan-deep); }
 .home-icons a { background: var(--navy); }
 .home-icons a:hover { background: var(--cyan); box-shadow: 0 8px 16px -8px rgba(37, 99, 235, 0.6); }
-.doing-grid li:hover h3 { color: var(--cyan-text); }
 
 /* surfaces */
 .card, .xp-card, .proj-tile { border-color: var(--rule); border-radius: 12px; box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06); }
@@ -965,100 +942,11 @@ body { color: var(--ink); }
 .pp-authors .me { color: var(--ink); font-weight: 700; text-decoration: underline; text-decoration-thickness: 1.5px; text-underline-offset: 3px; }
 
 /* ==========================================================
-   Home and Projects refresh (October 2026)
-   Calmer hero, numbered section headers, a news list with a
-   date column, collage cards for "What I'm Doing", an MK mark
-   in the navigation bar, and a moving backdrop behind Projects.
+   Refresh (October 2026): Projects cards, CV page, round home
+   photo, and the "What I'm Doing" cards on the home page.
    ========================================================== */
 html, body { overflow-x: clip; }   /* full-width backdrops never cause sideways scrolling */
 
-
-/* Section rhythm: wide gaps, a soft rule that fades at both ends, numbered eyebrows */
-.home-sec { position: relative; margin-top: 6.5rem; padding-top: 3.5rem; }
-.home-sec::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 1px;
-  background: linear-gradient(90deg, transparent, #cbd5e1 18%, #cbd5e1 82%, transparent); }
-.home-sec::after { content: ""; position: absolute; top: -4px; left: 50%; width: 9px; height: 9px; margin-left: -4.5px;
-  border: 1px solid #93c5fd; border-radius: 50%; background: #fff; }
-.eyebrow { display: flex; align-items: center; gap: 0.7rem; margin-bottom: var(--s3);
-  color: var(--cyan-text); font-family: var(--font); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; }
-.eyebrow span { font-variant-numeric: tabular-nums; }
-.eyebrow span::after { content: ""; display: inline-block; width: 2.25rem; height: 1px; margin-left: 0.7rem; vertical-align: middle; background: currentColor; opacity: 0.5; }
-.home-sec h2 { color: var(--ink); font-size: 2.1rem; font-weight: 400; line-height: 1.2; letter-spacing: -0.01em; }
-
-/* Research Interests: four small panels */
-.home-interests ul.interest-grid { list-style: none; padding: 0; margin-top: var(--s6);
-  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s4); }
-.interest-grid li { position: relative; padding: var(--s5) var(--s5) var(--s5) 1.75rem; margin: 0;
-  border: 1px solid var(--rule); border-radius: 14px; background: linear-gradient(135deg, #fff 40%, #f5f8ff);
-  transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease; }
-.home-interests .interest-grid li + li { margin-top: 0; }
-.interest-grid li::before { content: ""; position: absolute; left: 0.9rem; top: 1.65rem; bottom: 1.65rem; width: 3px; border-radius: 3px;
-  background: linear-gradient(#2563eb, #93c5fd); }
-.interest-grid li:hover { border-color: #bfdbfe; transform: translateY(-2px); box-shadow: 0 14px 30px -22px rgba(30, 58, 138, 0.45); }
-.interest-grid b { display: block; color: var(--ink); font-size: 1.15rem; font-weight: 700; }
-.interest-grid span { display: block; margin-top: var(--s1); color: var(--muted); font-family: var(--font); font-size: var(--fs-meta); line-height: 1.55; }
-
-/* Recent News: date column, hairline rows */
-.home-news ul.news-list { margin-top: var(--s6); border-top: 1px solid var(--rule); }
-.news-list li { display: grid; grid-template-columns: 7rem minmax(0, 1fr); gap: var(--s5); padding: var(--s4) 0; border-bottom: 1px solid var(--rule); }
-.home-news .news-list li + li { margin-top: 0; }
-.news-list time { padding-top: 0.15rem; color: var(--cyan-text); font-family: var(--font); font-size: 0.8125rem; font-weight: 700;
-  letter-spacing: 0.08em; text-transform: uppercase; font-variant-numeric: tabular-nums; white-space: nowrap; }
-.news-list p { color: #1e293b; font-size: 1.0625rem; line-height: 1.6; }
-.news-list li { transition: background-color 0.2s ease; }
-.news-list li:hover { background: linear-gradient(90deg, rgba(239, 246, 255, 0), #eff6ff 30%, rgba(239, 246, 255, 0)); }
-
-/* What I'm Doing: collage cards */
-.explore-grid { list-style: none; padding: 0; margin-top: var(--s6); display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s5); }
-.explore-card { --tint-a: #eaf1ff; --tint-b: #d9e6fb; --tint-ink: #1d4ed8;
-  display: flex; flex-direction: column; height: 100%; overflow: hidden; color: inherit;
-  border: 1px solid var(--rule); border-radius: 18px; background: #fff;
-  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.05);
-  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease; }
-.explore-card:hover { color: inherit; text-decoration: none; transform: translateY(-4px); border-color: #c7d6ee;
-  box-shadow: 0 2px 4px rgba(15, 23, 42, 0.04), 0 26px 50px -30px rgba(30, 58, 138, 0.45); }
-.tint-slate { --tint-a: #eef0f6; --tint-b: #dde2ee; --tint-ink: #334155; }
-.tint-rose  { --tint-a: #fbf0f0; --tint-b: #f3dfe0; --tint-ink: #9f1239; }
-.tint-mint  { --tint-a: #ecf6f3; --tint-b: #d8ebe5; --tint-ink: #0f766e; }
-
-.ex-art { display: grid; grid-template-columns: 1.55fr 1fr; grid-template-rows: 1fr 1fr; gap: 8px; height: 15.5rem; padding: 12px;
-  background: radial-gradient(120% 90% at 100% 0%, rgba(255, 255, 255, 0.85), transparent 60%), linear-gradient(160deg, var(--tint-a), var(--tint-b)); }
-.ex-tile { position: relative; overflow: hidden; border-radius: 10px; background: #fff;
-  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.06), 0 6px 16px -10px rgba(15, 23, 42, 0.3); }
-.ex-tile.big { grid-row: 1 / 3; }
-.ex-tile img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
-.ex-tile.fig img { object-fit: contain; padding: 6px; }
-.explore-card:hover .ex-tile img { transform: scale(1.05); }
-.ex-tile.logo { display: flex; align-items: center; justify-content: center; gap: 0.6rem; color: #111; }
-.ex-tile.logo svg { width: 2.4rem; height: 2.4rem; flex: none; }
-.ex-tile.logo b { font-family: var(--serif); font-size: 1.3rem; font-weight: 400; letter-spacing: 0.32em; }
-.ex-tile.note { display: flex; flex-direction: column; justify-content: center; gap: 2px; padding: 0 var(--s4); font-family: var(--font); }
-.ex-tile.note small { color: var(--faint); font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; }
-.ex-tile.note b { color: var(--tint-ink); font-size: 0.95rem; font-weight: 700; line-height: 1.35; }
-.ex-tile.note small + b + small { letter-spacing: 0.02em; text-transform: none; font-weight: 500; }
-
-.ex-label { position: relative; flex: 1; padding: var(--s5) 3.5rem var(--s5) var(--s5); }
-.ex-index { display: block; color: var(--tint-ink); font-family: var(--font); font-size: 0.7rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; }
-.ex-label h3 { margin-top: var(--s2); color: var(--ink); font-size: 1.45rem; font-weight: 400; line-height: 1.25; transition: color 0.2s ease; }
-.ex-label p { margin-top: var(--s2); color: var(--muted); font-family: var(--font); font-size: var(--fs-meta); line-height: 1.6; }
-.ex-arrow { position: absolute; top: var(--s5); right: var(--s5); display: grid; place-items: center; width: 2rem; height: 2rem;
-  border: 1px solid var(--rule); border-radius: 50%; color: var(--tint-ink); font-family: var(--font); font-size: 0.95rem;
-  transition: transform 0.25s ease, background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease; }
-.explore-card:hover h3 { color: var(--tint-ink); }
-.explore-card:hover .ex-arrow { transform: translate(2px, -2px); border-color: var(--tint-ink); background: var(--tint-ink); color: #fff; }
-
-@media (max-width: 760px) {
-  .home-sec { margin-top: 4rem; padding-top: 2.5rem; }
-  .home-sec h2 { font-size: 1.7rem; }
-  .home-interests ul.interest-grid, .explore-grid { grid-template-columns: 1fr; }
-  .news-list li { grid-template-columns: 1fr; gap: var(--s1); }
-  .ex-art { height: 13rem; }
-  .ex-tile.logo { flex-direction: column; gap: 0.35rem; }
-  .ex-tile.logo svg { width: 1.7rem; height: 1.7rem; }
-  .ex-tile.logo b { font-size: 0.8rem; letter-spacing: 0.24em; }
-  .ex-tile.note { padding: 0 var(--s3); }
-  .ex-tile.note b { font-size: 0.8rem; }
-}
 
 /* Projects: two-column cards with a date line, short title, and one-line subtitle */
 .proj-band { margin-top: var(--s8); }
@@ -1080,9 +968,6 @@ html, body { overflow-x: clip; }   /* full-width backdrops never cause sideways 
 .proj-band .project-links a { border-radius: 999px; padding: 0.4rem 1rem; }
 .proj-band .project-links a:not(.primary) { background: rgba(255, 255, 255, 0.9); }
 @media (max-width: 860px) { .proj-band .proj-grid { grid-template-columns: 1fr; } .proj-band .proj-body { padding: var(--s5); } }
-@media (prefers-reduced-motion: reduce) {
-  .explore-card:hover, .interest-grid li:hover { transform: none; }
-}
 
 /* Removed items stay hidden even if a browser still shows a cached copy of an older page */
 .brand { display: none !important; }
@@ -1093,3 +978,79 @@ html, body { overflow-x: clip; }   /* full-width backdrops never cause sideways 
 .cv-page .cv-lede { margin-top: var(--s3); color: var(--muted, #555); }
 .cv-page .actions { justify-content: center; }
 .cv-page .cv-frame { height: min(90vh, 1250px); background: #fff; }
+
+/* ---------- What I'm Doing (home): bento cards ----------
+   Wide and narrow cards alternate (7 + 5, then 5 + 7 columns). Each art panel
+   layers a main picture with smaller ones on a tinted, dotted mat. */
+.bento { list-style: none; padding: 0; margin-top: var(--s6);
+  display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: var(--s5); }
+.bento > li { grid-column: span 5; margin: 0; }
+.bento > li.b-wide { grid-column: span 7; }
+.b-card { --tone: #1d4ed8; --mat-a: #eef4ff; --mat-b: #dbe7fb;
+  display: flex; flex-direction: column; height: 100%; overflow: hidden; color: inherit;
+  border: 1px solid var(--rule); border-radius: 20px; background: #fff;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04), 0 16px 36px -30px rgba(15, 23, 42, 0.5);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease; }
+.b-card.tone-slate { --tone: #334155; --mat-a: #f2f4f8; --mat-b: #e0e5ee; }
+.b-card.tone-rose  { --tone: #9f1239; --mat-a: #fdf2f3; --mat-b: #f4dfe2; }
+.b-card.tone-mint  { --tone: #0f766e; --mat-a: #eff8f5; --mat-b: #d9eee7; }
+a.b-card:hover { color: inherit; text-decoration: none; transform: translateY(-3px); border-color: #cbd5e1;
+  box-shadow: 0 2px 4px rgba(15, 23, 42, 0.04), 0 28px 52px -30px rgba(15, 23, 42, 0.55); }
+
+.b-art { position: relative; display: block; height: 16rem; overflow: hidden;
+  background:
+    radial-gradient(rgba(15, 23, 42, 0.09) 1px, transparent 1.2px) 0 0 / 14px 14px,
+    linear-gradient(150deg, var(--mat-a), var(--mat-b));
+  border-bottom: 1px solid rgba(148, 163, 184, 0.25); }
+.b-sheet { position: absolute; display: block; overflow: hidden; border-radius: 10px; background: #fff;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.08), 0 12px 26px -14px rgba(15, 23, 42, 0.45); }
+.b-sheet img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+/* 01 Research: system figure with a second paper figure tucked behind it */
+.b-main { left: 5%; top: 11%; width: 66%; height: 78%; z-index: 2; }
+.b-main img { object-fit: contain; padding: 8px; }
+.b-side { right: 4%; top: 8%; width: 30%; height: 84%; transform: rotate(3deg); }
+.b-side img { object-fit: contain; padding: 6px; }
+/* 02 Industry: photo with a small inset */
+.b-photo { inset: 14px; }
+.b-inset { right: 26px; top: 26px; width: 34%; aspect-ratio: 1120 / 677; border: 3px solid #fff; transform: rotate(-2deg); }
+/* 03 Community: three photos fanned out */
+.b-fan .b-c { left: 21%; top: 12%; width: 58%; height: 76%; z-index: 2; border: 3px solid #fff; }
+.b-fan .b-l, .b-fan .b-r { top: 20%; width: 42%; height: 60%; border: 3px solid #fff; }
+.b-fan .b-l { left: 5%; transform: rotate(-6deg); }
+.b-fan .b-r { right: 5%; transform: rotate(6deg); }
+/* 04 Markets: the chart on a white sheet */
+.b-chart { left: 5%; right: 5%; top: 11%; bottom: 11%; }
+.b-chart img { object-fit: contain; padding: 8px 12px; }
+
+.b-badge { position: absolute; left: 14px; bottom: 14px; z-index: 3; display: flex; align-items: baseline; gap: 0.4rem;
+  padding: 0.35rem 0.75rem; border-radius: 999px; background: var(--tone); color: #fff;
+  font-family: var(--font); font-size: 0.75rem; font-weight: 500; box-shadow: 0 8px 18px -10px rgba(15, 23, 42, 0.6); }
+.b-badge b { font-size: 0.8125rem; font-weight: 800; letter-spacing: 0.01em; }
+.b-fan .b-badge { left: auto; right: 14px; top: 14px; bottom: auto; }
+
+.b-body { display: flex; flex: 1; flex-direction: column; padding: var(--s5) var(--s6) var(--s6); }
+.b-kicker { color: var(--tone); font-family: var(--font); font-size: 0.72rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; }
+.bento h3 { margin-top: var(--s2); color: var(--ink); font-size: 1.5rem; font-weight: 400; line-height: 1.25; letter-spacing: -0.01em; transition: color 0.2s ease; }
+.bento p { margin-top: var(--s2); color: var(--muted); font-family: var(--font); font-size: 0.95rem; line-height: 1.65; }
+.b-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: var(--s4); }
+.b-tags span { padding: 0.2rem 0.65rem; border: 1px solid rgba(148, 163, 184, 0.45); border-radius: 999px;
+  color: #475569; font-family: var(--font); font-size: 0.75rem; font-weight: 600; white-space: nowrap; }
+.b-go { display: inline-flex; align-items: center; gap: 0.4rem; margin-top: auto; padding-top: var(--s5);
+  color: var(--tone); font-family: var(--font); font-size: var(--fs-meta); font-weight: 700; }
+.b-go span { transition: transform 0.2s ease; }
+a.b-card:hover h3 { color: var(--tone); }
+a.b-card:hover .b-go span { transform: translateX(3px); }
+
+@media (max-width: 1000px) {
+  .bento > li, .bento > li.b-wide { grid-column: span 6; }
+  .b-art { height: 14rem; }
+}
+@media (max-width: 680px) {
+  .bento { grid-template-columns: 1fr; gap: var(--s5); }
+  .bento > li, .bento > li.b-wide { grid-column: auto; }
+  .b-art { height: 13rem; }
+  .b-body { padding: var(--s5); }
+  .bento h3 { font-size: 1.35rem; }
+}
+@media (prefers-reduced-motion: reduce) { a.b-card:hover, a.b-card:hover .b-go span { transform: none; } }
