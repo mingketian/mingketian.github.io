@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>CONSTRAINER | Mingke Tian</title>
-  <meta name="description" content="Mingke Tian, undergraduate in applied mathematics, statistics, and computer science at Emory University.">
+  <meta name="description" content="CONSTRAINER (NeurIPS 2026): a constraint-conditioned foundation model for graph-structured optimization that treats constraints as structured prompts.">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Mingke Tian">
   <meta property="og:title" content="CONSTRAINER | Mingke Tian">
@@ -18,7 +18,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Charis+SIL:ital,wght@0,400;0,700;1,400;1,700&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,700;1,800&display=swap">
-  <link rel="stylesheet" href="assets/style.css?v=20261027m">
+  <link rel="stylesheet" href="assets/style.css?v=20261028a">
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -37,74 +37,203 @@
     </div>
   </header>
 
-  <main id="main" class="paper-page">
+  <div class="pp-progress" aria-hidden="true"><span></span></div>
+  <main id="main" class="paper-page pp-v2">
     <a class="pp-back" href="research.html">&larr; All research</a>
     <header class="pp-hero">
       <p class="paper-badges"><span class="badge accepted">NeurIPS 2026 &middot; Main Track</span></p>
       <h1>CONSTRAINER: Promptable Graph-Structured Optimization via Constraint Conditioning</h1>
       <p class="pp-authors">Zeeshan Memon, <span class="me">Mingke Tian</span>, Xinyuan Song, Hongwei Jin, Kibaek Kim, Liang Zhao</p>
-      <div class="pp-buttons"><!-- Paper (PDF) button hidden until papers/constrainer.pdf is added --><a class="pp-btn" href="images/research/constrainer.png" target="_blank" rel="noopener">Full-size figure<span aria-hidden="true"> &#8599;</span></a><a class="pp-btn" href="#citation">Cite</a></div>
+      <p class="pp-affil">Department of Computer Science, Emory University &middot; Argonne National Laboratory</p>
+      <div class="pp-buttons"><!-- Paper (PDF) button hidden until papers/constrainer.pdf is added --><a class="pp-btn" href="#abstract">Abstract</a><a class="pp-btn" href="#results">Results</a><a class="pp-btn" href="images/research/constrainer.png" target="_blank" rel="noopener">Full-size figure<span aria-hidden="true"> &#8599;</span></a><a class="pp-btn primary" href="#citation">BibTeX</a></div>
+      <dl class="pp-facts">
+        <div><dt>Problem</dt><dd>Graph-structured constrained optimization</dd></div>
+        <div><dt>Domains</dt><dd>Power grids &middot; MILP (routing, packing, scheduling)</dd></div>
+        <div><dt>Key idea</dt><dd>Constraints as structured prompts</dd></div>
+        <div><dt>Status</dt><dd>Accepted, to appear</dd></div>
+      </dl>
     </header>
 
-    <p class="pp-lede">Learned solvers for graph-structured optimization usually bake their constraints into training, so a new constraint means a new model. CONSTRAINER treats constraints as a prompt: they are written down symbolically, encoded on their own, and injected into a graph transformer when the problem is solved. One model can then follow the constraint set it is given, including on a problem family it was not trained on.</p>
+    <div class="pp-tldr"><span class="pp-label">TL;DR</span><p>Learned solvers usually bake their constraints into the network, so every reformulation needs a new model. CONSTRAINER parses each constraint into an operator graph, embeds it with a contrastively trained GNN, and lets a shared graph transformer attend to those embeddings. One model then follows whatever constraint set it is given, and transfers to new constraint compositions with little or no finetuning.</p></div>
 
     <figure class="pp-figure">
-      <a href="images/research/constrainer.png" target="_blank" rel="noopener" title="Open full-size figure"><img src="images/research/constrainer.png" alt="Methodology overview. (a) Constraints are encoded and condition a graph transformer. (b) Each constraint is parsed into an operator DAG and embedded by a GNN. (c) Node states attend over the constraint embeddings between HGT layers."></a>
-      <figcaption><b>Figure 1.</b> Methodology overview. (a) Constraints are encoded and condition a graph transformer. (b) Each constraint is parsed into an operator DAG and embedded by a GNN. (c) Node states attend over the constraint embeddings between HGT layers.</figcaption>
+      <a href="images/research/constrainer.png" target="_blank" rel="noopener" title="Open full-size figure"><img src="images/research/constrainer.png" alt="CONSTRAINER methodology overview: a constraint encoder parses constraints into operator DAGs and embeds them with a GNN; a heterogeneous graph transformer over the problem graph attends to the constraint embeddings through a cross-attention block between its layers; a task decoder outputs the solution." loading="lazy"></a>
+      <figcaption><b>Figure 1.</b> Method overview. (a) The problem graph and the constraint embeddings feed a shared graph transformer. (b) Each constraint is parsed into an operator DAG and encoded by a GNN. (c) Between HGT layers, every variable node attends over all constraint embeddings.</figcaption>
     </figure>
-    <nav class="pp-toc" aria-label="On this page"><span>On this page</span><a href="#sec-1">Problem setup</a><a href="#sec-2">Encoding constraints as operator graphs</a><a href="#sec-3">Conditioning the graph transformer</a><a href="#sec-4">Results</a><a href="#sec-5">Conclusion</a><a href="#citation">Citation</a><a href="#refs">References</a></nav>
+
+    <div class="pp-layout">
+      <nav class="pp-toc" aria-label="On this page"><span>On this page</span><a href="#abstract">Abstract</a><a href="#sec-1">Motivation</a><a href="#sec-2">Problem formulation</a><a href="#sec-3">Constraint encoder</a><a href="#sec-4">Conditioned backbone</a><a href="#sec-5">Theory</a><a href="#results">Experiments</a><a href="#sec-7">Ablations</a><a href="#sec-8">Conclusion</a><a href="#citation">Citation</a></nav>
 
     <article class="pp-doc">
+      <section class="pp-sec" id="abstract">
+        <h2>Abstract</h2>
+        <p>Neural methods for graph-structured optimization perform well within individual problem classes but are typically trained for fixed formulations, which limits reuse across related problem variants. Recent foundation-style models share backbones across tasks, yet they mainly share instance-level representations and treat feasibility constraints implicitly. A key source of shared structure across constrained optimization problems is the constraint set itself, which overlaps substantially across tasks. We propose <b>CONSTRAINER</b>, a constraint-conditioned framework that treats constraints as structured inputs: constraint specifications are parsed into operator graphs and encoded by a graph neural network into invariant constraint embeddings, which condition a shared backbone for solution prediction. On power-grid optimization and mixed-integer linear programming, CONSTRAINER improves solution optimality and enables efficient transfer and generalization compared with baseline methods.</p>
+      </section>
+
       <section class="pp-sec" id="sec-1">
-        <h2><span class="pp-secnum">1</span>Problem setup</h2>
-        <p>We consider optimization problems defined on a graph, where the instance fixes the structure and a separate list of constraints restricts which solutions are allowed:</p>
-        <div class="pp-eq">\[\min_{\mathbf{x}}\ f_G(\mathbf{x})\qquad \text{subject to}\qquad c_j(\mathbf{x})\le 0,\quad j=1,\dots,m\]</div>
-        <p class="pp-where-lead">where</p>
-        <dl class="pp-where">
-          <dt>\(G=(V,E)\)</dt><dd>the problem graph, for example a power network or a routing graph</dd>
-          <dt>\(\mathbf{x}\)</dt><dd>decision variables attached to nodes and edges</dd>
-          <dt>\(f_G\)</dt><dd>the objective of the instance</dd>
-          <dt>\(c_j\)</dt><dd>the \(j\)-th constraint, given as a symbolic expression such as a line limit \(P^2+Q^2\le S_{\max}^2\)</dd>
-        </dl>
-        <p>The goal is a single model that reads both \(G\) and the constraint list \(\{c_j\}\), instead of one model per constraint set.</p>
+        <h2><span class="pp-secnum">1</span>Motivation</h2>
+        <p>Real graph-structured systems such as power grids, logistics networks, and supply chains are re-optimized constantly. Most reformulations do not change the graph, the decision variables, or the objective; they add, remove, or tighten <em>constraints</em> as operating conditions, regulations, or reliability criteria change. Across tasks, feasible regions are governed by a small number of recurring constraint families: conservation laws and capacity limits in physical networks, and assignment, flow, and scheduling constraints in combinatorial problems.</p>
+        <p>This makes the constraint set a natural unit of reuse. Building a single promptable model around it raises three challenges:</p>
+        <ol class="pp-list">
+          <li><b>Relational structure.</b> Constraints encode dependencies among variables and nodes; flattening them into vectors discards that structure.</li>
+          <li><b>Equivalent formulations.</b> The same constraint can be written many ways (rescalings, rearranged terms), so the model must be invariant to surface syntax.</li>
+          <li><b>Composition.</b> Constraint information must be interleaved with the graph and objective so that the model adapts to new constraint combinations it has not seen.</li>
+        </ol>
+        <div class="pp-callout"><span class="pp-label">Contributions</span>
+          <ul>
+            <li>A constraint-conditioned foundation model with a structured encoder that parses constraints into operator graphs and learns invariant embeddings.</li>
+            <li>A conditioning backbone that generalizes across constraint families and supports compositional transfer between reformulated tasks.</li>
+            <li>A stability guarantee: admissible reparameterizations of a constraint change its embedding by a bounded amount.</li>
+            <li>Experiments on power-grid optimization and MILP benchmarks showing better solutions and more efficient transfer than existing baselines.</li>
+          </ul>
+        </div>
       </section>
+
       <section class="pp-sec" id="sec-2">
-        <h2><span class="pp-secnum">2</span>Encoding constraints as operator graphs</h2>
-        <p>Each constraint is parsed into a directed acyclic graph of operators and encoded by a graph neural network:</p>
-        <div class="pp-eq">\[c_j\;\longmapsto\;\mathrm{DAG}(c_j),\qquad \mathbf{e}_j=\mathrm{GNN}\big(\mathrm{DAG}(c_j)\big)\in\mathbb{R}^d\]</div>
+        <h2><span class="pp-secnum">2</span>Problem formulation</h2>
+        <p>A graph-structured constrained optimization problem is a triple of a graph, a constraint set, and an objective. Decision variables live on the nodes and edges of the graph; the constraints decide which assignments are feasible.</p>
+        <div class="pp-eq">\[P=(G,\,C,\,f),\qquad X=\{\,x\in\Omega \mid c(x)=\text{true}\ \ \forall c\in C\,\},\qquad x^\star\in\arg\min_{x\in X} f(x)\]</div>
         <p class="pp-where-lead">where</p>
         <dl class="pp-where">
-          <dt>\(\mathrm{DAG}(c_j)\)</dt><dd>the operator graph of \(c_j\): leaves are variables and constants, internal nodes are operators such as \(+\), \(\mathrm{pow}\), and \(\le\)</dd>
-          <dt>\(\mathbf{e}_j\)</dt><dd>the constraint embedding used as a prompt</dd>
-          <dt>\(d\)</dt><dd>the embedding width</dd>
+          <dt>\(G=(V,E)\)</dt><dd>the problem graph, for example buses and transmission lines, or cities and roads</dd>
+          <dt>\(C\)</dt><dd>explicit equality, inequality, and domain constraints (including integrality)</dd>
+          <dt>\(\Omega\)</dt><dd>all assignments of values to the decision variables on \(G\)</dd>
+          <dt>\(X\)</dt><dd>the feasible set induced by \(C\)</dd>
         </dl>
-        <p>The encoder is trained contrastively: algebraically equivalent rewrites of a constraint are pulled together, and edits that change which solutions are feasible are pushed apart. The embedding therefore reflects what a constraint allows, not how it happens to be written.</p>
+        <p>The goal is one model \(F_\theta\) that reads both the graph and the constraint specification and returns a high-quality, feasible solution:</p>
+        <div class="pp-eq">\[\hat{x}=F_\theta(G,\,C)\]</div>
       </section>
+
       <section class="pp-sec" id="sec-3">
-        <h2><span class="pp-secnum">3</span>Conditioning the graph transformer</h2>
-        <p>The problem graph is processed by heterogeneous graph transformer (HGT) layers. Between them, a cross-attention block lets every node read the constraint prompt:</p>
-        <div class="pp-eq">\[\alpha_{vj}=\operatorname*{softmax}_{j}\!\left(\frac{(\mathbf{W}_Q\mathbf{h}_v)^{\top}(\mathbf{W}_K\mathbf{e}_j)}{\sqrt{d}}\right),\qquad \tilde{\mathbf{h}}_v=\sum_{j=1}^{m}\alpha_{vj}\,\mathbf{W}_V\mathbf{e}_j\]</div>
-        <p class="pp-where-lead">where</p>
-        <dl class="pp-where">
-          <dt>\(\mathbf{h}_v\)</dt><dd>the state of node \(v\) after the preceding HGT layers</dd>
-          <dt>\(\mathbf{W}_Q,\mathbf{W}_K,\mathbf{W}_V\)</dt><dd>learned query, key, and value projections</dd>
-          <dt>\(\alpha_{vj}\)</dt><dd>how much node \(v\) attends to constraint \(j\)</dd>
-          <dt>\(\tilde{\mathbf{h}}_v\)</dt><dd>the constraint information passed to the remaining HGT layers and the task decoder</dd>
-        </dl>
-        <p>Because constraints enter only through this attention, adding, removing, or replacing a constraint changes the prompt rather than the network.</p>
+        <h2><span class="pp-secnum">3</span>Constraint encoder: operator graphs</h2>
+        <p>Each constraint \(c\) is written as the computation graph of its expression, a directed acyclic graph \(A_c=(V_c,E_c)\). Leaves are variables and constants; internal nodes are operators such as \(+\), \(\mathrm{pow}\), and \(\le\). The line-flow limit \(P^2+Q^2\le S_{\max}^2\), for example, becomes a small tree rooted at \(\le\). Nodes are initialized by type and refined by \(L\) rounds of message passing:</p>
+        <div class="pp-eq">\[h_v^{(0)}=\begin{cases}\phi_{\mathrm{var}}(v) & \text{variable}\\ \phi_{\mathrm{const}}(v) & \text{constant or bound}\\ \phi_{\mathrm{op}}(v) & \text{operator}\end{cases}\qquad h_v^{(\ell+1)}=\psi^{(\ell)}\!\Big(h_v^{(\ell)},\ \textstyle\sum_{u:(u,v)\in E_c}\phi^{(\ell)}\big(h_u^{(\ell)},e_{uv}\big)\Big)\]</div>
+        <p>A permutation-invariant attention pooling turns the node states into one constraint embedding, \(z_c=\mathrm{POOL}\{h_v^{(L)}\}\in\mathbb{R}^d\).</p>
+        <h3>Contrastive invariance</h3>
+        <p>To make \(z_c\) reflect what a constraint <em>allows</em> rather than how it is written, the encoder is trained contrastively. Positives \(c^+\) are admissible rewrites (rescaling, rearranging the operator graph); negatives \(c^-_k\) look similar but change feasibility:</p>
+        <div class="pp-eq">\[\mathcal{L}_{\mathrm{con}}(c)=-\log\frac{\exp\!\big(\mathrm{sim}(z_c,z_{c^+})/\tau\big)}{\exp\!\big(\mathrm{sim}(z_c,z_{c^+})/\tau\big)+\sum_{k=1}^{K}\exp\!\big(\mathrm{sim}(z_c,z_{c^-_k})/\tau\big)}\]</div>
+        <p class="pp-where-lead">with cosine similarity \(\mathrm{sim}\) and temperature \(\tau\). The framework covers any constraint that reduces to a finite computation DAG over its operator vocabulary.</p>
       </section>
+
       <section class="pp-sec" id="sec-4">
-        <h2><span class="pp-secnum">4</span>Results</h2>
-        <ul class="pp-stats">
-          <li><strong>45%</strong><span>lower optimality gap on ATSP than GOAL (0.91% &rarr; 0.50%)</span></li>
-          <li><strong>99.02%</strong><span>feasibility on DC optimal power flow</span></li>
-          <li><strong>Zero-shot</strong><span>transfer to DC optimal power flow on IEEE power-grid benchmarks</span></li>
-        </ul>
+        <h2><span class="pp-secnum">4</span>Constraint-conditioned backbone</h2>
+        <p>Instance features (power, capacity, demand, &hellip;) are embedded as <em>typed feature tokens</em> that share the variable-type embedding \(\phi_{\mathrm{var}}\) with the constraint encoder, so a symbol such as \(P\) means the same thing in the instance and in the constraint. A heterogeneous graph transformer (HGT) then runs in two halves. The first \(L/2\) layers reason over the problem graph; a cross-attention block lets every variable read the constraint set \(Z_C=\{z_c\}_{c\in C}\):</p>
+        <div class="pp-eq">\[\tilde{h}_i=\sum_{c\in C}\alpha_{ic}\,W_v z_c,\qquad \alpha_{ic}=\operatorname*{softmax}_{c}\big\langle W_q h_i^{(L/2)},\,W_k z_c\big\rangle,\qquad h_i^{(L/2)}\leftarrow h_i^{(L/2)}+\tilde{h}_i\]</div>
+        <p>The remaining \(L/2\) layers spread the constraint-conditioned information across structurally related variables. Because constraints enter only through this attention, adding, removing, or replacing a constraint changes the prompt, not the network.</p>
+        <h3>Task decoder</h3>
+        <p>For continuous problems a shared MLP reads out every variable in parallel, \(\hat{x}_i=g_\theta(h_i)\). For discrete problems a masked autoregressive decoder takes a few steps and excludes constraint-violating actions. Training is supervised on optimal solutions with penalty terms for constraint violation.</p>
       </section>
+
       <section class="pp-sec" id="sec-5">
-        <h2><span class="pp-secnum">5</span>Conclusion</h2>
-        <p>Separating what the problem is (the graph) from what is allowed (the constraints) turns a learned solver into a promptable one. Constraint conditioning improves solution quality on routing and carries over, without retraining, to power-flow problems with physical constraints.</p>
+        <h2><span class="pp-secnum">5</span>Theory: stability under reparameterization</h2>
+        <p>Let \(A_{c,r}\) be the type-\(r\) adjacency matrix of the operator DAG of \(c\), and measure how far an admissible rewrite \(c'\) moves the graph by \(\delta=\max_r\lVert A_{c,r}-A_{c',r}\rVert_2\).</p>
+        <div class="pp-theorem"><span class="pp-label">Theorem (informal)</span>
+          <p>Under a linear message-passing instantiation with bounded weights and bounded typed adjacencies, the embedding shift is bounded by a quantity that grows linearly in \(\delta\):</p>
+          <div class="pp-eq">\[\lVert z_c-z_{c'}\rVert_2\;\le\;\lVert S\rVert_2\,\lVert \mathrm{vec}(H^{(0)})\rVert_2\,\big(a+bwR\Delta\big)^{L}\cdot\frac{L\,bwR\,\delta}{a+bwR\Delta}\]</div>
+          <p>Structurally closer rewrites therefore move the embedding less, and the contrastive objective explicitly tightens the bound in practice. A coverage argument in the appendix extends this to a generalization bound across constraint families.</p>
+        </div>
       </section>
+
+      <section class="pp-sec" id="results">
+        <h2><span class="pp-secnum">6</span>Experiments</h2>
+        <ul class="pp-stats">
+          <li><strong data-count="45" data-suffix="%">45%</strong><span>lower optimality gap than GOAL on ATSP (0.91% &rarr; 0.50%)</span></li>
+          <li><strong data-count="99.02" data-decimals="2" data-suffix="%">99.02%</strong><span>feasibility on DC optimal power flow (IEEE-118)</span></li>
+          <li><strong data-count="30" data-prefix="~" data-suffix="%">~30%</strong><span>fewer epochs to converge when finetuning on DCOTS and DCTNEP</span></li>
+        </ul>
+        <h3>Setup</h3>
+        <p><b>Power grids.</b> Power flow (PF), AC optimal power flow (ACOPF), DC optimal power flow (DCOPF), DC optimal transmission switching (DCOTS), and DC transmission network expansion planning (DCTNEP), generated with PowerModels.jl and solved with IPOPT (nonlinear) or HiGHS (mixed-integer). <b>MILP.</b> Routing, scheduling, packing, graph, and location problems on 100-node instances (JSSP 10&times;10, UMSP 100&times;20); 8 tasks for training and 8 held out for finetuning. <b>Baselines.</b> CANOS and a GAT-based OPF model (single-task), a multi-task graph transformer with task adapters, and neural combinatorial solvers including AM, POMO, Sym-NCO, BQ-NCO, MatNet, MVMoE, RouteFinder, OPTFM, MTL, and GOAL.</p>
+
+        <div class="pp-table-wrap">
+          <table class="pp-table">
+            <caption><b>Table 1.</b> Power-grid optimization on IEEE-118. Feasibility (%, higher is better) and optimality gap (%, lower is better).</caption>
+            <thead>
+              <tr><th rowspan="2">Method</th><th colspan="2">PF</th><th colspan="2">ACOPF</th><th colspan="2">DCOPF</th><th colspan="2">DCOTS</th><th colspan="2">DCTNEP</th></tr>
+              <tr><th>ACPF Feas&uarr;</th><th>DCPF Feas&uarr;</th><th>Gap&darr;</th><th>Feas&uarr;</th><th>Gap&darr;</th><th>Feas&uarr;</th><th>Gap&darr;</th><th>Feas&uarr;</th><th>Gap&darr;</th><th>Feas&uarr;</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>GNN (CANOS)</td><td>95.11</td><td>97.14</td><td>4.80</td><td>93.00</td><td>3.60</td><td>94.20</td><td>6.10</td><td>88.45</td><td>5.40</td><td>85.32</td></tr>
+              <tr><td>GAN</td><td>96.42</td><td>97.86</td><td>4.10</td><td>94.35</td><td>3.05</td><td>95.65</td><td>5.30</td><td>89.96</td><td>4.60</td><td>86.71</td></tr>
+              <tr><td>GT (MTL)</td><td>97.88</td><td>98.72</td><td>3.55</td><td>95.60</td><td>2.35</td><td>97.10</td><td>4.90</td><td>90.85</td><td>3.80</td><td>87.94</td></tr>
+              <tr class="ours"><td>CONSTRAINER</td><td><b>99.03</b></td><td><b>99.50</b></td><td><b>3.01</b></td><td><b>96.10</b></td><td><b>1.50</b></td><td><b>99.02</b></td><td><b>4.50</b></td><td><b>91.22</b></td><td><b>2.90</b></td><td><b>88.91</b></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="pp-table-pair">
+          <div class="pp-table-wrap">
+            <table class="pp-table">
+              <caption><b>Table 2.</b> Routing (optimality gap, %, lower is better). Selected rows; &ldquo;&ndash;&rdquo; means not reported.</caption>
+              <thead><tr><th>Method</th><th>ATSP</th><th>CVRP</th><th>CVRPTW</th><th>OP</th></tr></thead>
+              <tbody>
+                <tr><td>POMO</td><td>&ndash;</td><td><b>1.23</b></td><td>&ndash;</td><td>&ndash;</td></tr>
+                <tr><td>BQ-NCO</td><td>1.30</td><td>2.81</td><td>&ndash;</td><td><b>0.25</b></td></tr>
+                <tr><td>MatNet</td><td>0.95</td><td>&ndash;</td><td>&ndash;</td><td>&ndash;</td></tr>
+                <tr><td>RouteFinder-TE</td><td>&ndash;</td><td>1.53</td><td>3.24</td><td>&ndash;</td></tr>
+                <tr><td>OPTFM</td><td>0.97</td><td>3.23</td><td>3.90</td><td>0.47</td></tr>
+                <tr><td>MTL</td><td>0.94</td><td>3.19</td><td>3.86</td><td>0.45</td></tr>
+                <tr><td>GOAL</td><td>0.91</td><td>3.16</td><td>3.82</td><td>0.43</td></tr>
+                <tr class="ours"><td>CONSTRAINER</td><td><b>0.50</b></td><td>2.98</td><td><b>3.01</b></td><td>0.27</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="pp-table-wrap">
+            <table class="pp-table">
+              <caption><b>Table 3.</b> Packing, graph, and scheduling (optimality gap, %, lower is better). Selected rows.</caption>
+              <thead><tr><th>Method</th><th>KP</th><th>MVC</th><th>UMSP</th><th>JSSP</th></tr></thead>
+              <tbody>
+                <tr><td>BQ-NCO</td><td><b>0.11</b></td><td>&ndash;</td><td>&ndash;</td><td>&ndash;</td></tr>
+                <tr><td>Gumbeldore</td><td>&ndash;</td><td>&ndash;</td><td>&ndash;</td><td>3.20</td></tr>
+                <tr><td>OPTFM</td><td>0.14</td><td>0.40</td><td>3.95</td><td>4.27</td></tr>
+                <tr><td>MTL</td><td>0.13</td><td>0.38</td><td>3.89</td><td>4.18</td></tr>
+                <tr><td>GOAL</td><td>0.12</td><td><b>0.37</b></td><td>3.84</td><td>4.13</td></tr>
+                <tr class="ours"><td>CONSTRAINER</td><td><b>0.11</b></td><td>0.38</td><td><b>2.14</b></td><td>3.68</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <p>Against the multi-task models (OPTFM, MTL, GOAL), CONSTRAINER has the lowest gap on every routing task and on UMSP and JSSP. Gains are largest where feasibility depends on several interacting constraints (routing with time windows, scheduling) and small on packing and graph problems dominated by a single constraint family. Some single-task specialists remain stronger on individual tasks (POMO on CVRP, BQ-NCO on OP, Gumbeldore on JSSP). On the grid, CONSTRAINER has the highest feasibility on every formulation, with the largest margins on DCOTS and DCTNEP, which couple discrete topology decisions with power-flow constraints.</p>
+
+        <h3>Zero-shot transfer to an unseen task</h3>
+        <div class="pp-table-wrap">
+          <table class="pp-table">
+            <caption><b>Table 4.</b> DCOPF across grid sizes. CONSTRAINER is evaluated zero-shot; the MTL baselines get 50 steps of adapter finetuning on DCOPF.</caption>
+            <thead>
+              <tr><th rowspan="2">Model</th><th colspan="2">IEEE-30</th><th colspan="2">IEEE-57</th><th colspan="2">IEEE-118</th></tr>
+              <tr><th>Gap&darr;</th><th>Feas&uarr;</th><th>Gap&darr;</th><th>Feas&uarr;</th><th>Gap&darr;</th><th>Feas&uarr;</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>MTL (DCPF adapter)</td><td>7.11</td><td>93.11</td><td>11.33</td><td>92.93</td><td>6.35</td><td>91.11</td></tr>
+              <tr><td>MTL (ACOPF adapter)</td><td>5.88</td><td>92.00</td><td>9.11</td><td>90.31</td><td>6.50</td><td>90.01</td></tr>
+              <tr class="ours"><td>CONSTRAINER (zero-shot)</td><td><b>1.58</b></td><td><b>98.90</b></td><td><b>2.36</b></td><td><b>95.82</b></td><td><b>3.13</b></td><td><b>94.65</b></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>Representations learned from ACPF, DCPF, and ACOPF carry over to DCOPF, a constraint composition the model never trained on. When finetuned on 8 unseen MILP problems, CONSTRAINER converges faster and settles at lower gaps than OPTFM, MTL, and GOAL, with the biggest advantage early in finetuning.</p>
+      </section>
+
+      <section class="pp-sec" id="sec-7">
+        <h2><span class="pp-secnum">7</span>Ablations</h2>
+        <div class="pp-table-wrap narrow">
+          <table class="pp-table">
+            <caption><b>Table 5.</b> How constraints are given to the model (optimality gap, %, lower is better).</caption>
+            <thead><tr><th>Variant</th><th>ATSP</th><th>CVRPTW</th><th>OP</th></tr></thead>
+            <tbody>
+              <tr class="ours"><td>CONSTRAINER (operator-DAG encoder)</td><td><b>0.50</b></td><td><b>3.01</b></td><td><b>0.27</b></td></tr>
+              <tr><td>Language embeddings of constraint text</td><td>0.78</td><td>3.42</td><td>0.36</td></tr>
+              <tr><td>No constraint conditioning (MTL)</td><td>0.94</td><td>3.86</td><td>0.45</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>Removing constraint conditioning degrades every task. Replacing the operator-graph encoder with text embeddings of the constraint (text-embedding-3-small) recovers part of the gap but stays well behind, which suggests that surface-level semantics do not preserve the compositional structure the DAG encoder captures. Injecting the cross-attention at the middle of the backbone (\(L/2\)) works best.</p>
+      </section>
+
+      <section class="pp-sec" id="sec-8">
+        <h2><span class="pp-secnum">8</span>Conclusion and limitations</h2>
+        <p>Separating <em>what the problem is</em> (the graph) from <em>what is allowed</em> (the constraints) turns a learned solver into a promptable one. Encoding constraints as operator graphs gives invariant, reusable representations with a provable stability property, and conditioning a shared backbone on them improves solution quality, feasibility, and transfer.</p>
+        <p><b>Limitations.</b> Gains are modest when a single constraint family dominates (packing, graph problems). Predictions are not guaranteed feasible on continuous problems; when strict ACOPF feasibility is required, the model is paired with a downstream refinement step (for example FSNet&rsquo;s L-BFGS stage). The constraint vocabulary is limited to expressions that reduce to a finite operator DAG.</p>
+      </section>
+
       <section class="pp-sec" id="citation">
         <h2>Citation</h2>
         <div class="pp-bib"><button type="button" class="pp-copy" data-copy="#bib-constrainer">Copy</button><pre id="bib-constrainer">@inproceedings{memon2026constrainer,
@@ -117,11 +246,15 @@
       <section class="pp-sec" id="refs">
         <h2>Key references</h2>
         <ol class="pp-refs">
+          <li>D. Drakulic, S. Michel, and J.-M. Andreoli. GOAL: A Generalist Combinatorial Optimization Agent Learner. <i>ICLR</i>, 2025.</li>
           <li>Z. Hu, Y. Dong, K. Wang, and Y. Sun. Heterogeneous Graph Transformer. <i>The Web Conference (WWW)</i>, 2020.</li>
-          <li>A. Vaswani et al. Attention Is All You Need. <i>Advances in Neural Information Processing Systems (NeurIPS)</i>, 2017.</li>
+          <li>C. Coffrin, R. Bent, K. Sundar, Y. Ng, and M. Lubin. PowerModels.jl: An Open-Source Framework for Exploring Power Flow Formulations. <i>PSCC</i>, 2018.</li>
+          <li>W. Kool, H. van Hoof, and M. Welling. Attention, Learn to Solve Routing Problems! <i>ICLR</i>, 2019.</li>
+          <li>P. L. Donti, D. Rolnick, and J. Z. Kolter. DC3: A Learning Method for Optimization with Hard Constraints. <i>ICLR</i>, 2021.</li>
         </ol>
       </section>
     </article>
+    </div>
 
     <nav class="pp-pager" aria-label="More research"><span></span><a class="next" href="research-atsolver.html"><span>Next &rarr;</span>ATSolver</a></nav>
   </main>
@@ -148,6 +281,6 @@
       <span>Last updated October 2026</span>
     </div>
   </footer>
-  <script src="assets/site.js?v=20261027m" defer></script>
+  <script src="assets/site.js?v=20261028a" defer></script>
 </body>
 </html>

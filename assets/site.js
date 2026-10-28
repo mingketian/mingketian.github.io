@@ -82,3 +82,55 @@
     });
   });
 })();
+
+/* Learn more pages: reading-progress bar, outline that follows the section in view, and numbers that count up once */
+(function () {
+  var page = document.querySelector('.pp-v2');
+  if (!page) return;
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  var bar = document.querySelector('.pp-progress span');
+  if (bar) {
+    var tick = function () {
+      var h = document.documentElement.scrollHeight - window.innerHeight;
+      bar.style.transform = 'scaleX(' + (h > 0 ? Math.min(1, window.scrollY / h) : 0) + ')';
+    };
+    tick();
+    window.addEventListener('scroll', tick, { passive: true });
+    window.addEventListener('resize', tick);
+  }
+
+  var links = [].slice.call(page.querySelectorAll('.pp-toc a[href^="#"]'));
+  var secs = links.map(function (a) { return document.getElementById(a.getAttribute('href').slice(1)); });
+  if (links.length) {
+    var spy = function () {
+      var y = window.scrollY + 140, k = 0;
+      secs.forEach(function (s, n) { if (s && s.offsetTop <= y) k = n; });
+      links.forEach(function (a, n) { a.classList.toggle('active', n === k); });
+    };
+    spy();
+    window.addEventListener('scroll', spy, { passive: true });
+  }
+
+  var nums = [].slice.call(page.querySelectorAll('[data-count]'));
+  if (reduce || !nums.length || !('IntersectionObserver' in window)) return;
+  var show = function (el, v) {
+    var d = +(el.dataset.decimals || 0);
+    el.textContent = (el.dataset.prefix || '') + v.toFixed(d) + (el.dataset.suffix || '');
+  };
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      var el = e.target, end = +el.dataset.count, t0 = null;
+      io.unobserve(el);
+      var step = function (t) {
+        if (t0 === null) t0 = t;
+        var p = Math.min(1, (t - t0) / 900), eased = 1 - Math.pow(1 - p, 3);
+        show(el, end * eased);
+        if (p < 1) requestAnimationFrame(step);
+      };
+      requestAnimationFrame(step);
+    });
+  }, { threshold: 0.6 });
+  nums.forEach(function (el) { io.observe(el); });   /* the final value stays in place until the number scrolls into view */
+})();
