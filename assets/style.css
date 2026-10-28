@@ -1044,7 +1044,6 @@ a.doing-card:hover .d-arrow { opacity: 1; transform: translateX(3px); }
   border: 1px solid var(--rule); border-radius: 10px; background: #fff; overflow: hidden; }
 .xp-logo img { max-width: 100%; max-height: 100%; object-fit: contain; }
 .xp-logo.is-dark { padding: 0.3rem 0.35rem; border-color: #141517; background: #141517; }
-.xp-logo.is-word { color: #13305a; font-family: var(--font); font-size: 0.95rem; font-weight: 800; letter-spacing: 0.12em; }
 @media (max-width: 760px) { .xp-logo { width: 5.5rem; height: 2.75rem; } }
 
 /* Home: name block sits a little right of and below its centred spot beside the photo */
