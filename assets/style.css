@@ -182,10 +182,10 @@ main { flex: 1 0 auto; width: 100%; max-width: var(--page); margin: 0 auto; padd
 .home-icons a:hover { background: var(--cyan); color: #fff; text-decoration: none; transform: translateY(-2px); box-shadow: 0 8px 16px -8px rgba(13, 84, 112, 0.6); }
 .home-icons svg { width: 1.05rem; height: 1.05rem; }
 
-/* Round photo with a white mat */
+/* Round photo, no mat */
 .home-photo { width: 100%; margin: 0; padding: 0; }
 .photo-arch {
-  padding: 10px; background: #fff;
+  padding: 0; background: none;
   border-radius: 50%;
   box-shadow: 0 2px 8px rgba(19, 48, 77, 0.06), 0 30px 60px -28px rgba(19, 48, 77, 0.45);
 }
@@ -1045,5 +1045,8 @@ a.doing-card:hover .d-arrow { opacity: 1; transform: translateX(3px); }
 @media (max-width: 760px) { .xp-logo { width: 5.5rem; height: 2.75rem; } }
 
 /* Home: name block sits a little right of and below its centred spot beside the photo */
-@media (min-width: 1000px) { .home-id { position: relative; left: 1.75rem; top: 2.75rem; } }
+@media (min-width: 1000px) {
+  .home-id { position: relative; left: 0.75rem; top: 2.75rem; }
+  .home-hero .home-photo { position: relative; left: 1.25rem; }
+}
 @media (max-width: 760px) { .svc-figure { max-width: 14rem; } }
