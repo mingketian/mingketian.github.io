@@ -1020,3 +1020,29 @@ a.doing-card:hover .d-arrow { opacity: 1; transform: translateX(3px); }
 @media (max-width: 960px) { .doing-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 760px) { .doing-grid { grid-template-columns: 1fr; gap: var(--s6); } }
 @media (prefers-reduced-motion: reduce) { a.doing-card:hover .d-arrow { transform: none; } }
+
+/* Services: one picture per item under the date (a photo, or a logo on white), all the same shape */
+.activities-page .timeline.compact { --rail: 15rem; }   /* narrower picture column for the short service entries */
+.svc-figure img { aspect-ratio: 16 / 9; }
+.svc-figure.is-logo { background: #fff; }
+.svc-figure.is-logo img { object-fit: contain; padding: 0.75rem 1.25rem; }
+.svc-figure.is-logo:hover img { transform: none; }
+/* EUMMA logo above the role */
+.org-logo { display: block; height: 1.9rem; width: auto; margin-bottom: var(--s3); }
+/* Home community card: EUMMA logo on a small white tag */
+.d-logo { position: absolute; left: 10px; bottom: 10px; z-index: 3; display: block; padding: 4px 8px; border-radius: 6px; background: #fff;
+  box-shadow: 0 4px 12px -6px rgba(15, 23, 42, 0.5); }
+.d-logo img { display: block; height: 14px; width: auto; }
+
+/* Experience: company logo tile at the start of each internship header */
+.xp-head > div { flex: 1 1 16rem; }
+.xp-logo { flex: none; display: grid; place-items: center; width: 6.5rem; height: 3.25rem; padding: 0.4rem 0.6rem;
+  border: 1px solid var(--rule); border-radius: 10px; background: #fff; overflow: hidden; }
+.xp-logo img { max-width: 100%; max-height: 100%; object-fit: contain; }
+.xp-logo.is-dark { padding: 0.3rem 0.35rem; border-color: #141517; background: #141517; }
+.xp-logo.is-word { color: #13305a; font-family: var(--font); font-size: 0.95rem; font-weight: 800; letter-spacing: 0.12em; }
+@media (max-width: 760px) { .xp-logo { width: 5.5rem; height: 2.75rem; } }
+
+/* Home: name block sits a little right of and below its centred spot beside the photo */
+@media (min-width: 1000px) { .home-id { position: relative; left: 1.75rem; top: 1.25rem; } }
+@media (max-width: 760px) { .svc-figure { max-width: 15rem; } }
