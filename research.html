@@ -18,7 +18,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Charis+SIL:ital,wght@0,400;0,700;1,400;1,700&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,700;1,800&display=swap">
-  <link rel="stylesheet" href="assets/style.css?v=20261028a">
+  <link rel="stylesheet" href="assets/style.css?v=20261028b">
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -63,7 +63,7 @@
           <p class="paper-badges"><span class="badge review">Under review &middot; ICLR 2027</span></p>
           <h3><a class="paper-title-link" href="research-atsolver.html">ATSolver: Agentic Tuning of Sparse Linear Solvers with Numerical Feedback</a></h3>
           <p class="authors"><span class="me">Mingke Tian</span>, Yiyun Chen, Ruipeng Li, Tianshi Xu, Yuanzhe Xi</p>
-          <p class="summary">ATSolver is a verifier-grounded LLM agent that tunes sparse linear solvers from numerical feedback, through a gated propose, execute, diagnose, and repair loop. On 35 matrices, it beats matched-budget Best-of-6 (75/105 vs. 64/105 accepted) with 30.1% less solve time.</p>
+          <p class="summary">ATSolver is a verifier-grounded LLM controller that configures sparse linear solvers under explicit workload contracts: the model proposes typed solver actions, and trusted code executes and verifies them. On 35 matrices it accepts 78/105 runs versus 74/105 for same-budget Best-of-3, and at 32 right-hand sides it satisfies 72/105 batch workloads versus 50/105 for an expert amortization rule.</p>
           <p class="paper-links"><a class="primary" href="research-atsolver.html">Learn more<span aria-hidden="true"> &rarr;</span></a><!-- PDF button hidden until papers/atsolver.pdf is added --></p>
         </div>
       </li>
@@ -119,6 +119,6 @@
       <span>Last updated October 2026</span>
     </div>
   </footer>
-  <script src="assets/site.js?v=20261028a" defer></script>
+  <script src="assets/site.js?v=20261028b" defer></script>
 </body>
 </html>

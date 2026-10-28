@@ -776,7 +776,7 @@ main { flex: 1 0 auto; width: 100%; max-width: var(--page); margin: 0 auto; padd
 .pp-stats { list-style: none; padding: 0; margin-top: var(--s5); display: grid; grid-template-columns: repeat(auto-fit, minmax(12.5rem, 1fr)); gap: var(--s4); }
 .pp-stats li { padding: var(--s5); border-radius: 12px; background: var(--sky); }
 .pp-stats strong { display: block; color: var(--cyan-deep); font-size: 2rem; font-weight: 800; line-height: 1.1; letter-spacing: -0.02em; }
-.pp-stats span { display: block; margin-top: var(--s2); color: var(--ink); font-size: var(--fs-meta); line-height: 1.5; }
+.pp-stats li > span { display: block; margin-top: var(--s2); color: var(--ink); font-size: var(--fs-meta); line-height: 1.5; }
 .pp-bib { position: relative; margin-top: var(--s4); }
 .pp-bib pre { overflow-x: auto; padding: var(--s5); border: 1px solid var(--rule); border-radius: 12px; background: #f5f7f9;
   color: var(--ink); font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.8125rem; line-height: 1.6; }
@@ -1055,11 +1055,8 @@ a.doing-card:hover .d-arrow { opacity: 1; transform: translateX(3px); }
 @media (max-width: 760px) { .svc-figure { max-width: 14rem; } }
 
 /* ---------- Learn more pages, academic layout (.pp-v2) ----------
-   Reading-progress bar, key facts, TL;DR, figure, then a sticky outline beside the paper text on wide screens.
+   Key facts, summary, figure, then a sticky outline beside the paper text on wide screens.
    Booktabs-style tables, a theorem box, and a contributions callout. */
-.pp-progress { position: fixed; top: 0; left: 0; right: 0; z-index: 60; height: 3px; pointer-events: none; }
-.pp-progress span { display: block; height: 100%; width: 100%; transform: scaleX(0); transform-origin: 0 50%;
-  background: linear-gradient(90deg, #60a5fa, #2563eb); }
 .paper-page.pp-v2 { max-width: 72rem; }
 .pp-v2 .pp-hero h1 { max-width: 52rem; font-size: 2.3rem; }
 .pp-affil { margin-top: var(--s1); color: var(--muted); font-size: var(--fs-meta); }
@@ -1133,4 +1130,54 @@ a.doing-card:hover .d-arrow { opacity: 1; transform: translateX(3px); }
   .pp-facts > div:nth-child(n+3) { border-top: 1px solid var(--rule); }
   .pp-table-pair { grid-template-columns: minmax(0, 1fr); gap: 0; }
   .pp-callout, .pp-theorem { padding: var(--s4); }
+}
+
+/* Learn more pages, print-paper treatment: serif text, thin rules, square corners, no colour panels or transitions */
+.pp-v2 .pp-hero h1, .pp-v2 .pp-sec h2, .pp-v2 .pp-sec h3, .pp-v2 .pp-sec > p, .pp-v2 .pp-list, .pp-v2 .pp-callout ul,
+.pp-v2 .pp-theorem > p, .pp-v2 .pp-where dd, .pp-v2 .pp-tldr p, .pp-v2 .pp-figure figcaption, .pp-v2 .pp-table,
+.pp-v2 .pp-refs, .pp-v2 .pp-authors, .pp-v2 .pp-affil, .pp-v2 .pp-stats li > span, .pp-v2 .pp-facts dd { font-family: var(--serif); }
+.pp-v2 .pp-hero h1 { font-weight: 700; letter-spacing: -0.01em; line-height: 1.25; }
+.pp-v2 .pp-sec { padding-top: var(--s6); }
+.pp-v2 .pp-sec h2 { gap: 0.6rem; font-size: 1.4rem; font-weight: 700; letter-spacing: 0; }
+.pp-v2 .pp-sec h3 { font-size: 1.08rem; font-weight: 700; }
+.pp-v2 .pp-secnum { display: inline; min-width: 0; height: auto; padding: 0; border-radius: 0; background: none; color: var(--ink); font-size: inherit; font-weight: 700; transform: none; }
+.pp-v2 .pp-sec > p, .pp-v2 .pp-list, .pp-v2 .pp-where dd { font-size: 1.04rem; line-height: 1.72; }
+.pp-v2 .pp-label { color: var(--ink); font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; }
+.pp-v2 .pp-btn { border-radius: 4px; transition: none; }
+.pp-v2 .pp-facts { border-radius: 0; border-width: 1px 0; border-color: var(--ink); background: none; }
+.pp-v2 .pp-facts > div { padding: var(--s3) var(--s4); }
+.pp-v2 .pp-facts dd { font-weight: 400; }
+.pp-v2 .pp-tldr { padding: var(--s4) 0 var(--s4) var(--s5); border-left: 2px solid var(--ink); border-radius: 0; background: none; }
+.pp-v2 .pp-tldr p { font-size: 1.06rem; }
+.pp-v2 .pp-figure a { border-radius: 0; background: none; padding: 0; }
+.pp-v2 .pp-figure img { border-radius: 0; }
+.pp-v2 .pp-figure figcaption { text-align: left; }
+.pp-v2 .pp-sec .pp-eq, .pp-v2 .pp-theorem .pp-eq { padding: var(--s2) 0; border: 0; border-radius: 0; background: none; color: var(--ink); }
+.pp-v2 .pp-where { border-left: 0; padding-left: var(--s5); }
+.pp-v2 .pp-where dt { color: var(--ink); font-weight: 400; }
+.pp-v2 .pp-list li::marker, .pp-v2 .pp-callout li::marker { color: var(--ink); font-weight: 400; }
+.pp-v2 .pp-callout, .pp-v2 .pp-theorem { border-radius: 0; box-shadow: none; background: none; }
+.pp-v2 .pp-callout { border-width: 1px 0; border-color: var(--rule); padding: var(--s4) 0; }
+.pp-v2 .pp-theorem { border: 0; border-left: 2px solid var(--ink); padding: var(--s2) 0 var(--s2) var(--s5); }
+.pp-v2 .pp-theorem > p { font-style: italic; }
+.pp-v2 .pp-stats { gap: 0; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); }
+.pp-v2 .pp-stats li { padding: var(--s4) var(--s5) var(--s4) 0; border-radius: 0; background: none; }
+.pp-v2 .pp-stats li + li { padding-left: var(--s5); border-left: 1px solid var(--rule); }
+.pp-v2 .pp-stats strong { color: var(--ink); font-family: var(--serif); font-size: 1.6rem; font-weight: 700; letter-spacing: 0; }
+.pp-v2 .pp-table tbody tr { transition: none; }
+.paper-page.pp-v2 p, .paper-page.pp-v2 li, .paper-page.pp-v2 dd { text-wrap: wrap; text-wrap: pretty; }
+.pp-v2 .pp-sec p .katex, .pp-v2 .pp-list .katex, .pp-v2 .pp-where .katex, .pp-v2 .pp-table .katex { font-size: 1.04em; }
+.pp-v2 .pp-bib, .pp-v2 .pp-bib pre { border-radius: 4px; }
+.pp-v2 .pp-table tbody tr:hover { background: none; }
+.pp-v2 .pp-table tr.ours { background: #f1f3f5; }
+.pp-v2 .pp-table tr.ours td:first-child { color: var(--ink); font-weight: 700; }
+.pp-v2 .pp-table b { font-weight: 700; }
+.pp-v2 .pp-table td { color: var(--ink); }
+.pp-v2 .pp-toc a, .pp-v2 .pp-toc a::before { transition: none; }
+.pp-v2 .pp-toc a { border-radius: 0; }
+.pp-v2 .pp-toc a.active { color: var(--ink); }
+.pp-v2 .pp-toc a.active::before { background: var(--ink); }
+@media (max-width: 760px) {
+  .pp-v2 .pp-stats li, .pp-v2 .pp-stats li + li { padding: var(--s3) 0; border-left: 0; }
+  .pp-v2 .pp-stats li + li { border-top: 1px solid var(--rule); }
 }
