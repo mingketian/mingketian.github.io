@@ -18,7 +18,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Charis+SIL:ital,wght@0,400;0,700;1,400;1,700&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,700;1,800&display=swap">
-  <link rel="stylesheet" href="assets/style.css?v=20261028b">
+  <link rel="stylesheet" href="assets/style.css?v=20261028c">
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -42,218 +42,211 @@
     <header class="pp-hero">
       <p class="paper-badges"><span class="badge review">Under review &middot; ICLR 2027</span></p>
       <h1>ATSolver: Agentic Tuning of Sparse Linear Solvers with Numerical Feedback</h1>
-      <p class="pp-authors"><span class="me">Mingke Tian</span>, Yiyun Chen, Ruipeng Li, Tianshi Xu, Yuanzhe Xi</p>
-      <p class="pp-affil">Department of Mathematics, Emory University &middot; Lawrence Livermore National Laboratory</p>
+      <p class="pp-authors"><span class="me">Mingke Tian</span><sup>1</sup>, Yiyun Chen<sup>1</sup>, Ruipeng Li<sup>2</sup>, Tianshi Xu<sup>3</sup>, Yuanzhe Xi<sup>1</sup></p>
+      <p class="pp-affil"><sup>1</sup>Emory University &middot; <sup>2</sup>Lawrence Livermore National Laboratory &middot; <sup>3</sup>University of Kentucky</p>
       <div class="pp-buttons"><!-- Paper (PDF) button hidden until papers/atsolver.pdf is added --><a class="pp-btn" href="#abstract">Abstract</a><a class="pp-btn" href="#results">Results</a><a class="pp-btn" href="images/research/atsolver.png" target="_blank" rel="noopener">Full-size figure<span aria-hidden="true"> &#8599;</span></a><a class="pp-btn primary" href="#citation">BibTeX</a></div>
       <dl class="pp-facts">
         <div><dt>Problem</dt><dd>Solver and preconditioner configuration for sparse linear systems</dd></div>
-        <div><dt>Benchmark</dt><dd>35 matrices from 32 provenance families (SuiteSparse, MFEM)</dd></div>
-        <div><dt>Key idea</dt><dd>The language model proposes; trusted code verifies</dd></div>
+        <div><dt>Benchmark</dt><dd>35 matrices from 32 families (SuiteSparse, MFEM)</dd></div>
+        <div><dt>Key idea</dt><dd>A fixed language model proposes; trusted numerical software verifies</dd></div>
         <div><dt>Status</dt><dd>Under review</dd></div>
       </dl>
     </header>
 
-    <div class="pp-tldr"><span class="pp-label">Summary</span><p>ATSolver treats solver configuration as a sequential decision under an explicit workload contract. A frozen language model emits one typed solver-workflow action at a time, while trusted code alone decides legality, runs the solver, recomputes the residual on the original system, and accounts for time and memory. Under matched budgets, the controller accepts more workloads than independent sampling and changes its setup investment with the number of right-hand sides. The evaluation also records where it does not help, and the extra search cost it pays.</p></div>
+    <div class="pp-tldr"><span class="pp-label">Summary</span><p>ATSolver treats solver configuration as a sequential decision under accuracy, runtime, and memory constraints. A pretrained language model with fixed parameters proposes one typed configuration at a time over a portfolio of classical solvers and preconditioners. Trusted numerical software alone checks legality, runs the solver, recomputes the residual on the original system, and accounts for resources. Under matched budgets the controller accepts more runs than Best-of-<i>N</i> sampling, selects faster configurations, and invests in larger setups as the number of right-hand sides grows.</p></div>
 
     <figure class="pp-figure">
       <a href="images/research/atsolver.png" target="_blank" rel="noopener" title="Open full-size figure"><img src="images/research/atsolver.png" alt="System overview. The workload contract and a public decision state feed a configuration and execution loop: a frozen LLM proposes, a schema and legality gate filters, a numerical worker executes, and an independent verifier decides; a state manager keeps history and the best configuration." loading="lazy"></a>
-      <figcaption><b>Figure 1.</b> System overview. The workload contract and a public decision state feed the configuration loop. A frozen language model proposes, a schema and legality gate filters, a numerical worker executes, and an independent verifier decides. A trusted state manager keeps the history, the budgets, and the incumbent configuration.</figcaption>
+      <figcaption><b>Figure 1.</b> System overview. The workload contract and the decision state feed the configuration loop. The language model proposes, a schema and legality gate filters, a numerical worker executes, and an independent verifier decides. A state manager keeps the trial history, the budgets, and the verified incumbent.</figcaption>
     </figure>
 
     <div class="pp-layout">
-      <nav class="pp-toc" aria-label="On this page"><span>On this page</span><a href="#abstract">Abstract</a><a href="#sec-1">Motivation</a><a href="#sec-2">Workload contract</a><a href="#sec-3">Controller</a><a href="#sec-4">Experimental setup</a><a href="#results">Results</a><a href="#sec-6">Supporting studies</a><a href="#sec-7">Limitations</a><a href="#citation">Citation</a></nav>
+      <nav class="pp-toc" aria-label="On this page"><span>On this page</span><a href="#abstract">Abstract</a><a href="#sec-1">Motivation</a><a href="#sec-2">Problem setting</a><a href="#sec-3">Method</a><a href="#sec-4">Experimental setup</a><a href="#results">Results</a><a href="#sec-6">Ongoing extension</a><a href="#citation">Citation</a></nav>
 
     <article class="pp-doc">
       <section class="pp-sec" id="abstract">
         <h2>Abstract</h2>
-        <p>Choosing a solver and preconditioner for a sparse linear system depends on the matrix, the required accuracy, and the available time and memory. A growing body of work wraps a language model around this choice in a propose&ndash;execute&ndash;revise loop, but the value of execution feedback is rarely separated from the value of drawing more samples. We formulate sparse-solver configuration as a feasibility-first sequential decision problem under an explicit <em>workload contract</em>: tolerance, coverage, resource limits, proposal and trusted-execution budgets, and permitted lifecycle operations. We introduce <b>ATSolver</b>, a verifier-grounded controller in which a frozen language model emits typed workflow actions. Trusted code retains sole authority over legality, execution, residual verification on the original system, resource accounting, and numerical state. On 35 sparse systems from 32 provenance families, ATSolver accepts 78 of 105 single-system runs, against 74 for direct Best-of-3 at the same three-proposal budget. It also needs 46% less trusted numerical work to reach a first accepted configuration than the package default. When the number of right-hand sides grows to 32, it satisfies 72 of 105 batch workloads against 50 for an expert amortization rule. A fixed-parent intervention shows that a richer structured verifier record does not improve one-step repair over a scalar summary. We report search overhead and unexecuted components alongside every positive result.</p>
+        <p>Sparse linear solver configuration is a sequential decision problem under numerical, resource, and workload constraints. Each attempted configuration reveals execution evidence that can inform subsequent choices, while setup cost, solve cost, accuracy requirements, and search budgets jointly shape the tuning objective. We introduce <b>ATSolver</b> (Agentic Tuning of Solvers), a verifier-grounded framework for agentic sparse-solver tuning that iteratively proposes, executes, and revises configurations over a typed portfolio of classical sparse solvers and preconditioners. A pretrained language model with fixed parameters serves as the proposal policy, while trusted numerical software controls legality, execution, solution verification, resource accounting, and numerical-state reuse. Under matched six-proposal budgets in an iterative-solver study, ATSolver accepts 75/105 runs versus 64/105 for independent Best-of-6 and selects configurations with 30.1% lower independently replayed solve time on matrices solved by both policies in all repetitions. Across repeated-RHS workloads, ATSolver shifts toward greater setup investment as batch size grows, adapting configuration choices to changing setup&ndash;solve trade-offs. Feedback memory studies show that trial history avoids observed repeated proposals and that adding retrieved experience to knowledge improves configuration quality on held-out parameters within two PDE families. These results demonstrate effective agentic tuning under explicit accuracy, runtime, and memory constraints without updating the underlying language model.</p>
       </section>
 
       <section class="pp-sec" id="sec-1">
         <h2><span class="pp-secnum">1</span>Motivation</h2>
-        <p>Solver configuration is usually framed as a decision for one matrix&ndash;right-hand-side pair \((A,b)\). In deployment, the numerical problem comes with a contract: a requested tolerance, time and memory limits, available hardware and software, and a lifecycle. The lifecycle may contain one solve, a batch of right-hand sides sharing a matrix, or an ordered sequence of related systems. These fields interact. A setup that is too expensive for one solve may pay for itself over a batch, and a fast preconditioner may violate a memory limit. The unit of study is therefore a <em>workload</em>, not an isolated matrix.</p>
-        <p>Language-model agents already revise programs and optimization decisions after observing execution feedback. For sparse linear algebra the open question is narrower. Under matched proposal and execution budgets, does verifier-generated feedback improve the proposal policy beyond drawing more independent samples? And can it do so while numerical correctness and resource accounting stay under trusted control? A backend convergence flag, a model explanation, or a retrieved case does not by itself establish the user&rsquo;s residual, coverage, memory, or deadline requirements.</p>
+        <p>Solver configuration is often framed as a decision for one matrix&ndash;right-hand-side pair \((A,b)\). In practice the numerical problem comes with requirements: a tolerance, time and memory limits, available hardware and software, and a workload that may contain one solve, a batch of right-hand sides sharing a matrix, or a sequence of related systems. These requirements interact. A setup that is too expensive for one solve may pay for itself over a batch, and a fast preconditioner may exceed the memory limit.</p>
+        <p>Every attempted configuration also produces evidence: whether it converged, the residual it reached, how long setup and solve took, and how much memory it used. ATSolver asks whether a language model can use this evidence to revise its next choice under a small, explicitly accounted budget, while numerical correctness stays under trusted control. A convergence flag, a model explanation, or a retrieved case never counts as acceptance on its own.</p>
         <div class="pp-callout"><span class="pp-label">Contributions</span>
           <ul>
-            <li><b>Workload-contract formulation and protocol.</b> Configuration is posed as a feasibility-first sequential decision with explicit acceptance, coverage, resource, and budget constraints. Every proposal, gate decision, execution, verification, and state transition is logged, so each reported improvement can be traced to a specific charged decision.</li>
-            <li><b>Verifier-grounded controller.</b> A typed interface separates language-model proposals from numerical authority. Compared policies differ only in the projection that builds the next decision state, which makes one-shot, independent, and feedback-conditioned search directly comparable.</li>
-            <li><b>Controlled evidence.</b> The evaluation covers end-to-end configuration, a matched information ladder with a fixed-parent intervention, and batch-aware setup selection at three batch sizes. Positive and negative results are reported with the same paired uncertainty procedure.</li>
+            <li><b>Workload formulation.</b> Configuration is posed as a feasibility-first sequential decision over single systems, batches of right-hand sides, and related-system sequences, with search cost and deployment cost accounted separately.</li>
+            <li><b>Verifier-grounded controller.</b> A typed interface separates language-model proposals from numerical authority: software owns legality, execution, residual verification, resource accounting, the incumbent, and numerical state.</li>
+            <li><b>Controlled evaluation.</b> Matched-budget studies of configuration quality, within-search history and retrieved experience, setup investment across batch sizes, and matrix-image inputs, with every failed and rejected proposal kept in the accounting.</li>
           </ul>
         </div>
       </section>
 
       <section class="pp-sec" id="sec-2">
-        <h2><span class="pp-secnum">2</span>Workload contract</h2>
-        <p>A sparse linear workload bundles the systems to be solved with what a solution must satisfy and what it may cost:</p>
-        <div class="pp-eq">\[\mathcal{W}=(\mathcal{L},\mathcal{R},\mathcal{H},\mathcal{B}),\qquad \mathcal{L}=\Big(\big(A_t,(b_{t,k})_{k=1}^{K_t}\big)\Big)_{t=1}^{T},\qquad \mathcal{B}=(B_{\mathrm{prop}},B_{\mathrm{exec}},B_{\mathrm{wall}},B_{\mathrm{timeout}},B_{\mathrm{mem}})\]</div>
-        <p class="pp-where-lead">where</p>
+        <h2><span class="pp-secnum">2</span>Problem setting</h2>
+        <p>Three workload regimes are considered. Regime \(\mathsf{S}\) is a single linear system, regime \(\mathsf{M}\) is a batch of right-hand sides sharing one matrix, and regime \(\mathsf{Q}\) is a sequence of related systems whose operator may change between solves. For \(\mathsf{S}\) and \(\mathsf{M}\),</p>
+        <div class="pp-eq">\[A x_k = b_k,\quad k=1,\dots,K,\qquad A\in\mathbb{R}^{n\times n}\ \text{sparse},\qquad \mathcal{W}=(L,R,H,B)\]</div>
+        <p class="pp-where-lead">where \(K=1\) in \(\mathsf{S}\) and \(K&gt;1\) in \(\mathsf{M}\), and the workload contract \(\mathcal{W}\) collects</p>
         <dl class="pp-where">
-          <dt>\(\mathcal{L}\)</dt><dd>\(T\) ordered system positions; position \(t\) holds the operator \(A_t\) and its \(K_t\) required right-hand sides</dd>
-          <dt>\(\mathcal{R}\)</dt><dd>the requirement record: required index set, tolerances, coverage rule, admissible workflow components, and permitted lifecycle operations</dd>
-          <dt>\(\mathcal{H}\)</dt><dd>the hardware and software environment</dd>
-          <dt>\(\mathcal{B}\)</dt><dd>caps on language-model proposals, trusted executions, workload deadline, per-action timeout, and peak memory</dd>
+          <dt>\(L\)</dt><dd>the regime and the characteristics of the linear systems</dd>
+          <dt>\(R\)</dt><dd>accuracy and coverage requirements</dd>
+          <dt>\(H\)</dt><dd>available hardware and solver capabilities</dd>
+          <dt>\(B\)</dt><dd>resource and search budgets</dd>
         </dl>
-        <h3>Acceptance</h3>
-        <p>For an attempted solution \(\hat{x}_{t,k}\), trusted code recomputes the relative residual on the <em>original</em> system and accepts only if it meets the contract tolerance:</p>
-        <div class="pp-eq">\[\rho_{t,k}=\frac{\lVert A_t\hat{x}_{t,k}-b_{t,k}\rVert_2}{\max\{\lVert b_{t,k}\rVert_2,\ \epsilon_b\}},\qquad z_{t,k}=\mathbf{1}\big\{\hat{x}_{t,k}\ \text{exists, is finite and method-valid, and}\ \rho_{t,k}\le\tau_{t,k}\big\}\]</div>
-        <p>Missing solutions, numerical failures, gate rejections, timeouts, crashes, and resource-terminated executions all have \(z_{t,k}=0\). Workload coverage and satisfaction are then</p>
-        <div class="pp-eq">\[\begin{gathered}\operatorname{Coverage}(\mathcal{W})=\frac{\sum_{(t,k)\in\mathcal{I}}w_{t,k}\,z_{t,k}}{\sum_{(t,k)\in\mathcal{I}}w_{t,k}},\\[4pt] \operatorname{Sat}(\mathcal{W})=\mathbf{1}\big\{\operatorname{Coverage}\ge\gamma,\ N_{\mathrm{prop}}\le B_{\mathrm{prop}},\ N_{\mathrm{exec}}\le B_{\mathrm{exec}},\ T_{\mathrm{wall}}\le B_{\mathrm{wall}},\ M_{\mathrm{peak}}\le B_{\mathrm{mem}}\big\}\end{gathered}\]</div>
-        <p>The default contract uses equal weights and \(\gamma=1\): every mandated solve must pass. Library convergence flags, exit status, model confidence, and retrieved experience cannot override these definitions. Satisfaction is the primary outcome, and favorable runtime never compensates for a contract violation.</p>
-        <h3>Three costs</h3>
-        <p>The cost of <em>searching</em> for a workflow is kept separate from the cost of <em>deploying</em> the selected one. The controller cost \(C_{\mathrm{ctrl}}\) charges the trusted work of every admitted execution, including failed ones. \(C_{\mathrm{first}}\) is the same sum up to the first accepted execution. \(C_{\mathrm{deploy}}(a^\star)\) is the cost of running the returned incumbent alone. In the batch regime, a candidate may build its setup once and reuse it across the declared right-hand sides:</p>
-        <div class="pp-eq">\[C^{\mathrm{M}}_{\mathrm{deploy}}(a;K)=C_{\mathrm{pre}}(a)+C_{\mathrm{setup}}(a)+\sum_{k=1}^{K}\big[C_{\mathrm{solve},k}(a)+C_{\mathrm{verify},k}(a)\big]\]</div>
-        <p>The choice is therefore between workflows with different setup and marginal-solve costs. A lightweight configuration has a cheap setup and expensive solves. An expensive preconditioner or factorization pays off only once it is amortized over enough right-hand sides. The experiments use regime S (\(T=1,K=1\)) and regime M (\(T=1,K>1\)); ordered sequences (regime Q, \(T>1\)) are a secondary extension.</p>
+        <p>A configuration \(a\) specifies a solver, a preconditioner, numerical parameters, and permitted preprocessing or setup-reuse operations. Within the budget, the goal is first to find a configuration that satisfies the complete workload, and then to minimize the specified cost.</p>
+        <h3>Numerical acceptance</h3>
+        <p>Software independently verifies each computed solution \(\hat{x}_k\) by recomputing its residual on the original system:</p>
+        <div class="pp-eq">\[\rho_k=\frac{\lVert A\hat{x}_k-b_k\rVert_2}{\max\{\lVert b_k\rVert_2,\ \epsilon_b\}}\ \le\ \tau_k\]</div>
+        <p>Here \(\epsilon_b&gt;0\) guards against a zero or near-zero right-hand side. Every required right-hand side must meet its tolerance, and acceptance also requires finite outputs, a valid method, and compliance with the time and memory limits.</p>
+        <h3>Search limits and cost</h3>
+        <p>The controller may submit at most \(B_{\mathrm{prop}}\) proposals and execute at most \(B_{\mathrm{exec}}\) configurations. Every submission counts toward the proposal limit, including invalid, repeated, or unaffordable configurations and premature <span style="font-variant:small-caps">Stop</span> requests. Only proposals that pass validation are executed. With \(g_j=1\) when proposal \(j\) is executed, the total numerical search cost is</p>
+        <div class="pp-eq">\[C_{\mathrm{ctrl}}=C_{\mathrm{card}}+\sum_{j:\,g_j=1}C^{\mathrm{num}}_j\]</div>
+        <p>where \(C_{\mathrm{card}}\) is the one-time cost of preparing the workload summary and \(C^{\mathrm{num}}_j\) includes preprocessing, setup, solves, verification, and permitted state transfer. Successful and failed executions both contribute. The work to first acceptance, \(C_{\mathrm{first}}\), is the same sum up to the first accepted trial, and is infinite if none is accepted.</p>
+        <h3>Deployment cost</h3>
+        <p>The deployment cost is the time needed to run the selected configuration on the workload, excluding the search that found it:</p>
+        <div class="pp-eq">\[C_{\mathrm{deploy}}(a;K)=C_{\mathrm{pre}}(a)+C_{\mathrm{setup}}(a)+\sum_{k=1}^{K}C_{\mathrm{solve},k}(a)+C_{\mathrm{transition}}(a)\]</div>
+        <p>When a setup is reused across right-hand sides, a larger initial investment may be repaid by cheaper subsequent solves. The batch study tests whether configuration choices follow this trade-off.</p>
       </section>
 
       <section class="pp-sec" id="sec-3">
-        <h2><span class="pp-secnum">3</span>The ATSolver controller</h2>
-        <p>ATSolver is one frozen language-model policy placed over a registered portfolio of classical solver workflows. The same policy issues the initial recommendation and every revision. Before each charged decision \(j\), a trusted projector builds the public decision state</p>
-        <div class="pp-eq">\[d_j=P_{\mathrm{arm}}(\mathcal{W},\xi_j)=\big(c_j,\ m^{\mathrm{arm}}_j,\ \mathcal{A}_j,\ \beta_j\big)\]</div>
+        <h2><span class="pp-secnum">3</span>Method</h2>
+        <h3>Decision inputs and actions</h3>
+        <p>Before proposal \(j\), the model receives the decision state</p>
+        <div class="pp-eq">\[d_j=\big(c_j,\ m^{\mathrm{arm}}_j,\ \mathcal{A}_j,\ \beta_j\big),\qquad a_j\sim\pi_\theta(\cdot\mid d_j)\]</div>
         <p class="pp-where-lead">where</p>
         <dl class="pp-where">
-          <dt>\(\xi_j\)</dt><dd>the complete trusted state, which the model never sees</dd>
-          <dt>\(c_j\)</dt><dd>the identity-withheld workload card: contract-relevant matrix features, structural checks, inexpensive probes, backend capabilities</dd>
-          <dt>\(m^{\mathrm{arm}}_j\)</dt><dd>the history that the experimental arm is allowed to expose</dd>
-          <dt>\(\mathcal{A}_j\)</dt><dd>the state-dependent legal action domain</dd>
-          <dt>\(\beta_j\)</dt><dd>the remaining proposal and execution budgets</dd>
+          <dt>\(c_j\)</dt><dd>workload information: dimensions, nonzero counts, structural and scaling properties, numerical estimates, requirements, and solver capabilities; matrix views and retrieved records where enabled</dd>
+          <dt>\(m^{\mathrm{arm}}_j\)</dt><dd>the trial history that the experimental condition exposes</dd>
+          <dt>\(\mathcal{A}_j\)</dt><dd>the legal actions</dd>
+          <dt>\(\beta_j\)</dt><dd>the remaining budgets</dd>
         </dl>
-        <p>The projection \(P_{\mathrm{arm}}\) is the single point of intervention in every feedback experiment. An <em>independent</em> arm sees no earlier proposals or outcomes. A <em>state-only</em> arm sees tried actions and remaining budgets. A <em>scalar</em> arm adds residual, coverage, runtime, and memory. A <em>structured</em> arm adds the typed verifier record and a deterministic diagnosis. Card, model, prompt, action schema, and budgets stay fixed, so differences between arms cannot come from the numerical runtime or the action space.</p>
-        <h3>Guarded propose&ndash;execute&ndash;verify&ndash;revise loop</h3>
-        <div class="pp-eq">\[a_j\sim\pi_\theta(\cdot\mid d_j),\qquad \eta_j=G(\mathcal{W},\xi_j,a_j),\qquad y_j=E(\mathcal{W},\xi_j,a_j),\qquad e_j=V(\mathcal{W},a_j,y_j),\qquad \xi_{j+1}=U(\xi_j,a_j,\eta_j,e_j,\delta_j)\]</div>
-        <ol class="pp-list">
-          <li><b>Propose.</b> The policy emits exactly one typed action or <span style="font-variant:small-caps">Stop</span>. Every call consumes a proposal slot; malformed, duplicate, or unaffordable outputs are recorded, never silently repaired or resampled.</li>
-          <li><b>Gate.</b> \(G\) checks schema, method preconditions, parameter constraints, backend support, duplicates, lifecycle state, and the remaining contract. A rejection costs a proposal slot but no execution.</li>
-          <li><b>Execute and verify.</b> The worker \(E\) runs admitted actions; the verifier \(V\) recomputes original-system residuals and applies coverage, time, and memory constraints. A clean exit or a convergence flag is evidence, not acceptance.</li>
-          <li><b>Diagnose and update.</b> A deterministic map \(\delta_j=D(a_j,\eta_j,e_j)\) names the failure category without choosing the next solver. \(U\) updates the ledgers and replaces the incumbent only under a frozen lexicographic rule: satisfaction first, then deployment cost.</li>
-        </ol>
-        <h3>Action portfolio</h3>
-        <p>All methods select from one frozen native portfolio. It contains HYPRE workflows using PCG, GMRES, FGMRES, or BiCGSTAB, each with no preconditioner or with AMG, ILU, or FSAI, plus a serial SuperLU direct factorization where the contract permits. Branch-specific schemas expose only the parameters valid for the chosen workflow. The portfolio spans low- and high-setup configurations, so a policy must trade setup investment against per-solve cost. The model manipulates typed intent, never numerical objects. Every request, output, gate decision, execution, verification, and budget change is written to a hash-bound ledger that supports replay.</p>
+        <p>Matrix names, file paths, private numerical objects, and verifier state are withheld. Each action selects a solver and preconditioner, sets their parameters, and specifies permitted preprocessing, initial-guess, and setup operations. The portfolio contains PCG, GMRES, FGMRES, and BiCGSTAB with AMG, ILU, FSAI, or no preconditioner, plus serial SuperLU where permitted. Proposals use a typed interface restricted to implemented workflows, and the model never generates solver code.</p>
+        <h3>Execution evidence and revision</h3>
+        <p>An executed trial returns its acceptance status, residuals, phase timings, and memory measurements; a proposal rejected before execution returns its rejection reason. Rejected proposals are never repaired automatically. The model may revise parameters within the current solver&ndash;preconditioner combination or switch to another. After a failure, a deterministic procedure summarizes the failure type and the aspects that may need revision, without choosing the next solver. After a success, setup and solve measurements guide further proposals under the cost objective.</p>
+        <h3>Incumbent and numerical state</h3>
+        <p>Software keeps a verified incumbent and replaces it only when another accepted candidate meets the improvement rule; later failures leave it unchanged. Trial history and numerical state are kept apart. Each single-system candidate starts from the same prescribed state, and each batch candidate must solve the entire batch on its own, although within one candidate a setup may be built once and reused across right-hand sides. For related-system sequences, only the selected accepted candidate may pass validated state to the next system.</p>
       </section>
 
       <section class="pp-sec" id="sec-4">
         <h2><span class="pp-secnum">4</span>Experimental setup</h2>
-        <p><b>Workloads.</b> 35 sparse matrices: 29 from the SuiteSparse collection and six finite-element systems assembled with MFEM, organized into 32 provenance families. A provenance group holds an original matrix together with its transformed versions, generated right-hand sides, and parameterized relatives, and no group is split across development and evaluation. Seven generated systems from four disjoint families are used only for implementation checks and calibration. Matrix names and collection identifiers are withheld from the model-visible card.</p>
-        <p><b>Contract and repetitions.</b> The completed campaign uses one contract stratum: tolerance \(\tau=10^{-8}\), a 1&nbsp;GiB peak-memory charge, and a 30&nbsp;s per-action limit. Each model-based condition is repeated three times per workload, giving 105 runs per policy. Repetitions are nested within matrices rather than counted as additional matrices.</p>
-        <p><b>Controller and backend.</b> A frozen <code>gpt-5.6-terra</code> proposal policy, native HYPRE 3.1 iterative workflows, and serial SuperLU 7 factorization. Within a matched comparison, conditions share the workload card, action grammar, backend, model and decoding settings, budgets, timeouts, and memory caps.</p>
-        <p><b>Research questions.</b></p>
+        <p><b>Data and implementation.</b> 35 sparse matrices, 29 from SuiteSparse and six assembled with MFEM, spanning 32 families. Three model repetitions per workload give 105 runs per condition. Related matrices stay in the same partition, and matrix names are withheld from the model. The proposal policy is a fixed <code>gpt-5.6-terra</code> configuration, with native HYPRE 3.1 and serial SuperLU 7 in float64 on CPU. The primary contracts use \(\tau=10^{-8}\), full coverage, a 1&nbsp;GiB memory limit, a 30&nbsp;s per-action timeout, and a 60&nbsp;s cumulative numerical deadline.</p>
         <ol class="pp-list">
-          <li><b>RQ1, end-to-end configuration.</b> Single-system workloads, comparing ATSolver with same-budget direct and expert-guided Best-of-3 search, plus lower-budget package-default and one-shot references.</li>
-          <li><b>RQ2, information-conditioned search.</b> The matched ladder from independent to structured feedback at a common 3/3 budget, and a fixed-parent intervention that holds one failed trial fixed and varies only what the model sees.</li>
-          <li><b>RQ3, batch-aware setup selection.</b> One matrix with \(K\in\{2,8,32\}\) right-hand sides. Every right-hand side must pass, and the question is whether the selected setup class changes with \(K\).</li>
+          <li><b>RQ1, configuration quality.</b> ATSolver against Direct and Expert-guided Best-of-3 at three proposal and three execution slots, with one-shot variants and a fixed GMRES+AMG configuration as single-configuration references. A separate six-proposal, iterative-only study compares ATSolver with independent Best-of-6; selected configurations receive one warm-up and five measured replays.</li>
+          <li><b>RQ2, feedback memory.</b> Within a search: no action history, tried configurations only, scalar outcomes, or structured diagnostics, under matched limits. Across workloads: knowledge alone (K) against knowledge plus retrieved trial experience (K+E), on held-out parameters within the Helmholtz and SUPG families.</li>
+          <li><b>RQ3, setup investment.</b> Batch sizes \(K\in\{2,8,32\}\), with every right-hand side required to pass. Controls are an expert amortization rule, a trained configuration ranker, and model-based search. All have three slots, but the controls choose among five preset configurations while ATSolver also tunes parameters.</li>
+          <li><b>Matrix views.</b> On eight matrices, no images against two structural views and four combined structural and signed-value views, with six proposals and three repetitions.</li>
         </ol>
-        <p><b>Endpoints and statistics.</b> The primary outcome is workload-level contract satisfaction over all assigned runs. Secondary outcomes are restricted mean trusted work to first acceptance (RMW, unsuccessful runs right-censored at a common 180&nbsp;s horizon), complete online search wall time, and the selected workflow&rsquo;s deployment time \(T_{\mathrm{dep}}=T_{\mathrm{pre}}+T_{\mathrm{setup}}+T_{\mathrm{solve}}\). Deployment comparisons use only runs satisfied by both policies, and always state that denominator. Intervals are 95% percentile intervals from a 10,000-sample hierarchical bootstrap over provenance group, matrix, and paired repetition.</p>
+        <p><b>Metrics.</b> <em>Accepted</em> counts numerically accepted runs, with failed searches included and rejected proposals charged to the budget. <em>1st-Accept Work</em> is the restricted mean numerical work to first acceptance over a 180&nbsp;s horizon. <em>Full search</em> time includes model and orchestration latency. Deployment includes preprocessing, setup, the required solves, and any prescribed state transfer, and excludes verification and search. Paired timings use jointly accepted runs, and a time ratio \(r\) corresponds to a \(100(1-r)\%\) reduction.</p>
       </section>
 
       <section class="pp-sec" id="results">
         <h2><span class="pp-secnum">5</span>Results</h2>
         <ul class="pp-stats">
-          <li><strong>78 / 105</strong><span>single-system runs accepted, vs. 74 / 105 for direct Best-of-3 at the same budget</span></li>
-          <li><strong>46.1%</strong><span>less trusted work to first acceptance than the package default (93.11 s &rarr; 50.18 s)</span></li>
-          <li><strong>+20.95 pp</strong><span>batch satisfaction over the expert amortization rule at <i>K</i>&nbsp;=&nbsp;32 (72 vs. 50 of 105)</span></li>
+          <li><strong>75 / 105</strong><span>runs accepted vs. 64 / 105 for independent Best-of-6</span></li>
+          <li><strong>30.1%</strong><span>lower replayed solve time on matrices both policies solve in every repetition</span></li>
+          <li><strong>48.5%</strong><span>lower batch deployment time than the expert amortization rule at <i>K</i>&nbsp;=&nbsp;32</span></li>
         </ul>
 
-        <h3>5.1&ensp;RQ1: end-to-end configuration</h3>
-        <div class="pp-table-wrap narrow">
+        <h3>5.1&ensp;RQ1: configuration quality and search cost</h3>
+        <div class="pp-table-wrap">
           <table class="pp-table">
-            <caption><b>Table 1.</b> Single right-hand-side configuration on 35 matrices with three repetitions. All arms use the iterative-plus-SuperLU portfolio. RMW: restricted mean trusted work to first acceptance (180&nbsp;s horizon). Search: median complete online wall time over all runs.</caption>
-            <thead><tr><th>Policy</th><th>\(B_P/B_E\)</th><th>Accepted&uarr;</th><th>RMW (s)&darr;</th><th>Search (s)&darr;</th></tr></thead>
+            <caption><b>Table 1.</b> Matched-proposal configuration quality and search cost on 35 matrices &times; 3 repetitions. 1st-Accept Work: restricted mean numerical work to first acceptance (s). Full search: median (s).</caption>
+            <thead><tr><th>Method</th><th>\(B_P/B_E\)</th><th>Accepted&uarr;</th><th>1st-Accept Work&darr;</th><th>Full search&darr;</th></tr></thead>
             <tbody>
-              <tr><td>Package default</td><td>1/1</td><td>51/105</td><td>93.11</td><td><b>1.92</b></td></tr>
+              <tr><td>Fixed GMRES+AMG</td><td>1/1</td><td>51/105</td><td>93.11</td><td>1.92</td></tr>
               <tr><td>Direct one-shot</td><td>1/1</td><td>70/105</td><td>61.37</td><td>8.14</td></tr>
               <tr><td>Expert-guided one-shot</td><td>1/1</td><td>65/105</td><td>69.85</td><td>8.04</td></tr>
-              <tr><td>Direct Best-of-3</td><td>3/3</td><td>74/105</td><td>56.71</td><td>21.64</td></tr>
-              <tr><td>Expert-guided Best-of-3</td><td>3/3</td><td>75/105</td><td>56.91</td><td>19.90</td></tr>
-              <tr class="ours"><td>ATSolver</td><td>3/3</td><td><b>78/105</b></td><td><b>50.18</b></td><td>26.28</td></tr>
+              <tr class="pp-rule"><td>Direct Best-of-3</td><td>3/3</td><td>74/105</td><td>55.28</td><td>21.64</td></tr>
+              <tr><td>Expert-guided Best-of-3</td><td>3/3</td><td>75/105</td><td>54.06</td><td><b>19.90</b></td></tr>
+              <tr class="ours"><td>ATSolver</td><td>3/3</td><td><b>78/105</b></td><td><b>48.76</b></td><td>26.28</td></tr>
             </tbody>
           </table>
         </div>
-        <p>ATSolver accepts the most runs and reaches its first accepted action with the least trusted numerical work; these figures include unsuccessful runs at the common horizon. Its complete online search is longer, 26.28&nbsp;s against 21.64&nbsp;s for direct Best-of-3. A lower cost to the first accepted action and a longer complete search therefore coexist, and neither is a net saving for a single subsequent deployment.</p>
-        <p>On jointly satisfied runs, the selected deployment phase is 0.6153&nbsp;s against 0.7428&nbsp;s for direct Best-of-3 (74 pairs over 26 matrices). This is an observed 17.2% reduction, but it is not statistically resolved (\(p=0.118\)). Against expert-guided Best-of-3 the reduction is 22.0% (0.5673&nbsp;s against 0.7268&nbsp;s, 75 pairs over 25 matrices, \(p=0.003\)). In a separate seeded continuation, 62 of 76 initially accepted runs return a cheaper configuration. That continuation uses 419 additional proposals and does not raise final satisfaction above 78/105.</p>
+        <p>Among the matched-budget methods, ATSolver accepts the most runs and has the lowest work to first acceptance, 48.76&nbsp;s against 54.06&nbsp;s for Expert-guided Best-of-3. Its median full search is longer, 26.28&nbsp;s against 19.90&nbsp;s. On each comparison&rsquo;s jointly accepted runs, the selected configuration deploys 17.2% faster than Direct Best-of-3 (74 runs, 26 matrices) and 22.0% faster than Expert-guided Best-of-3 (75 runs, 25 matrices). These savings cover preprocessing, setup, and solve; whether repeated deployment repays the extra search depends on how often the configuration is reused.</p>
+        <div class="pp-table-wrap">
+          <table class="pp-table">
+            <caption><b>Table 2.</b> Six-proposal iterative study. Ratios are ATSolver / Best-of-6 on 60 paired runs over 20 matrices accepted by both policies in all three repetitions; full search is a median over all 35 matrices.</caption>
+            <thead><tr><th>Method</th><th>Accepted&uarr;</th><th>Solve ratio&darr;</th><th>Deploy ratio&darr;</th><th>Full search (s)&darr;</th></tr></thead>
+            <tbody>
+              <tr><td>Independent Best-of-6</td><td>64/105</td><td>1.000</td><td>1.000</td><td><b>53.37</b></td></tr>
+              <tr class="ours"><td>ATSolver</td><td><b>75/105</b></td><td><b>0.699</b></td><td><b>0.955</b></td><td>75.23</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>In this study independent replay gives 30.1% lower solve time and 4.5% lower deployment time on the paired subset. The trace on <code>bcsstk17</code> illustrates the loop: the initial PCG+AMG configuration reaches its iteration limit before meeting the tolerance; raising the limit produces an accepted solution, and increasing the AMG sweeps then gives a cheaper accepted configuration. Across the three-proposal study, ATSolver recovers 18 of 45 initially unsuccessful searches on its second proposal.</p>
 
-        <h3>5.2&ensp;RQ2: what the history contributes</h3>
+        <h3>5.2&ensp;RQ2: feedback memory</h3>
         <div class="pp-table-pair">
           <div class="pp-table-wrap">
             <table class="pp-table">
-              <caption><b>Table 2.</b> Matched information ladder. Cumulative runs with an accepted incumbent after \(k\) charged proposals (105 runs per arm), and the share of slots spent on duplicate proposals.</caption>
-              <thead><tr><th>Public information</th><th>@1</th><th>@2</th><th>@3</th><th>Dup.&darr;</th></tr></thead>
+              <caption><b>Table 3.</b> Accepted runs after \(k\) proposals in the three-proposal history study (\(n/105\)), and the share of proposals that repeat an earlier one.</caption>
+              <thead><tr><th>History exposed</th><th>\(k=1\)</th><th>\(k=2\)</th><th>\(k=3\)</th><th>Dup.&darr;</th></tr></thead>
               <tbody>
-                <tr><td>One-shot, no history</td><td>68</td><td>&ndash;</td><td>&ndash;</td><td>0.0%</td></tr>
-                <tr><td>Independent, no history</td><td>66</td><td>71</td><td>74</td><td>29.8%</td></tr>
-                <tr><td>State-only: tried actions</td><td>65</td><td>76</td><td><b>78</b></td><td>0.0%</td></tr>
-                <tr><td>Scalar: outcome summary</td><td><b>72</b></td><td>77</td><td><b>78</b></td><td>0.0%</td></tr>
-                <tr class="ours"><td>Structured: verifier record</td><td>69</td><td><b>78</b></td><td><b>78</b></td><td>0.0%</td></tr>
+                <tr><td>One-shot, none</td><td>68</td><td>&ndash;</td><td>&ndash;</td><td>0.0%</td></tr>
+                <tr class="pp-rule"><td>Independent, none</td><td>66</td><td>71</td><td>77</td><td>29.8%</td></tr>
+                <tr><td>Tried actions</td><td>65</td><td>76</td><td><b>78</b></td><td><b>0.0%</b></td></tr>
+                <tr><td>Scalar outcomes</td><td><b>72</b></td><td>77</td><td><b>78</b></td><td><b>0.0%</b></td></tr>
+                <tr class="ours"><td>Structured record</td><td>69</td><td><b>78</b></td><td><b>78</b></td><td><b>0.0%</b></td></tr>
               </tbody>
             </table>
           </div>
           <div class="pp-table-wrap">
             <table class="pp-table">
-              <caption><b>Table 3.</b> Fixed-parent intervention. One next action per identical failed parent and legal child domain (105 parent states). The placebo has a matched format but comes from another parent.</caption>
-              <thead><tr><th>Visible parent outcome</th><th>Accepted</th><th>Rate</th></tr></thead>
+              <caption><b>Table 4.</b> Retrieved experience: online attainment of the performance target within \(q\) proposals (%), on 42 six-proposal searches over 14 held-out parameter points.</caption>
+              <thead><tr><th>Evidence</th><th>\(q=1\)</th><th>\(q=3\)</th><th>\(q=6\)</th><th>Replay</th></tr></thead>
               <tbody>
-                <tr><td>No outcome (action only)</td><td>63/105</td><td>60.00%</td></tr>
-                <tr><td>Scalar numerical summary</td><td><b>68/105</b></td><td><b>64.76%</b></td></tr>
-                <tr><td>Structured verifier record</td><td>62/105</td><td>59.05%</td></tr>
-                <tr><td>Matched-placebo record</td><td>67/105</td><td>63.81%</td></tr>
+                <tr><td>Knowledge (K)</td><td>31.0</td><td>42.9</td><td>54.8</td><td>45.2</td></tr>
+                <tr class="ours"><td>K + experience</td><td><b>88.1</b></td><td><b>100.0</b></td><td><b>100.0</b></td><td><b>90.5</b></td></tr>
               </tbody>
             </table>
           </div>
         </div>
-        <p>Independent proposals reach 66, 71, and 74 accepted runs over three slots; structured feedback reaches 69, 78, and 78, attaining the sequential ceiling by the second proposal. Independent sampling spends 94 of its 315 slots (29.8%) re-proposing configurations it has already tried, and no sequential arm proposes a duplicate. State-only history also removes duplicates and also reaches 78/105, so the trajectory comparison does not establish a unique benefit of the structured fields.</p>
-        <p>The fixed-parent intervention isolates content. It binds the same non-convergent GMRES trial (no preconditioner, zero initial guess, two-iteration limit), the same legal child domain, and a one-proposal budget across all four arms. Structured feedback yields 62/105 accepted next actions against 68/105 for scalar feedback, a difference of \(-5.71\) percentage points (95% CI \([-12.12,\,-0.95]\)). For these prescribed failures, the additional structured fields do not improve one-step recovery. The result is limited to this parent family and should not be read as a statement about every failure encountered during search.</p>
+        <p><b>Within-search memory.</b> No repeated proposal occurs in any condition that exposes tried configurations, against 94 of 315 proposals (29.8%) without action history. Because the gate charges rejected duplicates to the proposal budget, this memory keeps slots from being spent on configurations already tried. Final acceptance is 77/105 without history and 78/105 in every history condition. In a separate constructed-failure intervention, in which every parent is an unpreconditioned GMRES trial with a two-iteration limit, structured diagnostics give fewer accepted next actions than scalar outcomes, 62/105 against 68/105.</p>
+        <p><b>Retrieved experience.</b> The target requires numerical acceptance and a solve time within \(1.05\times\) the best stable fixed recipe. With experience, 88.1% of searches reach it on the first proposal and all of them within three, against 31.0% and 42.9% for knowledge alone. Independent replay of the final selections gives 38/42 against 19/42. Both conditions satisfy all 42 numerical contracts, so the gain concerns solve performance rather than additional acceptance. Experience reduces paired replayed solve time by 11.0% and numerical-worker time by 44.5%, while increasing tokens by 36.2%.</p>
 
-        <h3>5.3&ensp;RQ3: batch size changes setup investment</h3>
-        <div class="pp-table-wrap narrow">
+        <h3>5.3&ensp;RQ3: setup investment and batch size</h3>
+        <div class="pp-table-wrap">
           <table class="pp-table">
-            <caption><b>Table 4.</b> Complete-batch contract satisfaction on 35 matrices &times; 3 repetitions at each declared number of right-hand sides \(K\). Every right-hand side must pass; each candidate starts from an isolated state and may reuse its own setup across the batch.</caption>
-            <thead><tr><th>Policy</th><th>\(B_P/B_E\)</th><th>\(K=2\)</th><th>\(K=8\)</th><th>\(K=32\)</th></tr></thead>
+            <caption><b>Table 5.</b> Complete-batch acceptance (\(n/105\)) and ATSolver&rsquo;s paired deployment reduction against each control (%), on jointly accepted batches. All methods have three proposal and execution slots.</caption>
+            <thead>
+              <tr><th rowspan="2">Method</th><th colspan="2">\(K=2\)</th><th colspan="2">\(K=8\)</th><th colspan="2">\(K=32\)</th></tr>
+              <tr><th>Acc.&uarr;</th><th>Red.</th><th>Acc.&uarr;</th><th>Red.</th><th>Acc.&uarr;</th><th>Red.</th></tr>
+            </thead>
             <tbody>
-              <tr><td>Package default</td><td>1/1</td><td>51/105</td><td>45/105</td><td>42/105</td></tr>
-              <tr><td>Lifecycle-aware one-shot</td><td>1/1</td><td>68/105</td><td>60/105</td><td>58/105</td></tr>
-              <tr><td>Expert amortization rule</td><td>3/3</td><td>69/105</td><td>66/105</td><td>50/105</td></tr>
-              <tr><td>Supervised ranker</td><td>3/3</td><td>69/105</td><td>66/105</td><td>57/105</td></tr>
-              <tr><td>Model-based search</td><td>3/3</td><td>75/105</td><td>69/105</td><td><b>72/105</b></td></tr>
-              <tr class="ours"><td>ATSolver</td><td>3/3</td><td><b>78/105</b></td><td><b>75/105</b></td><td><b>72/105</b></td></tr>
+              <tr><td>Expert amortization rule</td><td>69</td><td>7.1</td><td>66</td><td>11.2</td><td>50</td><td><b>48.5</b></td></tr>
+              <tr><td>Supervised ranker</td><td>69</td><td>6.1</td><td>66</td><td>3.2</td><td>57</td><td>2.0</td></tr>
+              <tr><td>Model-based search</td><td>75</td><td>5.5</td><td>69</td><td>&minus;1.7</td><td><b>72</b></td><td>2.2</td></tr>
+              <tr class="ours"><td>ATSolver</td><td><b>78</b></td><td>&ndash;</td><td><b>75</b></td><td>&ndash;</td><td><b>72</b></td><td>&ndash;</td></tr>
             </tbody>
           </table>
         </div>
-        <p>At \(K=32\), ATSolver satisfies 22 more of 105 runs than the expert amortization rule (+20.95 percentage points, 95% CI \([8.57,\,35.35]\)). On the 50 jointly satisfied pairs over 17 matrices, its selected deployment phase is 48.5% cheaper than the expert&rsquo;s (paired cost ratio 0.515, 95% CI \([0.321,\,0.772]\)). Model-based configuration search is a stronger control. It also reaches 72/105 at \(K=32\), and the observed deployment differences against it are small: 2.2% at \(K=32\) and \(-1.7\)% at \(K=8\). The expert, ranker, and model-based controls choose among five frozen configurations while ATSolver also tunes parameters. These contrasts therefore compare complete systems, not search efficiency within one action space.</p>
-        <div class="pp-table-wrap narrow">
+        <div class="pp-table-wrap">
           <table class="pp-table">
-            <caption><b>Table 5.</b> Selected setup on the same 72 matrix&ndash;repetition units (24 matrices) that ATSolver satisfies at every \(K\). Times are medians of the selected configuration.</caption>
+            <caption><b>Table 6.</b> Configurations selected by ATSolver on the same 72 matrix&ndash;repetition pairs accepted at every \(K\) (24 matrices), and median full search time over all 105 searches.</caption>
             <thead><tr><th>Quantity</th><th>\(K=2\)</th><th>\(K=8\)</th><th>\(K=32\)</th></tr></thead>
             <tbody>
-              <tr><td>Direct factorization selected</td><td>22</td><td>41</td><td>55</td></tr>
-              <tr><td>Setup time (s)</td><td>0.0338</td><td>0.0945</td><td>0.2152</td></tr>
-              <tr><td>Solve time per right-hand side (s)</td><td>0.03595</td><td>0.01198</td><td>0.00772</td></tr>
-              <tr><td>Search wall time, ATSolver (s)</td><td>32.68</td><td>42.24</td><td>65.46</td></tr>
-              <tr><td>Search wall time, expert rule (s)</td><td>9.53</td><td>21.68</td><td>62.55</td></tr>
+              <tr><td>Direct factorization selected</td><td>22/72</td><td>41/72</td><td>55/72</td></tr>
+              <tr><td>Median setup time (s)</td><td>0.0338</td><td>0.0945</td><td>0.2152</td></tr>
+              <tr><td>Median solve time per right-hand side (s)</td><td>0.03595</td><td>0.01198</td><td>0.00772</td></tr>
+              <tr class="pp-rule"><td>Full search, ATSolver (s)</td><td>32.68</td><td>42.24</td><td>65.46</td></tr>
+              <tr><td>Full search, expert rule (s)</td><td><b>9.53</b></td><td><b>21.68</b></td><td><b>62.55</b></td></tr>
             </tbody>
           </table>
         </div>
-        <p>Forty-six of the 72 units change setup class across batch sizes. As \(K\) grows, the controller invests in more expensive setups, most often direct factorization, and the per-right-hand-side solve time falls accordingly. This is evidence of a batch-dependent setup/solve trade-off, not a proof that every matrix benefits from the same change. The deployment savings must also be read alongside the upfront search, which is longer than the expert rule&rsquo;s at every \(K\).</p>
+        <p>At \(K=32\), on the 50 jointly accepted runs across 17 matrices, the configurations selected by ATSolver reduce full-batch deployment time by 48.5% relative to the expert rule (95% CI \([22.8,\,67.9]\)). Model-based search matches ATSolver&rsquo;s 72/105 at that batch size, and the deployment reduction against it is 2.2% (95% CI \([-9.9,\,10.8]\)). On the fixed set of 72 pairs, direct-factorization selections rise from 22 to 55 as \(K\) grows from 2 to 32. Median setup time rises from 0.0338 to 0.2152&nbsp;s, while median solve time per right-hand side falls from 0.03595 to 0.00772&nbsp;s. Because the evaluated cases are held fixed, the shift is not explained by a change in the accepted subset: the controller spreads a more expensive setup over more solves. Its full search time is higher than the expert rule&rsquo;s at every \(K\), and deployment savings exclude this overhead.</p>
+        <p><b>Related-system sequences.</b> Over four-position sequences, joint control accepts 72/105 under each operator schedule, against 63/105 for carryover with prescribed rebuilding when the operator changes at every transition and 69/105 under mixed transitions.</p>
+
+        <h3>5.4&ensp;Matrix views</h3>
+        <p>All three image conditions accept 18/24 runs on eight matrices. On the six jointly successful matrices, two sparsity views, in the original and the reverse Cuthill&ndash;McKee orderings, reduce replayed solve time by 14.8% relative to no images. Four structural and signed-value views give a smaller 9.6% reduction. Both image conditions increase online search time.</p>
       </section>
 
       <section class="pp-sec" id="sec-6">
-        <h2><span class="pp-secnum">6</span>Supporting studies</h2>
-        <p>These studies use different populations, budgets, or protocols and are not pooled with RQ1&ndash;RQ3.</p>
-        <ol class="pp-list">
-          <li><b>Retrieved knowledge and experience.</b> All five retrieval contexts satisfy 78/105. Adding retrieved experience to knowledge lowers the selected deployment cost by 19.0% (ratio 0.810), and by 14.5% (ratio 0.855) against a byte-matched static context; both intervals lie below one. Retrieval audits record zero overlap with evaluation families and no online updates. The experience arm uses more tokens.</li>
-          <li><b>Resource and accuracy sweeps.</b> Separate sweeps over memory caps of 192, 512, and 4096&nbsp;MiB and tolerances of \(10^{-10}\), \(10^{-8}\), and \(10^{-6}\). Three-proposal ATSolver satisfies more runs than a single call in every condition. The fixed expert policy is slightly higher overall, so the sweeps do not show that ATSolver dominates the expert.</li>
-          <li><b>Related-system sequences (regime Q).</b> Over four-position sequences, ATSolver completes 72/105 under both operator schedules, against 63/105 and 69/105 for a matched prescribed-rebuild control. Conditional deployment cost is not lower.</li>
-          <li><b>Matrix-image channels.</b> An audit of the four-channel study found that no image panels reached the model in any condition. Those results are therefore kept as a diagnostic and are not used as evidence about images.</li>
-        </ol>
-      </section>
-
-      <section class="pp-sec" id="sec-7">
-        <h2><span class="pp-secnum">7</span>Discussion and limitations</h2>
-        <p>The trusted boundary is what makes these questions answerable. Because workload, action space, executor, verifier, and budget are held fixed, the evaluation can ask which part of the controller does the work, not only whether it wins. Three findings stand out. Feasibility gains over same-budget sampling are real but modest. Removing repeated proposals accounts for much of the advantage of sequential search, and richer diagnostic content does not improve one-step repair. The clearest workload-level effect appears in the batch regime, where the controller shifts toward expensive reusable setups as \(K\) grows.</p>
-        <ol class="pp-list">
-          <li>The completed campaign realizes a single contract stratum, so the main comparisons cannot say how the effects move with tolerance or resource pressure.</li>
-          <li>Search consumes more wall time and more provider tokens than the baselines; a reader who budgets tokens rather than trusted numerical work may reach a different conclusion for a single solve.</li>
-          <li>In RQ3 the controls choose from a smaller action space, which limits policy-level attribution; a same-action-space comparison remains future work.</li>
-          <li>Residual acceptance does not certify the physical model, the discretization, or the forward error, and hardware-specific timings need not transfer across platforms.</li>
-        </ol>
-        <p>The contract, the typed action grammar, and the per-proposal audit ledger are released so the remaining experiments can be run against the same frozen protocol.</p>
+        <h2><span class="pp-secnum">6</span>Ongoing extension: reinforcement learning</h2>
+        <p>Every result above keeps the language model fixed: the controller improves within a search through feedback and memory, never through parameter updates. The extension now in progress trains the proposal policy itself with reinforcement learning, using the same trusted boundary as the source of reward.</p>
+        <p>The formulation carries over directly. A workload defines an episode, the decision state \(d_j\) is the observation, a typed configuration \(a_j\) is the action, and the per-proposal audit ledger records complete trajectories. The reward comes only from the verifier, never from the model&rsquo;s own judgment, and follows the same feasibility-first ordering as the evaluation: acceptance of the complete workload first, then deployment cost, with search work charged against it. A reward of this form is</p>
+        <div class="pp-eq">\[r(\tau)=\mathbf{1}\{\text{workload accepted}\}\Big(1-\lambda_{\mathrm{dep}}\,\tilde{C}_{\mathrm{deploy}}(a^\star)\Big)-\lambda_{\mathrm{ctrl}}\,\tilde{C}_{\mathrm{ctrl}}\]</div>
+        <p class="pp-where-lead">where \(\tau\) is one search trajectory, \(a^\star\) the verified incumbent, \(\tilde{C}\) normalized costs, and \(\lambda_{\mathrm{dep}},\lambda_{\mathrm{ctrl}}\ge0\) trade-off weights.</p>
+        <p>Because legality, execution, and verification remain outside the model, a learned policy cannot be rewarded for an unverified claim of success, and invalid or repeated proposals are charged exactly as they are now. The questions this extension targets are whether a trained policy reaches acceptable configurations in fewer proposals than the fixed model with memory, and whether it learns setup&ndash;solve trade-offs that transfer across batch sizes and matrix families.</p>
       </section>
 
       <section class="pp-sec" id="citation">
@@ -262,7 +255,7 @@
   title  = {ATSolver: Agentic Tuning of Sparse Linear Solvers with Numerical Feedback},
   author = {Tian, Mingke and Chen, Yiyun and Li, Ruipeng and Xu, Tianshi and Xi, Yuanzhe},
   year   = {2026},
-  note   = {Under review}
+  note   = {Preprint, under review}
 }</pre></div>
       </section>
 
@@ -306,6 +299,6 @@
       <span>Last updated October 2026</span>
     </div>
   </footer>
-  <script src="assets/site.js?v=20261028b" defer></script>
+  <script src="assets/site.js?v=20261028c" defer></script>
 </body>
 </html>

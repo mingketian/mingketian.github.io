@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lipschitz-Regularized χ²-GANs | Mingke Tian</title>
+  <meta name="description" content="A Pearson chi-squared GAN critic restricted to 1-Lipschitz functions with a gradient penalty, evaluated on MNIST and Fashion-MNIST.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Mingke Tian">
+  <meta property="og:title" content="Lipschitz-Regularized χ²-GANs | Mingke Tian">
+  <meta property="og:description" content="A Pearson chi-squared GAN critic restricted to 1-Lipschitz functions with a gradient penalty, evaluated on MNIST and Fashion-MNIST.">
+  <meta property="og:url" content="https://mingketian.github.io/project-lipschitz-gan.html">
+  <meta property="og:image" content="https://mingketian.github.io/images/profile.jpg">
+  <meta name="twitter:card" content="summary">
+  <link rel="icon" href="assets/mk-32.png" sizes="32x32" type="image/png">
+  <link rel="icon" href="assets/mk-192.png" sizes="192x192" type="image/png">
+  <link rel="apple-touch-icon" href="assets/mk-apple-touch.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Charis+SIL:ital,wght@0,400;0,700;1,400;1,700&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,700;1,800&display=swap">
+  <link rel="stylesheet" href="assets/style.css?v=20261028c">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="inner">
+      <nav class="site-nav" aria-label="Main">
+        <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="cv.html">CV</a></li>
+        <li><a href="research.html">Research</a></li>
+        <li><a href="experience.html" aria-current="page">Experience</a></li>
+        <li><a href="activities.html">Leadership &amp; Services</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="paper-page project-page pp-v2">
+    <a class="pp-back" href="experience.html#projects">&larr; All projects</a>
+    <header class="pp-hero">
+      <p class="paper-badges"><span class="badge review">2025 &middot; Team project</span></p>
+      <h1>Lipschitz-Regularized &chi;<sup>2</sup>-GANs</h1>
+      <p class="pp-affil">Atlanta Mathematics of Data Science Bootcamp, Georgia Tech and Emory University</p>
+      <div class="pp-buttons"><a class="pp-btn" href="#sec-3">Method</a><a class="pp-btn" href="#results">Results</a></div>
+      <dl class="pp-facts">
+        <div><dt>Problem</dt><dd>Stable training of generative adversarial networks</dd></div>
+        <div><dt>Data</dt><dd>MNIST &middot; Fashion-MNIST</dd></div>
+        <div><dt>Key idea</dt><dd>A Pearson &chi;<sup>2</sup> critic restricted to 1-Lipschitz functions</dd></div>
+        <div><dt>Metric</dt><dd>Inception Score</dd></div>
+      </dl>
+    </header>
+
+    <div class="pp-tldr"><span class="pp-label">Summary</span><p>The standard GAN objective minimizes a Jensen&ndash;Shannon divergence, the &chi;<sup>2</sup>-GAN replaces it with a Pearson &chi;<sup>2</sup> divergence, and the WGAN restricts its critic to 1-Lipschitz functions. This project combines the last two ideas: the &chi;<sup>2</sup> variational objective is optimized over 1-Lipschitz critics, and the constraint is enforced in penalty form with a gradient penalty. On MNIST the combined model obtains the highest Inception Score of the three variants; on Fashion-MNIST it scores slightly below the standard GAN, within one standard deviation.</p></div>
+
+    <div class="pp-layout">
+      <nav class="pp-toc" aria-label="On this page"><span>On this page</span><a href="#sec-1">GAN objective</a><a href="#sec-2">&chi;&sup2; and Wasserstein</a><a href="#sec-3">Method</a><a href="#results">Results</a><a href="#sec-5">Discussion</a><a href="#refs">References</a></nav>
+
+    <article class="pp-doc">
+      <section class="pp-sec" id="sec-1">
+        <h2><span class="pp-secnum">1</span>The GAN objective</h2>
+        <p>A generator \(g:\mathcal{Z}\to\mathcal{X}\) maps a latent vector \(z\sim P_Z\) to a sample \(g(z)\sim P_g\). A discriminator \(D:\mathcal{X}\to[0,1]\) estimates the probability that its input is a real sample \(x\sim P_{\mathrm{data}}\). The two are trained on the minimax problem</p>
+        <div class="pp-eq">\[\min_{g}\max_{D}\ \mathbb{E}_{x\sim P_{\mathrm{data}}}\big[\log D(x)\big]+\mathbb{E}_{z\sim P_Z}\big[\log\big(1-D(g(z))\big)\big]\]</div>
+        <p>For a fixed generator, the inner maximization has the pointwise solution</p>
+        <div class="pp-eq">\[D^\star(x)=\frac{p_{\mathrm{data}}(x)}{p_{\mathrm{data}}(x)+p_g(x)}\]</div>
+        <p>Substituting \(D^\star\) back gives \(2\,\mathrm{JSD}(P_{\mathrm{data}}\,\Vert\,P_g)-\log 4\). Training the generator therefore minimizes the Jensen&ndash;Shannon divergence between the data and model distributions. When the two distributions have nearly disjoint supports, this divergence saturates and its gradients carry little information, which is a known source of unstable GAN training.</p>
+      </section>
+
+      <section class="pp-sec" id="sec-2">
+        <h2><span class="pp-secnum">2</span>&chi;<sup>2</sup> and Wasserstein alternatives</h2>
+        <h3>Pearson &chi;<sup>2</sup> divergence</h3>
+        <p>An \(f\)-divergence admits a variational lower bound in terms of a critic \(T:\mathcal{X}\to\mathbb{R}\) and the Fenchel conjugate \(f^\ast\) of \(f\):</p>
+        <div class="pp-eq">\[D_f(P\,\Vert\,Q)=\int q(x)\,f\!\Big(\frac{p(x)}{q(x)}\Big)\,dx\ \ge\ \sup_{T}\ \mathbb{E}_{x\sim P}\big[T(x)\big]-\mathbb{E}_{x\sim Q}\big[f^\ast(T(x))\big]\]</div>
+        <p>For the Pearson &chi;<sup>2</sup> divergence, \(f(t)=(t-1)^2\) and \(f^\ast(s)=\tfrac{s^2}{4}+s\), which gives the &chi;<sup>2</sup>-GAN objective.</p>
+        <h3>Wasserstein distance</h3>
+        <p>The WGAN instead measures the Wasserstein-1 distance, which by Kantorovich&ndash;Rubinstein duality is a supremum over 1-Lipschitz critics:</p>
+        <div class="pp-eq">\[W(P,Q)=\sup_{T\in\mathrm{Lip}_1}\ \mathbb{E}_{x\sim P}\big[T(x)\big]-\mathbb{E}_{x\sim Q}\big[T(x)\big],\qquad \mathrm{Lip}_1=\big\{T:\mathcal{X}\to\mathbb{R}\ \big|\ \lVert\nabla T\rVert\le 1\big\}\]</div>
+        <p>The Lipschitz restriction keeps the critic smooth, so it provides useful gradients even when the two distributions barely overlap.</p>
+      </section>
+
+      <section class="pp-sec" id="sec-3">
+        <h2><span class="pp-secnum">3</span>Method: a Lipschitz-constrained &chi;<sup>2</sup> critic</h2>
+        <p>The Lipschitz condition is read as a restriction on the function class of the critic rather than as part of the divergence. Applying it to the &chi;<sup>2</sup> objective gives</p>
+        <div class="pp-eq">\[\min_{g}\ \max_{T\in\mathrm{Lip}_1(\mathcal{X})}\ \mathbb{E}_{x\sim P_{\mathrm{data}}}\big[T(x)\big]-\mathbb{E}_{z\sim P_Z}\Big[\tfrac{1}{4}T(g(z))^2+T(g(z))\Big]\]</div>
+        <h3>Penalty form</h3>
+        <p>Treating \(\lVert\nabla T\rVert\le 1\) as a constraint and moving it into the objective with a multiplier, in the spirit of a KKT relaxation, gives the trained objective</p>
+        <div class="pp-eq">\[\min_{g}\max_{T}\ \mathbb{E}_{x\sim P_{\mathrm{data}}}\big[T(x)\big]-\mathbb{E}_{z\sim P_Z}\Big[\tfrac{1}{4}T(g(z))^2+T(g(z))\Big]-\lambda_{\mathrm{gp}}\,\mathbb{E}_{\hat{x}\sim P_{\mathrm{interp}}}\Big[\big(\lVert\nabla_{\hat{x}}T(\hat{x})\rVert_2-1\big)^2\Big]\]</div>
+        <p class="pp-where-lead">where</p>
+        <dl class="pp-where">
+          <dt>\(\hat{x}\)</dt><dd>a point on the segment between a real sample and a generated sample, as in the WGAN gradient penalty</dd>
+          <dt>\(\lambda_{\mathrm{gp}}\)</dt><dd>the strength of the Lipschitz penalty</dd>
+        </dl>
+        <p>The quadratic term in \(f^\ast\) keeps the &chi;<sup>2</sup> objective&rsquo;s penalty on large critic values, while the gradient penalty limits how sharply the critic can change between the real and generated distributions.</p>
+      </section>
+
+      <section class="pp-sec" id="results">
+        <h2><span class="pp-secnum">4</span>Results</h2>
+        <div class="pp-table-wrap narrow">
+          <table class="pp-table">
+            <caption><b>Table 1.</b> Inception Score (mean &plusmn; standard deviation, higher is better). &ldquo;&ndash;&rdquo;: not run.</caption>
+            <thead><tr><th>Dataset</th><th>GAN</th><th>&chi;<sup>2</sup>-GAN</th><th>Lipschitz &chi;<sup>2</sup>-GAN</th></tr></thead>
+            <tbody>
+              <tr><td>MNIST</td><td>2.34 &plusmn; 0.14</td><td>2.49 &plusmn; 0.06</td><td><b>2.56 &plusmn; 0.13</b></td></tr>
+              <tr><td>Fashion-MNIST</td><td><b>3.81 &plusmn; 0.28</b></td><td>&ndash;</td><td>3.63 &plusmn; 0.21</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <figure class="pp-figure">
+          <a href="images/projects/lipschitz-gan-results.png" target="_blank" rel="noopener" title="Open full-size figure"><img src="images/projects/lipschitz-gan-results.png" alt="Bar chart of Inception Scores. MNIST: GAN 2.34, chi-squared GAN 2.49, Lipschitz chi-squared GAN 2.56. Fashion-MNIST: GAN 3.81, Lipschitz chi-squared GAN 3.63; chi-squared GAN not run." loading="lazy"></a>
+          <figcaption><b>Figure 1.</b> The values of Table 1, with error bars of one standard deviation.</figcaption>
+        </figure>
+        <p>On MNIST the Lipschitz &chi;<sup>2</sup>-GAN obtains the highest mean score, 2.56 against 2.49 for the &chi;<sup>2</sup>-GAN and 2.34 for the standard GAN. On Fashion-MNIST its mean is lower than the standard GAN&rsquo;s, 3.63 against 3.81. The standard deviations overlap in both comparisons, so the differences are small relative to run-to-run variation.</p>
+      </section>
+
+      <section class="pp-sec" id="sec-5">
+        <h2><span class="pp-secnum">5</span>Discussion</h2>
+        <p>Viewing the Lipschitz condition as a constraint on the critic&rsquo;s function class makes it portable across divergences: the same gradient penalty that defines the WGAN can be attached to a &chi;<sup>2</sup> critic. In this small study the combination helped on MNIST but not on Fashion-MNIST. A firmer conclusion would need more seeds, a sweep over \(\lambda_{\mathrm{gp}}\), the missing &chi;<sup>2</sup>-GAN run on Fashion-MNIST, and a sample-quality metric beyond the Inception Score, such as the Fr&eacute;chet Inception Distance.</p>
+      </section>
+
+      <section class="pp-sec" id="refs">
+        <h2>Key references</h2>
+        <ol class="pp-refs">
+          <li>I. Goodfellow, J. Pouget-Abadie, M. Mirza, B. Xu, D. Warde-Farley, S. Ozair, A. Courville, and Y. Bengio. Generative Adversarial Nets. <i>NeurIPS</i>, 2014.</li>
+          <li>S. Nowozin, B. Cseke, and R. Tomioka. f-GAN: Training Generative Neural Samplers using Variational Divergence Minimization. <i>NeurIPS</i>, 2016.</li>
+          <li>X. Mao, Q. Li, H. Xie, R. Y. K. Lau, Z. Wang, and S. P. Smolley. Least Squares Generative Adversarial Networks. <i>ICCV</i>, 2017.</li>
+          <li>M. Arjovsky, S. Chintala, and L. Bottou. Wasserstein Generative Adversarial Networks. <i>ICML</i>, 2017.</li>
+          <li>I. Gulrajani, F. Ahmed, M. Arjovsky, V. Dumoulin, and A. Courville. Improved Training of Wasserstein GANs. <i>NeurIPS</i>, 2017.</li>
+          <li>T. Salimans, I. Goodfellow, W. Zaremba, V. Cheung, A. Radford, and X. Chen. Improved Techniques for Training GANs. <i>NeurIPS</i>, 2016.</li>
+        </ol>
+      </section>
+    </article>
+    </div>
+
+    <nav class="pp-pager" aria-label="More projects"><a class="prev" href="project-eumma-website.html"><span>&larr; Previous</span>Official Website for the Emory Undergraduate Mathematics Association</a><span></span></nav>
+  </main>
+  <link rel="stylesheet" href="assets/vendor/katex/katex.min.css">
+  <script defer src="assets/vendor/katex/katex.min.js"></script>
+  <script defer src="assets/vendor/katex/auto-render.min.js"></script>
+  <script>
+    window.addEventListener('load', function () {
+      if (window.renderMathInElement) renderMathInElement(document.body, {
+        delimiters: [{left: '\\[', right: '\\]', display: true}, {left: '\\(', right: '\\)', display: false}],
+        throwOnError: false
+      });
+    });
+  </script>
+
+  <footer class="site-footer">
+    <div class="inner">
+      <span>&copy; 2026 Mingke Tian</span>
+      <span>Last updated October 2026</span>
+    </div>
+  </footer>
+  <script src="assets/site.js?v=20261028c" defer></script>
+</body>
+</html>

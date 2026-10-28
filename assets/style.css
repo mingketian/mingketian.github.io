@@ -1181,3 +1181,13 @@ a.doing-card:hover .d-arrow { opacity: 1; transform: translateX(3px); }
   .pp-v2 .pp-stats li, .pp-v2 .pp-stats li + li { padding: var(--s3) 0; border-left: 0; }
   .pp-v2 .pp-stats li + li { border-top: 1px solid var(--rule); }
 }
+
+/* Learn more pages: one measure for text, rules, equations and tables, so the right edge lines up */
+.paper-page.pp-v2 { max-width: 66rem; }
+.pp-v2 .pp-sec > p, .pp-v2 .pp-sec > .pp-list, .pp-v2 .pp-tldr p { max-width: none; }
+.pp-v2 .pp-table-wrap.narrow { max-width: none; }
+.pp-v2 .pp-table tr.pp-rule td { border-top: 1px solid var(--ink); }
+@media (min-width: 1081px) { .pp-v2 .pp-layout { grid-template-columns: 11rem minmax(0, 1fr); } }
+@media (max-width: 1080px) { .paper-page.pp-v2 { max-width: 48rem; } }
+.pp-v2 .pp-sec > .pp-callout:last-child { border-bottom: 0; padding-bottom: 0; }
+.pp-v2 .pp-where-lead { font-style: normal; color: var(--ink); }
