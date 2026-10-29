@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Interests | Mingke Tian</title>
+  <meta name="description" content="Mingke Tian, undergraduate in applied mathematics, statistics, and computer science at Emory University.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Mingke Tian">
+  <meta property="og:title" content="Interests | Mingke Tian">
+  <meta property="og:description" content="Mingke Tian, undergraduate in applied mathematics, statistics, and computer science at Emory University.">
+  <meta property="og:url" content="https://mingketian.github.io/interests.html">
+  <meta property="og:image" content="https://mingketian.github.io/images/profile.jpg">
+  <meta name="twitter:card" content="summary">
+  <link rel="icon" href="assets/mk-32.png" sizes="32x32" type="image/png">
+  <link rel="icon" href="assets/mk-192.png" sizes="192x192" type="image/png">
+  <link rel="apple-touch-icon" href="assets/mk-apple-touch.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Charis+SIL:ital,wght@0,400;0,700;1,400;1,700&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,700;1,800&display=swap">
+  <link rel="stylesheet" href="assets/style.css?v=20261028f">
+  <link rel="stylesheet" href="assets/pm-dashboard.css?v=20261028f">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="inner">
+      <nav class="site-nav" aria-label="Main">
+        <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="cv.html">CV</a></li>
+        <li><a href="research.html">Research</a></li>
+        <li><a href="experience.html">Experience</a></li>
+        <li><a href="activities.html">Leadership &amp; Services</a></li>
+        <li><a href="interests.html" aria-current="page">Interests</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <h1 class="page-title">Interests</h1>
+
+    <h2 class="section-title" id="trading-modeling">Trading &amp; Modeling</h2>
+    <article class="card interest">
+      <h3>Prediction Markets Trading</h3>
+      <p class="card-intro">
+        I trade short-horizon crypto price markets, contracts that settle on whether BTC, ETH, XRP, DOGE, or BNB finishes above a
+        price at the end of a fifteen-minute window. I treat each position as a forecasting problem: estimating
+        probabilities from data, sizing risk with a cash-aware Kelly cap, and quoting both sides continuously while
+        inventory and the clock move.
+      </p>
+
+      <!-- Track record. Data in assets/pm-data.js is normalized (shares of the period total, no dollar amounts);
+           drawing in assets/pm-dashboard.js. -->
+      <div class="tr" data-tr data-active="all">
+        <div class="tr-top">
+          <div>
+            <span class="tr-eyebrow">Verified track record
+              <span class="tr-badge"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Reconciled</span>
+            </span>
+            <p class="tr-title">Aug 21 &ndash; Oct 28, 2026</p>
+            <p class="tr-scope" data-tr-scope>All markets</p>
+          </div>
+          <div class="tr-seg" role="group" aria-label="Market">
+            <button type="button" data-series="all" aria-pressed="true"><i></i>All</button>
+            <button type="button" data-series="btc" aria-pressed="false"><i></i>BTC</button>
+            <button type="button" data-series="eth" aria-pressed="false"><i></i>ETH</button>
+            <button type="button" data-series="xrp" aria-pressed="false"><i></i>XRP</button>
+            <button type="button" data-series="doge" aria-pressed="false"><i></i>DOGE</button>
+            <button type="button" data-series="bnb" aria-pressed="false"><i></i>BNB</button>
+          </div>
+        </div>
+
+        <dl class="tr-kpis">
+          <div class="lead" data-kpi="days"><dt>Profitable days</dt><dd>&mdash;</dd><small></small></div>
+          <div data-kpi="pf"><dt>Profit factor</dt><dd>&mdash;</dd><small></small></div>
+          <div data-kpi="payoff"><dt>Payoff ratio</dt><dd>&mdash;</dd><small></small></div>
+          <div data-kpi="win"><dt>Market win rate</dt><dd>&mdash;</dd><small></small></div>
+          <div data-kpi="pull"><dt>Max pullback</dt><dd>&mdash;</dd><small></small></div>
+          <div data-kpi="streak"><dt>Win streak</dt><dd>&mdash;</dd><small></small></div>
+        </dl>
+
+        <div class="tr-chart" tabindex="0" role="img" aria-describedby="tr-summary">
+          <div class="tr-tip" hidden></div>
+          <div class="tr-legend">
+            <span><i></i>Cumulative result (period total = 100%)</span>
+            <span class="multi"><i class="btc"></i>BTC</span><span class="multi"><i class="eth"></i>ETH</span><span class="multi"><i class="xrp"></i>XRP</span><span class="multi"><i class="doge"></i>DOGE</span><span class="multi"><i class="bnb"></i>BNB</span>
+            <span><i class="bar"></i><i class="bar down"></i>Daily contribution</span>
+          </div>
+        </div>
+        <p class="sr-only" id="tr-summary" data-tr-summary></p>
+        <noscript><p class="tr-note">The interactive chart needs JavaScript.</p></noscript>
+
+        <div class="tr-mix">
+          <h4>Contribution by asset</h4>
+          <div class="tr-share" data-tr-share></div>
+        </div>
+
+        <p class="tr-note">
+          Every fill and settlement was reconciled market by market against the exchange&rsquo;s own records
+          (59,575 fills across 7,318 settled markets). Results are grouped by UTC settlement date and are net of fees;
+          deposits, withdrawals, interest and liquidity rebates are excluded, so this is the trading result alone.
+          Dollar amounts are withheld: the curve shows the cumulative result as a share of the period total, and
+          pullback is measured against that running peak, not account equity. DOGE and BNB were added near the end of
+          the period and have a correspondingly short record.
+        </p>
+      </div>
+    </article>
+  </main>
+  <script src="assets/pm-data.js?v=20261028f" defer></script>
+  <script src="assets/pm-dashboard.js?v=20261028f" defer></script>
+
+  <footer class="site-footer">
+    <div class="inner">
+      <span>&copy; 2026 Mingke Tian</span>
+      <span>Last updated October 2026</span>
+    </div>
+  </footer>
+  <script src="assets/site.js?v=20261028f" defer></script>
+</body>
+</html>

@@ -966,7 +966,7 @@ html, body { overflow-x: clip; }   /* full-width backdrops never cause sideways 
 
 /* Removed items stay hidden even if a browser still shows a cached copy of an older page */
 .brand { display: none !important; }
-.site-nav li:has(> a[href="interests.html"]), .site-nav li:has(> a[href="cv.pdf"]) { display: none !important; }
+.site-nav li:has(> a[href="cv.pdf"]) { display: none !important; }
 
 /* ---------- CV page ---------- */
 .cv-page .cv-lede { margin-top: var(--s3); color: var(--muted, #555); }
@@ -1191,3 +1191,5 @@ a.doing-card:hover .d-arrow { opacity: 1; transform: translateX(3px); }
 @media (max-width: 1080px) { .paper-page.pp-v2 { max-width: 48rem; } }
 .pp-v2 .pp-sec > .pp-callout:last-child { border-bottom: 0; padding-bottom: 0; }
 .pp-v2 .pp-where-lead { font-style: normal; color: var(--ink); }
+.pp-sc { font-variant: small-caps; letter-spacing: 0.02em; }
+.pp-v2 .pp-table tr.pp-group td { padding-top: 0.7rem; color: var(--muted); font-style: italic; text-align: left; border-top: 1px solid var(--rule); }

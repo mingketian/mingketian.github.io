@@ -4,11 +4,11 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>MobilityWorld | Mingke Tian</title>
-  <meta name="description" content="Mingke Tian, undergraduate in applied mathematics, statistics, and computer science at Emory University.">
+  <meta name="description" content="MobilityWorld: a structured latent state-action world model for human mobility. Formulation, consistency learning, global temporal MAP, identifiability, and results on GeoLife and Atlanta.">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Mingke Tian">
   <meta property="og:title" content="MobilityWorld | Mingke Tian">
-  <meta property="og:description" content="Mingke Tian, undergraduate in applied mathematics, statistics, and computer science at Emory University.">
+  <meta property="og:description" content="MobilityWorld: a structured latent state-action world model for human mobility. Formulation, consistency learning, global temporal MAP, identifiability, and results on GeoLife and Atlanta.">
   <meta property="og:url" content="https://mingketian.github.io/research-mobilityworld.html">
   <meta property="og:image" content="https://mingketian.github.io/images/profile.jpg">
   <meta name="twitter:card" content="summary">
@@ -18,7 +18,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Charis+SIL:ital,wght@0,400;0,700;1,400;1,700&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,700;1,800&display=swap">
-  <link rel="stylesheet" href="assets/style.css?v=20261028c">
+  <link rel="stylesheet" href="assets/style.css?v=20261028f">
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -32,31 +32,300 @@
         <li><a href="research.html" aria-current="page">Research</a></li>
         <li><a href="experience.html">Experience</a></li>
         <li><a href="activities.html">Leadership &amp; Services</a></li>
+        <li><a href="interests.html">Interests</a></li>
         </ul>
       </nav>
     </div>
   </header>
 
-  <main id="main" class="paper-page">
+  <main id="main" class="paper-page pp-v2">
     <a class="pp-back" href="research.html">&larr; All research</a>
     <header class="pp-hero">
       <p class="paper-badges"><span class="badge review">Under review &middot; AAAI 2027</span></p>
       <h1>MobilityWorld: Learning a Structured World Model for Human Mobility via Latent State-Action Dynamics</h1>
-      <p class="pp-authors"><span class="me">Mingke Tian</span>*, Riyang Bao*, Ruiyu Ning, Dazhou Yu, Andreas Z&uuml;fle, Liang Zhao</p><p class="pp-eqnote">* Equal contribution</p>
-      <div class="pp-buttons"><!-- Paper (PDF) button hidden until papers/mobilityworld.pdf is added --><a class="pp-btn" href="images/research/mobilityworld-overview.webp" target="_blank" rel="noopener">Full-size figure<span aria-hidden="true"> &#8599;</span></a></div>
+      <p class="pp-authors"><span class="me">Mingke Tian</span>*, Riyang Bao*, Ruiyu Ning, Dazhou Yu, Andreas Z&uuml;fle, Liang Zhao</p>
+      <p class="pp-affil">Emory University &middot; * Equal contribution</p>
+      <div class="pp-buttons"><!-- Paper (PDF) button hidden until papers/mobilityworld.pdf is added --><a class="pp-btn" href="#abstract">Abstract</a><a class="pp-btn" href="#results">Results</a><a class="pp-btn" href="images/research/mobilityworld-overview.webp" target="_blank" rel="noopener">Full-size figure<span aria-hidden="true"> &#8599;</span></a><a class="pp-btn primary" href="#citation">BibTeX</a></div>
+      <dl class="pp-facts">
+        <div><dt>Problem</dt><dd>World modeling of human mobility from sparse, action-free positioning traces</dd></div>
+        <div><dt>Data</dt><dd>GeoLife (Beijing) &middot; Atlanta trajectory simulation, with OpenStreetMap roads and POIs</dd></div>
+        <div><dt>Key idea</dt><dd>Latent states and latent actions recovered jointly by global temporal MAP</dd></div>
+        <div><dt>Status</dt><dd>Under review</dd></div>
+      </dl>
     </header>
 
-    <p class="pp-lede">MobilityWorld is a structured world model for human mobility built on latent state-action dynamics.</p>
+    <div class="pp-tldr"><span class="pp-label">Summary</span><p>A recorded trajectory is a sparse, noisy sequence of locations and timestamps; it does not show the mobility state, the decision behind each move, or the road-level path that realizes it. MobilityWorld models this hidden process directly. Each transition links sensor-grounded predictive states through a latent action shaped by a behavioral profile and by the surrounding road and POI network, and a differentiable global MAP step recovers the whole state&ndash;action path. One learned checkpoint per dataset then serves three operators, <span class="pp-sc">Infer</span>, <span class="pp-sc">Roll</span>, and <span class="pp-sc">Plan</span>, evaluated on eight downstream tasks without task-specific fine-tuning.</p></div>
 
     <figure class="pp-figure">
-      <a href="images/research/mobilityworld-overview.webp" target="_blank" rel="noopener" title="Open full-size figure"><img src="images/research/mobilityworld-overview.webp" alt="MobilityWorld overview: input mobility data, the model architecture with local structured consistency learning, global MAP inference, and three query modes (Infer, Roll, Plan)"></a>
-      <figcaption><b>Figure 1.</b> Overview. (a) Input mobility data: spatial, temporal, POI, and OSM road-network signals. (b) An encoder maps each observation to a latent state, and a shared predictor maps the state and a latent action to the next state; local structured consistency learning keeps transitions grounded in observations, behavior, and space. (c) Global MAP inference reconciles the whole state&ndash;action path from the observation encoder, dynamics model, policy prior, and energy factor. (d) The same model answers three query modes: Infer (state smoothing and imputation), Roll (probabilistic rollout), and Plan (goal-directed planning).</figcaption>
+      <a href="images/research/mobilityworld-overview.webp" target="_blank" rel="noopener" title="Open full-size figure"><img src="images/research/mobilityworld-overview.webp" alt="MobilityWorld overview: input mobility data, the model architecture with local structured consistency learning, global MAP inference, and three query modes (Infer, Roll, Plan)" loading="lazy"></a>
+      <figcaption><b>Figure 1.</b> Overview. (a) Input mobility data. (b) Local state&ndash;action&ndash;world factors define structured transitions and are trained with Structured Consistency Learning. (c) Global Temporal MAP reconciles the complete latent path. (d) The shared process supports the <span class="pp-sc">Infer</span>, <span class="pp-sc">Roll</span>, and <span class="pp-sc">Plan</span> operators.</figcaption>
     </figure>
 
+    <div class="pp-layout">
+      <nav class="pp-toc" aria-label="On this page"><span>On this page</span><a href="#abstract">Abstract</a><a href="#sec-1">Motivation</a><a href="#sec-2">Problem formulation</a><a href="#sec-3">Local architecture</a><a href="#sec-4">Consistency learning</a><a href="#sec-5">Global temporal MAP</a><a href="#sec-6">Identifiability</a><a href="#results">Experiments</a><a href="#sec-8">Ablations</a><a href="#citation">Citation</a></nav>
 
     <article class="pp-doc">
-      <p class="pp-soon">A full write-up of this paper is coming soon.</p>
+      <section class="pp-sec" id="abstract">
+        <h2>Abstract</h2>
+        <p>World models learn internal dynamics that connect inference, simulation, and decision-making by representing how latent states evolve under actions from partial observations. Human mobility presents a distinct world-modeling setting: positioning traces are sparse, noisy, and action-unlabeled measurements of a process shaped jointly by behavioral decisions and geographic structure. We introduce <b>MobilityWorld</b>, a structured latent state&ndash;action world model for this observation-poor yet structure-rich process. First, each local transition links sensor-grounded predictive states through a latent action shaped by profile-conditioned behavior and geospatial support. Structured Consistency Learning trains these factors jointly through Predictive State Consistency and Latent Action Consistency. Because mobility evidence is coupled across time, a differentiable Global Temporal Maximum A Posteriori (MAP) step composes these local factors and jointly recovers the complete state&ndash;action path available to a query. One learned mobility process supports three operators: <span class="pp-sc">Infer</span> reconstructs a globally reconciled state&ndash;action process from partial observations; <span class="pp-sc">Roll</span> continues it through closed-loop dynamics without future observations; and <span class="pp-sc">Plan</span> searches graph-executable continuations under query objectives. We evaluate the shared process through eight downstream tasks on synthetic and real-world spatial trajectory datasets.</p>
+      </section>
+
+      <section class="pp-sec" id="sec-1">
+        <h2><span class="pp-secnum">1</span>Motivation</h2>
+        <p>Next-location prediction, trajectory generation and recovery, user identification, and trajectory representation learning are usually formulated as separate input&ndash;output problems, although their data arise from one decision-driven process. World models offer a common foundation: they separate a latent state from partial observations and learn how that state evolves under actions. Transferring them to human mobility is not direct. Control and robotics world models assume observed actions; visual world models rely on dense, information-rich observations; and latent-action models recover control from visual change without enforcing geographic executability.</p>
+        <p>Human mobility combines unobserved actions, sparse and noisy positioning evidence, and transitions that must stay compatible with the road&ndash;POI world. This creates three coupled challenges:</p>
+        <ol class="pp-list">
+          <li><b>Predictive states.</b> Noisy positioning measurements must be converted into predictive states rather than treated as the states themselves.</li>
+          <li><b>Unobserved actions.</b> The semantic actions behind transitions are not recorded, and the same displacement may admit several explanations.</li>
+          <li><b>Coherent, executable paths.</b> Local state and action evidence must compose into a temporally coherent process whose continuations can be executed on the road network.</li>
+        </ol>
+        <div class="pp-callout"><span class="pp-label">Contributions</span>
+          <ul>
+            <li>A formulation of human mobility as an observation-poor, action-free, and structure-rich world-modeling problem in which inference, rollout, and planning operate on one latent state&ndash;action process.</li>
+            <li>MobilityWorld, which integrates predictive state learning, structured latent action identification, differentiable local-to-global MAP inference, and executable spatial grounding.</li>
+            <li>Three query operators over the same learned process, evaluated on eight downstream tasks on synthetic and real-world data.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="pp-sec" id="sec-2">
+        <h2><span class="pp-secnum">2</span>Problem formulation</h2>
+        <p>An episode is a sequence of positioning observations \(o_t=(x_t,\tau_t)\), each a projected location \(x_t\in\mathbb{R}^2\) with a timestamp, situated in a geographic world \(\mathcal{W}=(G,P)\): a directed road network \(G=(V,E)\) with edge geometry and attributes, and a set \(P\) of categorized points of interest. The underlying mobility process is represented as a state&ndash;action path</p>
+        <div class="pp-eq">\[z=(s,a),\qquad s=(s_1,\dots,s_T),\quad a=(a_1,\dots,a_{T-1}),\qquad s_{t+1}\sim p_\theta(s_{t+1}\mid s_t,a_t)\]</div>
+        <p class="pp-where-lead">where</p>
+        <dl class="pp-where">
+          <dt>\(s_t\in\mathbb{R}^{d_s}\)</dt><dd>a predictive latent state, sufficient to explain the current observation and predict what follows</dd>
+          <dt>\(a_t\in\mathbb{R}^{d_a}\)</dt><dd>an interval-level latent action that carries the process from \(s_t\) to \(s_{t+1}\)</dd>
+        </dl>
+        <p>Behavioral profile, query context, and geography change which action is supported, but they cannot bypass \(a_t\) to set the next state directly. A query \(Q=(\varpi_q,\mathcal{E}_q)\) specifies an operator \(\varpi_q\in\{\textsf{Infer},\textsf{Roll},\textsf{Plan}\}\) and its evidence: the query grid, the exposed observations, spatial boundary conditions, optional behavioral or task conditions, and the evaluation world. The model returns the MAP-reconciled path \(\hat{z}_q=\mathrm{MAP}_\Theta(\mathcal{E}_q)\), and the three operators use it as follows:</p>
+        <ol class="pp-list">
+          <li><span class="pp-sc">Infer</span> reads state-, action-, or trajectory-level outputs from the globally reconciled path.</li>
+          <li><span class="pp-sc">Roll</span> recursively selects and executes graph-legal interval continuations without access to future observations.</li>
+          <li><span class="pp-sc">Plan</span> searches legal continuation sequences under the same learned local score, combined with an explicit query cost \(C_q\).</li>
+        </ol>
+      </section>
+
+      <section class="pp-sec" id="sec-3">
+        <h2><span class="pp-secnum">3</span>Local transition architecture</h2>
+        <p>The architectural primitive is one local transition over \((o_t,s_t,a_t,s_{t+1},\mathcal{W}_q)\), with five components:</p>
+        <div class="pp-eq">\[\begin{aligned}&\text{State encoder:} && s_t\sim q_\phi(s_t\mid o_t)\\ &\text{Profile:} && \alpha_q=M_\omega\big(\{s_{t'}: t'\in\mathcal{I}^{\mathrm{hist}}_q\}\big)\\ &\text{Actor:} && a_t\sim\pi_\psi(a_t\mid h_t),\quad h_t=(s_t,a_{t-1},\alpha_q,c_q)\\ &\text{Transition:} && s_{t+1}\sim p_\theta(s_{t+1}\mid s_t,a_t)\\ &\text{World support:} && \kappa_\xi(s_t,a_t;g_t)\in(0,1]\end{aligned}\]</div>
+        <h3>Sensor-grounded predictive state</h3>
+        <p>The encoder maps each observation to a diagonal-Gaussian belief using Fourier coordinate features and cyclic local-time features in a gated residual MLP, \(q_\phi(s_t\mid o_t)=\mathcal{N}\big(\mu_\phi(x_t,\tau_t),\operatorname{diag}\sigma^2_\phi(x_t,\tau_t)\big)\). This belief initializes, but does not fix, the optimizable state. A metric decoder \(\rho_\phi\) grounds the state in coordinates, and an exponential-moving-average encoder supplies stop-gradient training targets.</p>
+        <h3>Dynamics and behavior</h3>
+        <p>The transition is a Gaussian mixture whose parameters are produced from \((s_t,a_t)\). The actor is a multimodal distribution over interval-level controls with a residual parameterization around the previous action, which captures short-term persistence, while the profile \(\alpha_q\) summarizes longer-term regularity from the permitted history:</p>
+        <div class="pp-eq">\[p_\theta(s_{t+1}\mid s_t,a_t)=\sum_{k=1}^{K_s}w_{t,k}\,\mathcal{N}\big(s_{t+1};\mu_{t,k},\operatorname{diag}\sigma^2_{t,k}\big),\qquad \pi_\psi(a_t\mid h_t)=\sum_{j=1}^{K_a}\varpi_{t,j}\,\mathcal{N}\big(a_t;a_{t-1}+\delta_{t,j},\operatorname{diag}\sigma^2_{t,j}\big)\]</div>
+        <h3>Semantic&ndash;geographic world interface</h3>
+        <p>The spatial world enters through two interfaces. A differentiable one encodes local road attributes and POI semantics at the decoded location, \(g_t=\Phi_{\mathcal{W}_q}(\rho_\phi(s_t))\), and the factor \(\kappa_\xi\) scores whether an action is supported there; it guides inference but does not guarantee legality. An executable one enumerates the graph-legal continuations reachable within one interval, maps each into the shared action space, returns its exact road geometry, and aligns the executed endpoint with the predicted next state. During rollout and planning the actor, transition, and world factor jointly rank the legal candidates, and the selected continuation is executed exactly on the road graph. The road graph therefore determines feasibility, while the learned model determines which feasible continuation is preferred.</p>
+      </section>
+
+      <section class="pp-sec" id="sec-4">
+        <h2><span class="pp-secnum">4</span>Structured Consistency Learning</h2>
+        <p>Rather than train the local factors independently, each transition is learned through two coupled views of the same variables \((s_t,a_t,s_{t+1})\).</p>
+        <h3>Predictive State Consistency</h3>
+        <p>A state that explains one noisy measurement need not predict the next one, and a state that supports one-step prediction may still drift under recursion. The state is therefore constrained at three scales: observation grounding, one-step transition to the stop-gradient target \(\bar{s}_{t+1}\), and closed-loop rollout over \(H\) steps in which actions are re-selected and the spatial context is re-queried at every predicted state:</p>
+        <div class="pp-eq">\[\mathcal{L}_{\mathrm{obs},t}=\mathbb{E}_{s_t\sim q_\phi}\lVert\rho_\phi(s_t)-x_t\rVert_2^2,\qquad E_{\mathrm{tr},t}(a)=-\log p_\theta(\bar{s}_{t+1}\mid s^{\phi}_t,a),\qquad \mathcal{L}^{(H)}_{\mathrm{roll},t}=\sum_{h=1}^{H}d_{\mathrm{state}}(\tilde{s}_{t+h},\bar{s}_{t+h})\]</div>
+        <p>Here \(d_{\mathrm{state}}(s,s')=\lVert s-s'\rVert_2^2+\lambda_y\lVert\rho_\phi(s)-\rho_\phi(s')\rVert_2^2\) compares both the representations and their metric readouts.</p>
+        <h3>Latent Action Consistency</h3>
+        <p>A displacement alone can be explained by several actions. The action is therefore identified operationally by combining three energies: it must explain the state change, remain probable under the profile-conditioned actor, and be supported by the local road&ndash;POI world:</p>
+        <div class="pp-eq">\[E_{\mathrm{tr},t}(a),\qquad E_{\mathrm{beh},t}(a)=-\log\pi_\psi(a\mid h_t),\qquad E_{\mathrm{world},t}(a)=-\log\kappa_\xi\big(s^{\phi}_t,a;\Phi_{\mathcal{W}_q}(\rho_\phi(s^{\phi}_t))\big)\]</div>
+        <p>The joint objective \(\mathcal{L}_{\mathrm{SCL}}\) is a nonnegative weighted sum of the observation, transition, rollout, behavioral, and world terms over all valid transitions, so state grounding, one-step and closed-loop prediction, behavioral regularity, and spatial support are trained together.</p>
+      </section>
+
+      <section class="pp-sec" id="sec-5">
+        <h2><span class="pp-secnum">5</span>Global Temporal MAP</h2>
+        <p>Mobility evidence is coupled across time, so the local factors are composed over the whole query interval. The objective combines four sources of evidence and defines an unnormalized path density \(\propto \mathbf{1}[z_q\in\Omega^{\mathrm{MAP}}_q]\exp\{-J_{\mathrm{MAP}}(z_q)\}\):</p>
+        <div class="pp-eq">\[\hat{z}_q=(\hat{s}_q,\hat{a}_q)=\arg\min_{z_q\in\Omega^{\mathrm{MAP}}_q}\ J_{\mathrm{MAP}}(z_q),\qquad J_{\mathrm{MAP}}=\lambda_{\mathrm{obs}}\mathcal{L}_{\mathrm{obs}}+\lambda_{\mathrm{dyn}}\mathcal{L}_{\mathrm{dyn}}+\lambda_{\mathrm{act}}\mathcal{L}_{\mathrm{act}}+\lambda_{\mathrm{world}}\mathcal{L}_{\mathrm{world}}\]</div>
+        <p class="pp-where-lead">where \(\mathcal{L}_{\mathrm{obs}}\) anchors exposed states to positioning evidence, \(\mathcal{L}_{\mathrm{dyn}}\) couples adjacent states through the action-conditioned transition, \(\mathcal{L}_{\mathrm{act}}\) measures plausibility under the actor, \(\mathcal{L}_{\mathrm{world}}\) measures geospatial support, and \(\Omega^{\mathrm{MAP}}_q\) holds the fixed boundary conditions.</p>
+        <p>Both states and actions remain optimizable. An exposed state may move away from its noisy encoder initialization to agree with neighboring transitions, a missing state is reconstructed from evidence propagated in both temporal directions, and each action is adjusted to explain the inferred state change while staying behaviorally plausible and geospatially supported.</p>
+        <h3>Bilevel optimization</h3>
+        <p>With the parameters \(\Theta\) fixed, the inner solver takes \(K_{\mathrm{MAP}}\) projected-gradient steps on all states and actions, restoring the boundary states after each update. Training differentiates through this solver:</p>
+        <div class="pp-eq">\[\hat{z}^{(K)}_{\Theta,q}=\mathrm{Solve}^{K_{\mathrm{MAP}}}_\Theta\big(z^{(0)}_q\big),\qquad \Theta^\star=\arg\min_\Theta\ \mathbb{E}_{q\sim\mathcal{D}_{\mathrm{train}}}\,\mathcal{L}_{\mathrm{SCL}}\big(\Theta;\hat{z}^{(K)}_{\Theta,q},\mathcal{E}_q\big)\]</div>
+        <p>This yields one shared checkpoint per world. At evaluation \(\Theta\) stays fixed: <span class="pp-sc">Infer</span> optimizes query-specific states and actions, while <span class="pp-sc">Roll</span> and <span class="pp-sc">Plan</span> reuse the same actor, transition, profile, and spatial interfaces.</p>
+      </section>
+
+      <section class="pp-sec" id="sec-6">
+        <h2><span class="pp-secnum">6</span>Identifiability of latent actions</h2>
+        <p>Passive trajectories cannot identify latent actions in an absolute sense: applying the same invertible change of action coordinates to every action-dependent interface leaves the observation distribution unchanged. MobilityWorld therefore fixes an operational coordinate convention and makes a conditional claim. Fix \(\Theta\), the neighboring states, and the query context, and write the action-dependent part of the local MAP energy as \(j_t(a)=\beta_{\mathrm{dyn}}E_{\mathrm{tr},t}(a)+R_t(a)\), where \(R_t\) collects the behavioral, world, and neighboring-action terms.</p>
+        <div class="pp-theorem"><span class="pp-label">Theorem (local conditional identifiability)</span>
+          <p>Suppose that on a convex neighborhood \(\mathcal{N}_t\) of a stationary action \(a^\star_t\),</p>
+          <div class="pp-eq">\[\nabla^2_a E_{\mathrm{tr},t}(a)\succeq\mu_d I,\qquad \nabla^2_a R_t(a)\succeq-\beta I,\qquad \beta_{\mathrm{dyn}}\mu_d&gt;\beta .\]</div>
+          <p>Then \(j_t\) is \(\mu_a\)-strongly convex on \(\mathcal{N}_t\) with \(\mu_a=\beta_{\mathrm{dyn}}\mu_d-\beta&gt;0\), so \(a^\star_t\) is the unique local MAP action there. If a perturbed objective \(\tilde{j}_t\) has a stationary point \(\tilde{a}_t\in\mathcal{N}_t\) with \(\lVert\nabla\tilde{j}_t-\nabla j_t\rVert_2\le\varepsilon\), then \(\lVert\tilde{a}_t-a^\star_t\rVert_2\le\varepsilon/\mu_a\).</p>
+        </div>
+        <p>The actor and world terms need not be convex on their own; their most negative curvature only has to be dominated by transition information. The supplementary material further shows that adding structural evidence cannot increase the local posterior variance in any direction, and that global temporal MAP propagates evidence from anchored observations into unobserved intervals. Because the transition is a mixture, the guarantee holds only within regions of stable mixture responsibilities, and no claim of globally unique, human-interpretable action semantics is made.</p>
+      </section>
+
+      <section class="pp-sec" id="results">
+        <h2><span class="pp-secnum">7</span>Experiments</h2>
+        <p><b>Datasets.</b> GeoLife contains 19.9M Beijing records from 177 users; the Atlanta trajectory simulation contains 43.2M records from 1,000 agents. Trajectory-disjoint splits keep anonymized identities for re-identification, and both datasets use OpenStreetMap roads and POIs. <b>Protocol.</b> Every task uses one shared checkpoint per dataset, without task-specific fine-tuning or learned heads; only the query evidence, operator, and readout change. <b>Tasks.</b> <span class="pp-sc">Infer</span>: anomaly detection, trajectory re-identification, masked trajectory completion, and staypoint detection. <span class="pp-sc">Roll</span>: five-step prediction and population generation. <span class="pp-sc">Plan</span>: multi-constraint planning and counterfactual edge or region intervention.</p>
+        <ul class="pp-stats">
+          <li><strong>82.30 m</strong><span>five-step ADE on GeoLife, against 192.52 m for DeepMove</span></li>
+          <li><strong>0.9021</strong><span>staypoint F1 on Atlanta, against 0.7915 for the best specialist</span></li>
+          <li><strong>111.27 m</strong><span>multi-mask completion RMSE on GeoLife, against 424.2 m for linear interpolation</span></li>
+        </ul>
+
+        <h3>7.1&ensp;<span class="pp-sc">Infer</span></h3>
+        <div class="pp-table-wrap">
+          <table class="pp-table">
+            <caption><b>Table 1.</b> Anomaly detection. I: 250&nbsp;m spatial-burst anomalies; II: smooth-offset anomalies. Higher is better.</caption>
+            <thead>
+              <tr><th rowspan="2">Method</th><th colspan="4">GeoLife</th><th colspan="4">Atlanta</th></tr>
+              <tr><th>I AUROC</th><th>I AUPRC</th><th>II AUROC</th><th>II AUPRC</th><th>I AUROC</th><th>I AUPRC</th><th>II AUROC</th><th>II AUPRC</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>TranAD</td><td>.794</td><td>.177</td><td>.817</td><td>.223</td><td><b>.9771</b></td><td>.2766</td><td><b>.9706</b></td><td>.2254</td></tr>
+              <tr><td>LSTM-AE</td><td>.733</td><td>.086</td><td>.796</td><td>.116</td><td>.9735</td><td>.2154</td><td>.9601</td><td>.2020</td></tr>
+              <tr><td>COPOD</td><td>.839</td><td>.132</td><td>.835</td><td>.169</td><td>.9751</td><td>.2336</td><td>.7557</td><td>.1848</td></tr>
+              <tr><td>Anomaly Transformer</td><td>.911</td><td>.213</td><td><b>.934</b></td><td>.246</td><td>.9755</td><td>.2807</td><td>.9695</td><td>.2272</td></tr>
+              <tr class="ours"><td>MobilityWorld</td><td><b>.9147</b></td><td><b>.2782</b></td><td>.8613</td><td><b>.2725</b></td><td>.8398</td><td><b>.2834</b></td><td>.9169</td><td><b>.3009</b></td></tr>
+            </tbody>
+          </table>
+        </div>
+        
+          <div class="pp-table-wrap">
+            <table class="pp-table">
+              <caption><b>Table 2.</b> Trajectory re-identification (higher is better).</caption>
+              <thead>
+                <tr><th rowspan="2">Method</th><th colspan="3">GeoLife</th><th colspan="3">Atlanta</th></tr>
+                <tr><th>mAP</th><th>Top-1</th><th>Top-5</th><th>mAP</th><th>Top-1</th><th>Top-5</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>TrajCL</td><td>.255</td><td>.146</td><td>.344</td><td>.7006</td><td>.6640</td><td>.7240</td></tr>
+                <tr><td>TULER</td><td>.549</td><td>.405</td><td>.730</td><td>.9037</td><td>.8860</td><td>.9260</td></tr>
+                <tr><td>AttnTUL</td><td><b>.664</b></td><td>.514</td><td>.811</td><td>.9149</td><td>.8980</td><td>.9300</td></tr>
+                <tr class="ours"><td>MobilityWorld</td><td>.5621</td><td><b>.5242</b></td><td><b>.8701</b></td><td><b>.9163</b></td><td><b>.9010</b></td><td><b>.9380</b></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="pp-table-wrap">
+            <table class="pp-table">
+              <caption><b>Table 3.</b> Staypoint detection on Atlanta (GeoLife has no ground-truth stays).</caption>
+              <thead><tr><th>Method</th><th>P</th><th>R</th><th>F1</th></tr></thead>
+              <tbody>
+                <tr><td>SSPE</td><td>.8405</td><td>.6631</td><td>.7413</td></tr>
+                <tr><td>HMM-GEM</td><td>.7412</td><td>.6363</td><td>.6848</td></tr>
+                <tr><td>TrackIntel Hyperband</td><td>.8763</td><td>.7217</td><td>.7915</td></tr>
+                <tr><td>Temporal DBSCAN</td><td>.8591</td><td>.7064</td><td>.7753</td></tr>
+                <tr><td>HSW</td><td>.8670</td><td>.6819</td><td>.7634</td></tr>
+                <tr class="ours"><td>MobilityWorld</td><td><b>.9058</b></td><td><b>.8985</b></td><td><b>.9021</b></td></tr>
+              </tbody>
+            </table>
+          </div>
+        
+        <div class="pp-table-wrap">
+          <table class="pp-table">
+            <caption><b>Table 4.</b> Masked trajectory completion, RMSE / MAE in metres (lower is better).</caption>
+            <thead>
+              <tr><th rowspan="2">Method</th><th colspan="2">GeoLife single</th><th colspan="2">GeoLife multi</th><th colspan="2">Atlanta single</th><th colspan="2">Atlanta multi</th></tr>
+              <tr><th>RMSE</th><th>MAE</th><th>RMSE</th><th>MAE</th><th>RMSE</th><th>MAE</th><th>RMSE</th><th>MAE</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Linear</td><td>960.4</td><td>315.8</td><td>424.2</td><td>155.8</td><td><b>429.2</b></td><td><b>135.3</b></td><td>1197.1</td><td>665.2</td></tr>
+              <tr><td>TrImpute</td><td>959.2</td><td>318.0</td><td>426.7</td><td>159.6</td><td>469.8</td><td>135.4</td><td>1197.2</td><td>665.9</td></tr>
+              <tr><td>NAOMI</td><td>594.2</td><td>351.0</td><td>657.9</td><td>410.8</td><td>469.6</td><td>135.4</td><td>1197.1</td><td>665.7</td></tr>
+              <tr><td>UniTraj</td><td>8719.7</td><td>7372.9</td><td>9283.6</td><td>7680.7</td><td>469.4</td><td>138.1</td><td>1199.9</td><td>707.5</td></tr>
+              <tr><td>TransferTraj</td><td>5493.7</td><td>2739.3</td><td>6254.1</td><td>3273.5</td><td>552.7</td><td>198.7</td><td>1201.3</td><td>696.7</td></tr>
+              <tr class="ours"><td>MobilityWorld</td><td><b>160.88</b></td><td><b>115.02</b></td><td><b>111.27</b></td><td><b>83.27</b></td><td>439.93</td><td>351.27</td><td><b>247.45</b></td><td><b>204.94</b></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>MobilityWorld obtains the best AUPRC under both anomaly types on both datasets, although specialized detectors remain stronger on several AUROC metrics. Its profile-conditioned representation gives the best Top-1 and Top-5 re-identification on GeoLife and leads all three retrieval metrics on Atlanta. Staypoint F1 rises from 0.7915 to 0.9021. The largest inference gains are in structured completion. Atlanta single-mask completion is the exception: many masked intervals fall inside stays, which favors the stationary bias of linear interpolation, whereas MobilityWorld must infer stay-versus-move behavior from profile, temporal, and dynamical evidence.</p>
+
+        <h3>7.2&ensp;<span class="pp-sc">Roll</span></h3>
+        
+          <div class="pp-table-wrap">
+            <table class="pp-table">
+              <caption><b>Table 5.</b> Five-step trajectory prediction, ADE / FDE in metres (lower is better).</caption>
+              <thead>
+                <tr><th rowspan="2">Method</th><th colspan="2">GeoLife</th><th colspan="2">Atlanta</th></tr>
+                <tr><th>ADE</th><th>FDE</th><th>ADE</th><th>FDE</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>DeepMove</td><td>192.52</td><td>249.86</td><td>476.70</td><td>911.25</td></tr>
+                <tr><td>UniTraj</td><td>12649.0</td><td>12693.1</td><td>3615.53</td><td>3606.50</td></tr>
+                <tr><td>TransferTraj</td><td>2572.5</td><td>2532.4</td><td>3283.13</td><td>3209.90</td></tr>
+                <tr class="ours"><td>MobilityWorld</td><td><b>82.30</b></td><td><b>149.12</b></td><td><b>133.76</b></td><td><b>220.51</b></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="pp-table-wrap">
+            <table class="pp-table">
+              <caption><b>Table 6.</b> Population generation on GeoLife. JSD lower is better; CPC and route fidelity higher is better.</caption>
+              <thead><tr><th>Method</th><th>OD JSD</th><th>CPC</th><th>Trip JSD</th><th>Radius JSD</th><th>Route</th></tr></thead>
+              <tbody>
+                <tr><td>Semi-Markov</td><td>.444</td><td>.266</td><td>.114</td><td>.141</td><td>.429</td></tr>
+                <tr><td>MoveSim</td><td>.548</td><td>.102</td><td>.138</td><td>.115</td><td>.129</td></tr>
+                <tr><td>TrajSynVAE</td><td>.680</td><td>.014</td><td>.114</td><td>.120</td><td>.189</td></tr>
+                <tr class="ours"><td>MobilityWorld</td><td><b>.0858</b></td><td><b>.7734</b></td><td><b>.0438</b></td><td><b>.0507</b></td><td><b>.7734</b></td></tr>
+              </tbody>
+            </table>
+          </div>
+        
+        <div class="pp-table-wrap">
+          <table class="pp-table">
+            <caption><b>Table 7.</b> Population generation on Atlanta. Metrics as in Table 6.</caption>
+            <thead><tr><th>Method</th><th>OD JSD</th><th>CPC</th><th>Trip JSD</th><th>Radius JSD</th><th>Route</th></tr></thead>
+            <tbody>
+              <tr><td>TimeGeo / d-EPR</td><td>.0768</td><td>.8524</td><td>.196</td><td>.167</td><td>.8432</td></tr>
+              <tr><td>Semi-Markov</td><td>.0859</td><td>.8344</td><td>.205</td><td>.144</td><td>.8100</td></tr>
+              <tr><td>MoveSim</td><td><b>.0568</b></td><td><b>.8888</b></td><td>.178</td><td>.146</td><td>.8585</td></tr>
+              <tr><td>TrajSynVAE</td><td>.2859</td><td>.4160</td><td>.200</td><td>.181</td><td>.3852</td></tr>
+              <tr class="ours"><td>MobilityWorld</td><td>.4201</td><td>.1641</td><td><b>.129</b></td><td><b>.138</b></td><td><b>.8628</b></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>Without future observations, MobilityWorld gives the best five-step prediction on both datasets. At the population level it leads all five GeoLife metrics and obtains the best trip JSD, radius JSD, and route fidelity on Atlanta. Its weaker Atlanta OD JSD and CPC indicate that the shared process captures individual and route-level dynamics more reliably than aggregate origin&ndash;destination flows. Over longer horizons the ten-step to five-step error ratio is 1.84&times; on GeoLife and 3.26&times; on Atlanta, which shows recursive error accumulation on Atlanta, although absolute long-horizon errors remain the lowest.</p>
+
+        <h3>7.3&ensp;<span class="pp-sc">Plan</span></h3>
+        <figure class="pp-figure">
+          <a href="images/research/mobilityworld-planning.jpg" target="_blank" rel="noopener" title="Open full-size figure"><img src="images/research/mobilityworld-planning.jpg" alt="Eight map panels of GeoLife routes in Beijing. Panels a to d compare MobilityWorld routes with unconstrained and constrained shortest routes for a required visit region; panels e to h show the factual route and the replanned route after an edge or a region is removed." loading="lazy"></a>
+          <figcaption><b>Figure 2.</b> Multi-constraint and counterfactual planning. (a)&ndash;(d) MobilityWorld against unconstrained and constrained shortest routes; S, D, and V mark the start, destination, and required visit region. (e)&ndash;(h) The factual graph \(G\) against \(G'\) after removing an edge \(e^\dagger\) or a region \(\mathcal{R}^\dagger\).</figcaption>
+        </figure>
+        <p>Planning is evaluated on 64 fixed GeoLife origin&ndash;destination queries with Beam-64 search. In multi-constraint planning, a route must visit a designated region, satisfy a length budget, reach the destination, and stay graph-legal. The unconstrained shortest path violates the visit requirement, whereas MobilityWorld satisfies all constraints with a mean DTW of 39.24&nbsp;m, Overlap@50&nbsp;m of 0.614, and a route-length ratio of 0.997 relative to the constrained shortest path. In counterfactual planning, a traversed edge or region is removed and the model replans with origin, destination, profile, and temporal context fixed. Every completed counterfactual route avoids the intervention, and the displayed region case keeps 32.2&nbsp;m clearance at 1.130&times; the shortest feasible length. Exhaustive graph search still offers higher coverage; the advantage of the world model is that it supports behavioral preferences, several constraints, and counterfactual changes in one interface.</p>
+      </section>
+
+      <section class="pp-sec" id="sec-8">
+        <h2><span class="pp-secnum">8</span>Ablations and efficiency</h2>
+        <div class="pp-table-wrap">
+          <table class="pp-table">
+            <caption><b>Table 8.</b> Cumulative ablation on GeoLife. Each row adds one component to the row above.</caption>
+            <thead><tr><th>Variant</th><th>I AUROC&uarr;</th><th>I AUPRC&uarr;</th><th>ADE&darr;</th><th>FDE&darr;</th><th>Top-1&uarr;</th><th>Top-5&uarr;</th><th>OD JSD&darr;</th><th>CPC&uarr;</th><th>Multi RMSE&darr;</th></tr></thead>
+            <tbody>
+              <tr><td>Transition backbone</td><td>.6882</td><td>.1688</td><td>145.67</td><td>243.99</td><td>.3333</td><td>.6970</td><td>.4342</td><td>.1875</td><td>115.89</td></tr>
+              <tr><td>+ Latent action</td><td>.9044</td><td>.2740</td><td>87.36</td><td>175.25</td><td>.3030</td><td>.6364</td><td>.4200</td><td><b>.2031</b></td><td>114.02</td></tr>
+              <tr><td>+ Consistency learning and MAP</td><td>.9146</td><td><b>.3332</b></td><td>86.85</td><td>174.09</td><td>.4933</td><td>.6667</td><td>.4165</td><td><b>.2031</b></td><td>112.95</td></tr>
+              <tr class="ours"><td>+ World and profile grounding</td><td><b>.9147</b></td><td>.2782</td><td><b>82.30</b></td><td><b>149.12</b></td><td><b>.5242</b></td><td><b>.8701</b></td><td><b>.0858</b></td><td><b>.7734</b></td><td><b>111.27</b></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>The latent actor reduces prediction error from 145.67/243.99 to 87.36/175.25&nbsp;m and raises spatial-burst AUROC from .6882 to .9044, which supports explicit interval-level control. Consistency learning with global MAP raises AUPRC from .2740 to .3332 and Top-1 re-identification from .3030 to .4933. World and profile grounding then reduce OD JSD from .4165 to .0858, raise CPC from .2031 to .7734, and raise Top-5 re-identification from .6667 to .8701. In short, the actor resolves local motion ambiguity, global MAP enforces trajectory coherence, and world and profile grounding supply persistent behavioral and geographic structure.</p>
+        <p><b>MAP refinement.</b> Increasing the number of refinement steps from two to four and eight improves ADE/FDE by about 13%/28% and 17%/36%. Road@5 and Overlap@50 change by less than 3%, which suggests that road-level consistency is recovered early and further refinement mainly improves coordinate accuracy. <b>Cost.</b> Complexity is \(O(K_{\mathrm{MAP}}T+N_{\mathrm{exp}})\); completion takes 0.259&nbsp;s per gap, population generation 10.195&nbsp;s per query, and planning 20.859&nbsp;s per query.</p>
+      </section>
+
+      <section class="pp-sec" id="citation">
+        <h2>Citation</h2>
+        <div class="pp-bib"><button class="pp-copy" type="button" data-copy="#bib-mobilityworld">Copy</button><pre id="bib-mobilityworld">@misc{tian2026mobilityworld,
+  title  = {MobilityWorld: Learning a Structured World Model for Human Mobility via Latent State-Action Dynamics},
+  author = {Tian, Mingke and Bao, Riyang and Ning, Ruiyu and Yu, Dazhou and Z{\"u}fle, Andreas and Zhao, Liang},
+  year   = {2026},
+  note   = {Under review}
+}</pre></div>
+      </section>
+
+      <section class="pp-sec" id="refs">
+        <h2>Key references</h2>
+        <ol class="pp-refs">
+          <li>D. Ha and J. Schmidhuber. Recurrent World Models Facilitate Policy Evolution. <i>NeurIPS</i>, 2018.</li>
+          <li>D. Hafner, J. Pasukonis, J. Ba, and T. Lillicrap. Mastering Diverse Control Tasks through World Models. <i>Nature</i> 640, 2025.</li>
+          <li>D. Schmidt and M. Jiang. Learning to Act without Actions. <i>ICLR</i>, 2024.</li>
+          <li>J. Bruce, M. Dennis, A. Edwards, et al. Genie: Generative Interactive Environments. <i>ICML</i>, 2024.</li>
+          <li>J. Feng, Y. Li, C. Zhang, et al. DeepMove: Predicting Human Mobility with Attentional Recurrent Networks. <i>WWW</i>, 2018.</li>
+          <li>J. Feng, Z. Yang, F. Xu, H. Yu, M. Wang, and Y. Li. Learning to Simulate Human Mobility. <i>KDD</i>, 2020.</li>
+          <li>Y. Zhu, J. Yu, X. Zhao, et al. UniTraj: Learning a Universal Trajectory Foundation Model from Billion-Scale Worldwide Traces. <i>NeurIPS</i>, 2025.</li>
+          <li>Y. Zheng, X. Xie, and W.-Y. Ma. GeoLife: A Collaborative Social Networking Service among User, Location and Trajectory. <i>IEEE Data Engineering Bulletin</i> 33(2), 2010.</li>
+        </ol>
+      </section>
     </article>
+    </div>
 
     <nav class="pp-pager" aria-label="More research"><a class="prev" href="research-atsolver.html"><span>&larr; Previous</span>ATSolver</a><a class="next" href="research-staybert.html"><span>Next &rarr;</span>StayBERT</a></nav>
   </main>
@@ -84,6 +353,6 @@
       <span>Last updated October 2026</span>
     </div>
   </footer>
-  <script src="assets/site.js?v=20261028c" defer></script>
+  <script src="assets/site.js?v=20261028f" defer></script>
 </body>
 </html>

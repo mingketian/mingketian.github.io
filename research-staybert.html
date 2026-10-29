@@ -4,11 +4,11 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>StayBERT | Mingke Tian</title>
-  <meta name="description" content="Mingke Tian, undergraduate in applied mathematics, statistics, and computer science at Emory University.">
+  <meta name="description" content="StayBERT: staypoint detection as the pretext task for trajectory foundation models. Motion-place encoder, dwell-structured objective, Geo-TTST, and transfer results on SF-LIFE, Atlanta, and GeoLife.">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Mingke Tian">
   <meta property="og:title" content="StayBERT | Mingke Tian">
-  <meta property="og:description" content="Mingke Tian, undergraduate in applied mathematics, statistics, and computer science at Emory University.">
+  <meta property="og:description" content="StayBERT: staypoint detection as the pretext task for trajectory foundation models. Motion-place encoder, dwell-structured objective, Geo-TTST, and transfer results on SF-LIFE, Atlanta, and GeoLife.">
   <meta property="og:url" content="https://mingketian.github.io/research-staybert.html">
   <meta property="og:image" content="https://mingketian.github.io/images/profile.jpg">
   <meta name="twitter:card" content="summary">
@@ -18,7 +18,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Charis+SIL:ital,wght@0,400;0,700;1,400;1,700&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,700;1,800&display=swap">
-  <link rel="stylesheet" href="assets/style.css?v=20261028c">
+  <link rel="stylesheet" href="assets/style.css?v=20261028f">
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -32,121 +32,291 @@
         <li><a href="research.html" aria-current="page">Research</a></li>
         <li><a href="experience.html">Experience</a></li>
         <li><a href="activities.html">Leadership &amp; Services</a></li>
+        <li><a href="interests.html">Interests</a></li>
         </ul>
       </nav>
     </div>
   </header>
 
-  <main id="main" class="paper-page">
+  <main id="main" class="paper-page pp-v2">
     <a class="pp-back" href="research.html">&larr; All research</a>
     <header class="pp-hero">
       <p class="paper-badges"><span class="badge review">Under review &middot; AAAI 2027</span></p>
       <h1>StayBERT: Staypoint Detection as the Pretext Task for Trajectory Foundation Models</h1>
-      <p class="pp-authors">Riyang Bao*, <span class="me">Mingke Tian</span>*, Andreas Z&uuml;fle, Liang Zhao</p><p class="pp-eqnote">* Equal contribution</p>
-      <div class="pp-buttons"><!-- Paper (PDF) button hidden until papers/staybert.pdf is added --><a class="pp-btn" href="images/research/staybert.png" target="_blank" rel="noopener">Full-size figure<span aria-hidden="true"> &#8599;</span></a></div>
+      <p class="pp-authors">Riyang Bao*, <span class="me">Mingke Tian</span>*, Andreas Z&uuml;fle, Liang Zhao</p>
+      <p class="pp-affil">Emory University &middot; * Equal contribution</p>
+      <div class="pp-buttons"><!-- Paper (PDF) button hidden until papers/staybert.pdf is added --><a class="pp-btn" href="#abstract">Abstract</a><a class="pp-btn" href="#results">Results</a><a class="pp-btn" href="images/research/staybert.png" target="_blank" rel="noopener">Full-size figure<span aria-hidden="true"> &#8599;</span></a><a class="pp-btn primary" href="#citation">BibTeX</a></div>
+      <dl class="pp-facts">
+        <div><dt>Problem</dt><dd>A pretext task for trajectory foundation models</dd></div>
+        <div><dt>Data</dt><dd>Pretrained on SF-LIFE; transferred to Atlanta and GeoLife</dd></div>
+        <div><dt>Key idea</dt><dd>Detect stays from motion and place, decoded as coherent spans</dd></div>
+        <div><dt>Status</dt><dd>Under review</dd></div>
+      </dl>
     </header>
 
-    <p class="pp-lede">Where people stop matters more than how they move between stops. StayBERT pretrains trajectory foundation models on exactly that: deciding, point by point, whether a person is staying or moving, using both motion and the places around them. A geo-conditioned self-training step then carries the model to new cities without any labels there.</p>
+    <div class="pp-tldr"><span class="pp-label">Summary</span><p>Masked language modeling and masked image modeling gave text and vision a natural pretext task; trajectories have no equivalent. StayBERT proposes staypoint detection: deciding, point by point, whether a person is staying or moving requires reasoning about when movement pauses, where, for how long, and whether the surrounding geography fits a human activity. A motion view and a query-conditioned place view are fused by a dimension-wise gate and decoded by a CRF into coherent dwell spans. The frozen representation transfers from SF-LIFE to Atlanta and GeoLife across seven downstream tasks, and an optional CRF-only self-training step adapts it to a new city without labels.</p></div>
 
     <figure class="pp-figure">
-      <a href="images/research/staybert.png" target="_blank" rel="noopener" title="Open full-size figure"><img src="images/research/staybert.png" alt="Overview. (A) A motion view and a place view are fused by a learned gate. (B) A CRF decoder labels stops and moves, staypoints are pooled into embeddings, and pretraining combines objectives at four scales. Geo-TTST adapts the CRF head in a target city."></a>
-      <figcaption><b>Figure 1.</b> Overview. (A) A motion view and a place view are fused by a learned gate. (B) A CRF decoder labels stops and moves, staypoints are pooled into embeddings, and pretraining combines objectives at four scales. Geo-TTST adapts the CRF head in a target city.</figcaption>
+      <a href="images/research/staybert.png" target="_blank" rel="noopener" title="Open full-size figure"><img src="images/research/staybert.png" alt="Overview. (A) A motion view and a place view are fused by a learned gate. (B) A CRF decoder labels stops and moves, staypoints are pooled into embeddings, and pretraining combines objectives at four scales. Geo-TTST adapts the CRF head in a target city." loading="lazy"></a>
+      <figcaption><b>Figure 1.</b> Overview. (A) The motion branch captures coordinate evolution, elapsed time, and speed, while a Sphere2Vec query composes POI, mobility-graph, and regional-semantic context; a dimension-wise gate balances the two views. (B) A CRF enforces coherent stop/move spans, and marginal-weighted pooling forms staypoint representations. Geo-TTST refines only the CRF head in a target city.</figcaption>
     </figure>
-    <nav class="pp-toc" aria-label="On this page"><span>On this page</span><a href="#sec-1">Problem setup</a><a href="#sec-2">Place view: context attention</a><a href="#sec-3">Gated motion-place fusion</a><a href="#sec-4">Stop and move labeling</a><a href="#sec-5">Staypoint embeddings</a><a href="#sec-6">Dwell-structured pretraining</a><a href="#sec-7">Adapting to a new city (Geo-TTST)</a><a href="#sec-8">Conclusion</a><a href="#refs">References</a></nav>
+
+    <div class="pp-layout">
+      <nav class="pp-toc" aria-label="On this page"><span>On this page</span><a href="#abstract">Abstract</a><a href="#sec-1">Motivation</a><a href="#sec-2">Task formulation</a><a href="#sec-3">Motion&ndash;place encoder</a><a href="#sec-4">Dwell-structured objective</a><a href="#sec-5">Geo-TTST</a><a href="#results">Experiments</a><a href="#sec-7">Ablations</a><a href="#sec-8">Conclusion</a><a href="#citation">Citation</a></nav>
 
     <article class="pp-doc">
+      <section class="pp-sec" id="abstract">
+        <h2>Abstract</h2>
+        <p>Trajectory foundation models lack a pretext task that naturally couples motion, time, continuous space, and geographic semantics. We propose staypoint detection as such a pretext: predicting dwell spans requires recognizing when movement pauses, where the pause occurs, how long it lasts, and whether the surrounding geography is compatible with human activity. We instantiate this idea as <b>StayBERT</b>, a motion&ndash;place dual-view trajectory foundation model. Its place stream uses a spherical coordinate query to compose local POIs, dual spatial-flow structure, and language-derived regional semantics; a vector-valued gate aligns this context with Transformer motion states before structured CRF decoding. Three of the four geographic sources are city-agnostic, enabling direct cross-region deployment after source-city pretraining. We pretrain StayBERT on a large-scale public mobility corpus and transfer its frozen representations to trajectory data from other cities through lightweight task-specific heads. Across seven downstream tasks spanning semantic classification, anomaly detection, duration regression, and sequential prediction, StayBERT demonstrates broad cross-dataset transfer. These results establish staypoint prediction as a scalable pretext for learning transferable trajectory representations that couple movement dynamics with geographic semantics.</p>
+      </section>
+
       <section class="pp-sec" id="sec-1">
-        <h2><span class="pp-secnum">1</span>Problem setup</h2>
-        <p>A trajectory is a sequence of GPS points with timestamps, and every point is either part of a stay or part of a move:</p>
-        <div class="pp-eq">\[\mathcal{T}=\{(\ell_i,t_i)\}_{i=1}^{T},\qquad y_i\in\{\mathrm{M},\mathrm{S}\}\]</div>
-        <p class="pp-where-lead">where</p>
-        <dl class="pp-where">
-          <dt>\(\ell_i\)</dt><dd>the location of point \(i\)</dd>
-          <dt>\(t_i\)</dt><dd>its timestamp</dd>
-          <dt>\(y_i\)</dt><dd>its label: move (M) or stay (S)</dd>
-        </dl>
-        <p>A staypoint \(s\) is a maximal run of consecutive S labels. Trajectories are adaptively resampled (ATR) before training.</p>
+        <h2><span class="pp-secnum">1</span>Motivation</h2>
+        <p>Existing trajectory pretraining objectives capture only part of the interaction between movement and place. Coordinate reconstruction and masked recovery can exploit highly correlated neighboring points and reward smoothness rather than behavior. Masked prediction over road-segment sequences hides continuous geometry and ties the vocabulary to one network. Contrastive learning depends on augmentations and pair construction, and language-model approaches recast stays or check-ins as text rather than representing continuous movement.</p>
+        <p>A staypoint, a contiguous period during which a person remains within a region, has long been the unit for extracting significant places from GPS traces. Detecting one requires joint reasoning about spatial concentration, temporal persistence, motion transitions, and place compatibility: low speed may mean an activity, congestion, a traffic signal, or positioning noise, and only movement and environment together tell these apart. Using it as a pretext raises three challenges:</p>
+        <ol class="pp-list">
+          <li><b>Heterogeneous evidence.</b> Movement dynamics must be integrated with continuous coordinates, nearby POIs, mobility structure, and regional semantics.</li>
+          <li><b>Structured spans.</b> A staypoint is a temporal span, so the representation must preserve continuous geometry, sparse arrival and departure boundaries, and complete dwell segments.</li>
+          <li><b>Transfer across cities.</b> Sampling rates, mobility patterns, and available geographic context differ by city, and the representation must remain useful when some context is missing.</li>
+        </ol>
+        <div class="pp-callout"><span class="pp-label">Contributions</span>
+          <ul>
+            <li>Staypoint detection formulated as a trajectory pretraining task that explicitly connects motion dynamics with geographic context and produces reusable dwell representations.</li>
+            <li>StayBERT, a motion&ndash;place dual-view framework with query-conditioned geographic composition and dwell-structured learning, together with Geo-TTST for lightweight cross-city adaptation.</li>
+            <li>An evaluation of frozen representations across seven downstream tasks and three trajectory datasets, with comparisons to public representation methods and targeted ablations.</li>
+          </ul>
+        </div>
       </section>
+
       <section class="pp-sec" id="sec-2">
-        <h2><span class="pp-secnum">2</span>Place view: context attention</h2>
-        <p>Each point is embedded on the sphere and queries three sources of place context:</p>
-        <div class="pp-eq">\[\mathbf{g}_i=\sum_{k}\operatorname{softmax}\!\left(\frac{\mathbf{q}_i^{\top}K_k}{\sqrt{d}}\right)V_k,\qquad k\in\{\text{POI},\ \text{graph},\ \text{region}\}\]</div>
-        <p class="pp-where-lead">where</p>
-        <dl class="pp-where">
-          <dt>\(\mathbf{q}_i\)</dt><dd>a Sphere2Vec embedding of \(\ell_i\), used as the query</dd>
-          <dt>\(K_k,V_k\)</dt><dd>keys and values from nearby points of interest, mobility graphs, and region semantics</dd>
-          <dt>\(\mathbf{g}_i\in\mathbb{R}^d\)</dt><dd>the place representation of point \(i\)</dd>
-        </dl>
-        <p>In parallel, a motion view smooths raw steps with a dilated causal TCN and encodes time gaps and log-speed with a Transformer, giving \(\mathbf{m}_i\in\mathbb{R}^d\).</p>
+        <h2><span class="pp-secnum">2</span>Task formulation</h2>
+        <p>A GPS trajectory of \(N\) points is labeled point by point as stop or move:</p>
+        <div class="pp-eq">\[\mathcal{T}=\{(\ell_i,t_i)\}_{i=1}^{N},\qquad \ell_i=(\mathrm{lat}_i,\mathrm{lon}_i),\qquad y_i\in\{\text{stop},\text{move}\}\]</div>
+        <p>A maximal contiguous span labeled stop defines a dwell episode, so the target captures both point-level movement evidence and the temporal coherence of the span. StayBERT learns a contextual state for every point, decodes a coherent stop/move sequence, and aggregates the states within each dwell into a reusable representation:</p>
+        <div class="pp-eq">\[\mathcal{T}\ \longrightarrow\ (\mathbf{m}_i,\mathbf{g}_i)\ \longrightarrow\ \mathbf{h}_i\ \longrightarrow\ \mathrm{CRF}\ \longrightarrow\ \mathbf{z}_s\]</div>
       </section>
+
       <section class="pp-sec" id="sec-3">
-        <h2><span class="pp-secnum">3</span>Gated motion-place fusion</h2>
-        <div class="pp-eq">\[\alpha_i=\sigma\big(W_g[\mathbf{m}_i;\mathbf{g}_i]+b_g\big),\qquad \mathbf{h}_i=\alpha_i\odot\mathbf{m}_i+(1-\alpha_i)\odot\mathbf{g}_i\]</div>
-        <p class="pp-where-lead">where</p>
-        <dl class="pp-where">
-          <dt>\(\alpha_i\)</dt><dd>a per-feature gate between 0 and 1</dd>
-          <dt>\([\mathbf{m}_i;\mathbf{g}_i]\)</dt><dd>the concatenated motion and place features</dd>
-          <dt>\(\mathbf{h}_i\)</dt><dd>the fused representation of point \(i\)</dd>
-        </dl>
-        <p>Where movement alone is ambiguous, such as slow walking near a store, place context can dominate; where place context is sparse, motion takes over.</p>
+        <h2><span class="pp-secnum">3</span>Motion&ndash;place encoder</h2>
+        <h3>Motion view: how is the person moving?</h3>
+        <p>A temporal convolutional front-end produces a smoothed coordinate estimate. Each motion token combines it with the original coordinates, the elapsed time \(\Delta t_i\), and the log-speed, and a two-layer Transformer (\(d_{\mathrm{model}}=256\), eight heads) contextualizes the tokens into \(\mathbf{m}_i\in\mathbb{R}^{256}\). This stream captures velocity changes, temporal persistence, and the approach and departure patterns around dwell boundaries.</p>
+        <h3>Place view: four levels of geographic evidence</h3>
+        <ol class="pp-list">
+          <li><b>Geodesic anchor.</b> Sphere2Vec maps longitude and latitude to spherical basis functions at 16 frequencies, projected to a 64-dimensional query \(\mathbf{q}_i=\Phi_{\mathrm{loc}}(\ell_i)\).</li>
+          <li><b>Functional neighborhood.</b> Up to \(K=20\) nearby POIs, each a venue-type embedding plus a multi-scale encoding of its displacement, summarized by attention from \(\mathbf{q}_i\) into \(\mathbf{c}^{\mathrm{poi}}_i\in\mathbb{R}^{64}\).</li>
+          <li><b>Mobility structure.</b> Two-layer GraphSAGE branches over a city grid, one on spatial adjacency and functional similarity and one on observed directed flows, projected to \(\mathbf{c}^{\mathrm{net}}_i\). This is the only city-specific source.</li>
+          <li><b>Region semantics.</b> Each grid cell&rsquo;s POI composition and dominant land use, described in text, embedded with a frozen Sentence-BERT model, and reduced to 64 dimensions by PCA, giving \(\mathbf{c}^{\mathrm{sem}}_i\).</li>
+        </ol>
+        <p>The four levels are composed rather than concatenated. The Sphere2Vec query attends over a context bank of the available tokens:</p>
+        <div class="pp-eq">\[C_i=\big[\mathbf{c}^{\mathrm{poi}}_i;\ \mathbf{c}^{\mathrm{net}}_i;\ \mathbf{c}^{\mathrm{sem}}_i\big],\qquad \mathbf{g}_i=W_o\,\mathrm{LN}\big(\mathbf{q}_i+\mathrm{MHA}(\mathbf{q}_i,C_i,C_i)\big)\in\mathbb{R}^{128}\]</div>
+        <p>A missing source is omitted from \(C_i\) rather than replaced by a placeholder; with no external context, the place view reduces to the Sphere2Vec query.</p>
+        <h3>Motion&ndash;place alignment</h3>
+        <p>The two states are projected into a shared 128-dimensional space and combined by a point-wise, dimension-wise gate:</p>
+        <div class="pp-eq">\[\tilde{\mathbf{m}}_i=W_m\mathbf{m}_i,\qquad \tilde{\mathbf{g}}_i=W_g\mathbf{g}_i,\qquad \boldsymbol{\alpha}_i=\sigma\big(W_\alpha[\mathbf{m}_i;\mathbf{g}_i]\big),\qquad \mathbf{h}_i=\boldsymbol{\alpha}_i\odot\tilde{\mathbf{m}}_i+(1-\boldsymbol{\alpha}_i)\odot\tilde{\mathbf{g}}_i\]</div>
+        <p>The gate balances evidence rather than forcing a global choice: some dimensions can respond to sharp motion changes while others retain stable functional context.</p>
+        <h3>Structured decoding and staypoint pooling</h3>
+        <p>A linear-chain CRF maps \(\{\mathbf{h}_i\}\) to stop/move emissions, learns transition compatibility, and uses Viterbi decoding to turn local evidence into coherent dwell intervals. For a staypoint interval \(s\), with \(p_i\) the CRF marginal probability of stop at point \(i\),</p>
+        <div class="pp-eq">\[S_\theta(\mathcal{T},\mathbf{y})=\sum_{i=1}^{N}e_\theta(\mathbf{h}_i)_{y_i}+\sum_{i=2}^{N}A_{y_{i-1},y_i},\qquad w_i=\frac{p_i}{\sum_{j\in s}p_j},\qquad \mathbf{z}_s=\sum_{i\in s}w_i\mathbf{h}_i\in\mathbb{R}^{128}\]</div>
+        <p>The soft weighting emphasizes the points most characteristic of the dwell, and \(\mathbf{z}_s\) is the transferable representation that downstream heads consume.</p>
       </section>
+
       <section class="pp-sec" id="sec-4">
-        <h2><span class="pp-secnum">4</span>Stop and move labeling</h2>
-        <div class="pp-eq">\[p(\mathbf{y}\mid\mathbf{h})\;\propto\;\exp\Big(\sum_{i}\psi(y_i,\mathbf{h}_i)+\sum_{i}A_{y_{i-1},y_i}\Big)\]</div>
+        <h2><span class="pp-secnum">4</span>Dwell-structured pretraining objective</h2>
+        <p>The primary term is a length-normalized, move-aware CRF negative log-likelihood, which keeps long stop interiors from overwhelming the shorter arrival and departure intervals:</p>
+        <div class="pp-eq">\[\mathcal{L}_{\mathrm{bal\text{-}CRF}}=\frac{1}{|\mathcal{D}|}\sum_{k}\omega_k\,\frac{-\log P_\theta\big(\mathbf{y}^{(k)}\mid\mathcal{T}^{(k)}\big)}{N_k},\qquad \omega_k=1+(w_{\mathrm{move}}-1)\,r_k\]</div>
+        <p class="pp-where-lead">where \(N_k\) is the valid length of trajectory \(k\), \(r_k\) its fraction of move points, and \(w_{\mathrm{move}}=20\). Three auxiliary terms act at complementary scales:</p>
+        <div class="pp-eq">\[\mathcal{L}_{\mathrm{dwell}}=\mathcal{L}_{\mathrm{bal\text{-}CRF}}+\lambda_{\mathrm{rec}}\mathcal{L}_{\mathrm{rec}}+\lambda_{\mathrm{bnd}}\mathcal{L}_{\mathrm{bnd}}+\lambda_{\mathrm{seg}}\mathcal{L}_{\mathrm{seg}}\]</div>
+        <div class="pp-eq">\[\mathcal{L}_{\mathrm{rec}}=\frac{1}{|\mathcal{M}|}\sum_{i\in\mathcal{M}}\big\lVert d_\psi(\mathbf{h}_i)-\bar{\ell}_i\big\rVert_2^2,\qquad \mathcal{L}_{\mathrm{bnd}}=-\frac{1}{|\mathcal{B}|}\sum_{i\in\mathcal{B}}\log P_\theta(y_i\mid\mathcal{T})_i,\qquad \mathcal{L}_{\mathrm{seg}}=\frac{1}{|\mathcal{S}|}\sum_{s\in\mathcal{S}}\Big[\lVert\mu^{p}_s-\mu_s\rVert_1+\beta\,\bar{p}_{\partial s}\Big]\]</div>
         <p class="pp-where-lead">where</p>
         <dl class="pp-where">
-          <dt>\(\psi(y_i,\mathbf{h}_i)\)</dt><dd>the evidence for label \(y_i\) at point \(i\)</dd>
-          <dt>\(A_{y_{i-1},y_i}\)</dt><dd>a learned transition score between consecutive labels</dd>
+          <dt>\(\mathcal{M}\)</dt><dd>masked valid positions, whose normalized coordinates are reconstructed</dd>
+          <dt>\(\mathcal{B}\)</dt><dd>labeled arrival and departure transitions, \(\{i:y_i\neq y_{i-1}\}\)</dd>
+          <dt>\(\mathcal{S}\)</dt><dd>ground-truth dwell spans; \(\mu^p_s\) is the stop-probability-weighted centroid of predicted coordinates and \(\mu_s\) the geometric centroid</dd>
+          <dt>\(\bar{p}_{\partial s}\)</dt><dd>the mean stop probability just outside the span, which penalizes leakage beyond its boundaries</dd>
         </dl>
-        <p>The transition scores make the CRF prefer coherent stay and move spans over flickering labels. Each staypoint is then summarized by pooling its points, weighted by how confidently each is a stop:</p>
+        <p>Before all terms, adaptive trajectory resampling (ATR) randomly thins each trajectory while preserving order, so the same ten-minute dwell may be observed every 10 or every 30 seconds. It changes how a trajectory is observed rather than adding a loss, and discourages dependence on one sampling rate.</p>
       </section>
+
       <section class="pp-sec" id="sec-5">
-        <h2><span class="pp-secnum">5</span>Staypoint embeddings</h2>
-        <div class="pp-eq">\[\mathbf{z}_s=\frac{\sum_{i\in s}\pi_i\,\mathbf{h}_i}{\sum_{i\in s}\pi_i},\qquad \pi_i=p(y_i=\mathrm{S}\mid\mathbf{h}),\qquad \mathbf{z}_s\in\mathbb{R}^{128}\]</div>
-        <p class="pp-where-lead">where</p>
-        <dl class="pp-where">
-          <dt>\(\pi_i\)</dt><dd>the CRF marginal probability that point \(i\) is a stop</dd>
-          <dt>\(\mathbf{z}_s\)</dt><dd>the embedding of staypoint \(s\)</dd>
-        </dl>
+        <h2><span class="pp-secnum">5</span>Cross-city adaptation: Geo-TTST</h2>
+        <p>After pretraining, StayBERT can be deployed to a target city without target labels. Sphere2Vec, POI attention, and language semantics share a common cross-city interface, and the city-specific graph token is omitted when no compatible target graph exists. This is direct transfer. When an unlabeled target corpus is available, Geo-Conditional Test-Time Self-Training adds an optional adaptation step.</p>
+        <p>Predictive confidence alone can be unreliable under geographic shift, so the gate supplies a second reliability signal, the model&rsquo;s reliance on the place stream:</p>
+        <div class="pp-eq">\[c_i=\gamma\,p^\star_i+(1-\gamma)\,a^{\mathrm{geo}}_i,\qquad p^\star_i=\max_y P(y\mid\mathcal{T})_i,\qquad a^{\mathrm{geo}}_i=\operatorname{mean}_d\big(1-\alpha_{i,d}\big)\]</div>
+        <p>Only points with \(c_i&gt;\tau\) contribute pseudo-labels \(\hat{y}_i=\arg\max_y P(y\mid\mathcal{T})_i\), which are re-extracted each round with the latest model. Within a round, the encoder, place encoder, and fusion stay frozen, and only the CRF parameters are updated on the selected points:</p>
+        <div class="pp-eq">\[\mathcal{L}^{(r)}_{\mathrm{TTST}}=-\frac{1}{|\mathcal{I}^{(r)}|}\sum_{(j,i)\in\mathcal{I}^{(r)}}\log p_{\theta_{\mathrm{CRF}}}\big(\hat{y}^{(r)}_{j,i}\mid\mathcal{T}_j\big)_i\]</div>
+        <p>Because confidence filtering can keep non-contiguous points, adaptation uses the differentiable CRF marginals at the selected points rather than a full-sequence likelihood. Updating only the CRF head recalibrates stop/move decoding without overwriting the generic representation \(\mathbf{h}_i\). Target stop/move labels are never used.</p>
       </section>
-      <section class="pp-sec" id="sec-6">
-        <h2><span class="pp-secnum">6</span>Dwell-structured pretraining</h2>
-        <div class="pp-eq">\[\mathcal{L}_{\text{dwell}}=\mathcal{L}_{\text{bal-CRF}}+\lambda_{\text{rec}}\,\mathcal{L}_{\text{rec}}+\lambda_{\text{bnd}}\,\mathcal{L}_{\text{bnd}}+\lambda_{\text{seg}}\,\mathcal{L}_{\text{seg}}\]</div>
-        <p class="pp-where-lead">where</p>
-        <dl class="pp-where">
-          <dt>\(\mathcal{L}_{\text{bal-CRF}}\)</dt><dd>a class-balanced CRF loss on whole sequences, the primary term</dd>
-          <dt>\(\mathcal{L}_{\text{rec}}\)</dt><dd>point-level coordinate reconstruction</dd>
-          <dt>\(\mathcal{L}_{\text{bnd}}\)</dt><dd>transition-level boundary awareness</dd>
-          <dt>\(\mathcal{L}_{\text{seg}}\)</dt><dd>segment-level consistency</dd>
-          <dt>\(\lambda\)</dt><dd>weights of the auxiliary terms</dd>
-        </dl>
+
+      <section class="pp-sec" id="results">
+        <h2><span class="pp-secnum">6</span>Experiments</h2>
+        <p><b>Datasets.</b> Pretraining uses 1,000 agents from the public 500K-agent SF-LIFE corpus, resampled to 10&nbsp;s. Transfer targets are 500 Atlanta agents with about 22M GPS points, and a GeoLife subset of 177 users with 19,372 derived staypoints. All splits are agent-disjoint 70/15/15, and Atlanta and GeoLife place labels are mapped to SF-LIFE&rsquo;s six venue classes. <b>Tasks.</b> Frozen embeddings feed task-specific heads for Home/Work (three-class macro F1), Activity (six-class macro F1), Anomaly detection (AUROC), Duration forecasting (MAE in minutes), NextActivity (macro F1), NextLocation (Top-1, Top-5, Acc@500&nbsp;m, Acc@1&nbsp;km), and Trajectory User Linking. <b>Training.</b> AdamW, batch 128, at most 30 epochs with early stopping, and a 20-epoch warm-up that gradually admits the geographic context.</p>
+        <ul class="pp-stats">
+          <li><strong>0.9990</strong><span>staypoint segment F1 on the SF-LIFE test split (pretext sanity)</span></li>
+          <li><strong>0.7109</strong><span>NextActivity F1 on Atlanta after Geo-TTST, against 0.6599 for a model trained in Atlanta</span></li>
+          <li><strong>0.7256</strong><span>Home/Work F1 transferred to Atlanta without any parameter update</span></li>
+        </ul>
+
+        <h3>6.1&ensp;Pretext sanity</h3>
+        <div class="pp-table-wrap">
+          <table class="pp-table">
+            <caption><b>Table 1.</b> Staypoint detection on SF-LIFE. Segments match within 0.001&deg; (about 111&nbsp;m) and 5&nbsp;min.</caption>
+            <thead><tr><th>Metric</th><th>Value</th></tr></thead>
+            <tbody>
+              <tr><td>Validation point macro F1</td><td>0.9924</td></tr>
+              <tr><td>Test point macro F1</td><td>0.9929</td></tr>
+              <tr><td>Test segment precision / recall / F1</td><td>0.9993 / 0.9986 / 0.9990</td></tr>
+              <tr><td>Detected / ground-truth segments</td><td>25,864 / 25,880</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>These numbers verify that the pretext is learned; the downstream transfer experiments below provide the evidence for the representation.</p>
+
+        <h3>6.2&ensp;In-domain multi-task evaluation on SF-LIFE</h3>
+        <div class="pp-table-wrap">
+          <table class="pp-table">
+            <caption><b>Table 2.</b> Frozen encoders with matched task-specific heads on SF-LIFE. Duration is MAE in minutes (lower is better); all other metrics are higher-is-better. StayBERT NextLocation uses a hybrid head with transition, recency, frequency, and distance priors.</caption>
+            <thead><tr><th>Method</th><th>HW</th><th>Act.</th><th>NAct.</th><th>Anom.</th><th>Dur.</th><th>NL@1</th><th>NL@5</th><th>NL@500m</th><th>NL@1km</th></tr></thead>
+            <tbody>
+              <tr><td>Task-specific baseline</td><td>0.6765</td><td>0.5916</td><td>0.1693</td><td>0.7269</td><td>262.7</td><td><b>0.4866</b></td><td>0.7240</td><td><b>0.5028</b></td><td><b>0.5409</b></td></tr>
+              <tr><td>TS2Vec</td><td>0.6402</td><td>0.5778</td><td>0.2340</td><td>0.7156</td><td>109.2</td><td>0.3800</td><td>0.7063</td><td>0.4023</td><td>0.4600</td></tr>
+              <tr><td>TrajCL</td><td>0.6394</td><td>0.5797</td><td>0.2657</td><td>0.7144</td><td>94.3</td><td>0.3864</td><td>0.7212</td><td>0.4122</td><td>0.4723</td></tr>
+              <tr><td>START</td><td>0.6929</td><td>0.5964</td><td>0.3028</td><td>0.7230</td><td><b>64.8</b></td><td>0.4260</td><td>0.7221</td><td>0.4768</td><td>0.5335</td></tr>
+              <tr><td>MTM</td><td>0.7193</td><td><b>0.6210</b></td><td>0.3152</td><td>0.7195</td><td>154.3</td><td>0.2486</td><td>0.4520</td><td>0.2991</td><td>0.3941</td></tr>
+              <tr class="ours"><td>StayBERT (frozen)</td><td>0.7106</td><td>0.6036</td><td><b>0.3156</b></td><td><b>0.7603</b></td><td>69.6</td><td>0.4548</td><td><b>0.7360</b></td><td>0.4423</td><td>0.4867</td></tr>
+              <tr class="ours"><td>StayBERT + raw features</td><td><b>0.7280</b></td><td>0.5966</td><td>0.3098</td><td>0.7408</td><td>86.5</td><td>&ndash;</td><td>&ndash;</td><td>&ndash;</td><td>&ndash;</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>StayBERT ranks first or second on seven of the nine metrics, leading NextActivity, Anomaly, and NextLocation Top-5, and raw features give the best Home/Work result. MTM, START, and the task-specific NextLocation baseline remain strongest on Activity, Duration, and several location metrics, so a single frozen encoder supports broad reuse without uniformly replacing task-specific priors.</p>
+
+        <h3>6.3&ensp;Cross-region transfer: SF-LIFE &rarr; Atlanta</h3>
+        <p>Three StayBERT configurations are compared: <em>direct transfer</em>, in which the SF-LIFE encoder extracts Atlanta representations without updates and the city-specific graph is disabled; <em>Geo-TTST</em>, which updates only the CRF head on unlabeled Atlanta trajectories; and an <em>Atlanta-trained</em> reference with the same architecture. Atlanta labels train only the downstream heads.</p>
+        <div class="pp-table-wrap">
+          <table class="pp-table">
+            <caption><b>Table 3.</b> SF-LIFE &rarr; Atlanta, tabular probes. &ldquo;+ raw&rdquo; adds spatiotemporal features to the frozen embeddings; Atlanta-trained rows are same-city references.</caption>
+            <thead><tr><th>Setting</th><th>HW (F1)</th><th>Act. (F1)</th><th>Anom. (AUROC)</th><th>Dur. (MAE)</th></tr></thead>
+            <tbody>
+              <tr class="pp-group"><td colspan="5">Atlanta baseline</td></tr>
+              <tr><td>Feature-only</td><td>0.6400</td><td>0.9259</td><td>0.8352</td><td>163.6</td></tr>
+              <tr class="pp-group"><td colspan="5">Public methods, SF-LIFE &rarr; Atlanta</td></tr>
+              <tr><td>TS2Vec</td><td>0.5153</td><td>0.6712</td><td>0.8855</td><td>186.9</td></tr>
+              <tr><td>TrajCL</td><td>0.5079</td><td>0.5888</td><td>0.8911</td><td>211.3</td></tr>
+              <tr><td>START</td><td>0.5454</td><td>0.6620</td><td>0.9034</td><td>95.0</td></tr>
+              <tr><td>MTM</td><td>0.5209</td><td>0.5806</td><td>0.9050</td><td>204.5</td></tr>
+              <tr class="pp-group"><td colspan="5">Public methods, Atlanta-trained</td></tr>
+              <tr><td>TS2Vec</td><td>0.5226</td><td>0.6427</td><td>0.8909</td><td>179.2</td></tr>
+              <tr><td>TrajCL</td><td>0.5308</td><td>0.6251</td><td>0.8843</td><td>202.1</td></tr>
+              <tr><td>START</td><td>0.6026</td><td>0.7079</td><td>0.8957</td><td>102.1</td></tr>
+              <tr><td>MTM</td><td>0.5230</td><td>0.5926</td><td>0.9024</td><td>83.7</td></tr>
+              <tr class="pp-group"><td colspan="5">StayBERT</td></tr>
+              <tr class="ours"><td>Direct transfer</td><td>0.7256</td><td>0.8980</td><td>0.9059</td><td>80.8</td></tr>
+              <tr class="ours"><td>Direct + Geo-TTST</td><td>0.7028</td><td>0.9030</td><td>0.9166</td><td>79.4</td></tr>
+              <tr><td>Atlanta-trained</td><td>0.7311</td><td>0.8998</td><td>0.9038</td><td>94.0</td></tr>
+              <tr class="ours"><td>Direct + raw</td><td>0.7481</td><td>0.8813</td><td><b>0.9430</b></td><td><b>76.4</b></td></tr>
+              <tr><td>Atlanta-trained + raw</td><td><b>0.8046</b></td><td><b>0.9579</b></td><td>0.9400</td><td>82.0</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="pp-table-wrap">
+          <table class="pp-table">
+            <caption><b>Table 4.</b> SF-LIFE &rarr; Atlanta, sequential probes. &ldquo;n/a&rdquo; marks metrics outside a baseline&rsquo;s target.</caption>
+            <thead><tr><th>Setting</th><th>NAct (F1)</th><th>NL@1</th><th>NL@5</th><th>NL@500m</th><th>NL@1km</th></tr></thead>
+            <tbody>
+              <tr class="pp-group"><td colspan="6">Task-specific baselines</td></tr>
+              <tr><td>NAct majority / Markov</td><td>0.2514</td><td>n/a</td><td>n/a</td><td>n/a</td><td>n/a</td></tr>
+              <tr><td>NL frequency</td><td>n/a</td><td>0.3636</td><td>0.9099</td><td>0.4076</td><td>0.5290</td></tr>
+              <tr><td>NL Markov</td><td>n/a</td><td>0.5725</td><td>0.9206</td><td>0.6050</td><td>0.6662</td></tr>
+              <tr class="pp-group"><td colspan="6">Public methods, SF-LIFE &rarr; Atlanta</td></tr>
+              <tr><td>TS2Vec</td><td>0.5432</td><td>0.5802</td><td>0.9602</td><td>0.6255</td><td>0.7124</td></tr>
+              <tr><td>TrajCL</td><td>0.4878</td><td>0.5935</td><td>0.9678</td><td>0.6275</td><td>0.7207</td></tr>
+              <tr><td>START</td><td>0.6032</td><td><b>0.7597</b></td><td>0.9704</td><td>0.7810</td><td><b>0.8371</b></td></tr>
+              <tr><td>MTM</td><td>0.5169</td><td>0.3326</td><td>0.9542</td><td>0.4185</td><td>0.5370</td></tr>
+              <tr class="pp-group"><td colspan="6">Public methods, Atlanta-trained</td></tr>
+              <tr><td>TS2Vec</td><td>0.4966</td><td>0.5664</td><td>0.9381</td><td>0.5974</td><td>0.6792</td></tr>
+              <tr><td>TrajCL</td><td>0.5002</td><td>0.5568</td><td>0.9533</td><td>0.6105</td><td>0.6858</td></tr>
+              <tr><td>START</td><td>0.5830</td><td>0.6583</td><td>0.9139</td><td>0.6862</td><td>0.8333</td></tr>
+              <tr><td>MTM</td><td>0.6438</td><td>0.3034</td><td>0.9208</td><td>0.3920</td><td>0.5164</td></tr>
+              <tr class="pp-group"><td colspan="6">StayBERT</td></tr>
+              <tr class="ours"><td>Direct transfer</td><td>0.6847</td><td>0.6822</td><td>0.9587</td><td>0.7099</td><td>0.7591</td></tr>
+              <tr class="ours"><td>Direct + Geo-TTST</td><td><b>0.7109</b></td><td>0.7544</td><td><b>0.9802</b></td><td><b>0.7862</b></td><td>0.8032</td></tr>
+              <tr><td>Atlanta-trained</td><td>0.6599</td><td>0.6799</td><td>0.9598</td><td>0.7107</td><td>0.7606</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p><b>Tabular transfer.</b> Directly transferred StayBERT is the strongest unadapted source-pretrained model on all four tabular probes. It closely matches Atlanta-trained StayBERT on Home/Work and Activity and is better on Anomaly and Duration. Adding target features gives the best Anomaly and Duration results but weakens Activity, and Geo-TTST yields smaller, task-dependent changes.</p>
+        <p><b>Sequential transfer.</b> Direct transfer reaches 0.6847 NextActivity F1, against 0.2514 for the task-specific baselines and 0.6599 for Atlanta-trained StayBERT; Geo-TTST raises it to 0.7109. For NextLocation, Geo-TTST gives the best Top-5 and 500&nbsp;m accuracy and nearly matches START on Top-1 (0.7544 against 0.7597), while START keeps the best 1&nbsp;km accuracy. A Trajectory User Linking diagnostic marks a clear limit: transferred embeddings reach only 0.2% Top-1, against 85.4% for an Atlanta-trained model, so user linking depends mainly on target-specific spatial signatures and routines.</p>
+
+        <h3>6.4&ensp;Cross-dataset transfer to GeoLife</h3>
+        <div class="pp-table-wrap">
+          <table class="pp-table">
+            <caption><b>Table 5.</b> SF-LIFE &rarr; GeoLife. StayBERT and feature-only rows use 19,372 staypoints; public baselines use 19,338 embeddings. NextLocation is excluded because candidate identities are dataset-specific.</caption>
+            <thead><tr><th>Method</th><th>HW (F1)</th><th>Act. (F1)</th><th>NAct (F1)</th><th>Anom. (AUROC)</th><th>Dur. (MAE)</th></tr></thead>
+            <tbody>
+              <tr><td>GeoLife feature-only</td><td>0.2610</td><td>0.2142</td><td>0.2703</td><td><b>0.8002</b></td><td>65.1</td></tr>
+              <tr><td>TS2Vec</td><td>0.3378</td><td>0.2344</td><td>0.1674</td><td>0.6716</td><td>59.3</td></tr>
+              <tr><td>TrajCL</td><td>0.3340</td><td>0.2176</td><td>0.2531</td><td>0.6857</td><td>58.6</td></tr>
+              <tr><td>START</td><td>0.3202</td><td>0.2298</td><td>0.2352</td><td>0.6729</td><td><b>58.3</b></td></tr>
+              <tr><td>MTM</td><td>0.3401</td><td>0.2250</td><td>0.1674</td><td>0.6762</td><td>59.0</td></tr>
+              <tr class="ours"><td>StayBERT</td><td><b>0.3417</b></td><td><b>0.2488</b></td><td><b>0.2705</b></td><td>0.7739</td><td>58.4</td></tr>
+              <tr class="ours"><td>StayBERT + raw</td><td>0.3346</td><td>0.2473</td><td>&ndash;</td><td>0.7768</td><td><b>58.3</b></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>Frozen StayBERT leads Home/Work, Activity, and NextActivity, with the clearest gain on Home/Work over the feature-only baseline (0.3417 against 0.2610). Anomaly detection stays dominated by target-domain statistics, and the augmented configuration ties START for the best Duration. Because raw features change the transferred scores only marginally, the semantic and duration gains mainly reflect information carried by the frozen representation.</p>
       </section>
+
       <section class="pp-sec" id="sec-7">
-        <h2><span class="pp-secnum">7</span>Adapting to a new city (Geo-TTST)</h2>
-        <p>In a target city \(\mathcal{D}_{\text{tgt}}=\{(\ell_i,t_i)\}\) there are no labels. The encoder and fusion stay frozen, confident points become pseudo-labels, and only the CRF head is updated:</p>
-        <div class="pp-eq">\[\begin{gathered}c_i=\max_{y}\,p(y_i=y\mid\mathbf{h})\cdot r_{\text{geo}}(\ell_i),\qquad \hat{\mathcal{Y}}=\{(i,\hat y_i):c_i\ge\tau\},\\ \theta_{\text{CRF}}\leftarrow\theta_{\text{CRF}}-\eta\,\nabla_{\theta_{\text{CRF}}}\mathcal{L}_{\text{CE}}(\hat{\mathcal{Y}})\end{gathered}\]</div>
-        <p class="pp-where-lead">where</p>
-        <dl class="pp-where">
-          <dt>\(r_{\text{geo}}(\ell_i)\)</dt><dd>a geographic reliance score for the location</dd>
-          <dt>\(c_i\)</dt><dd>the confidence of point \(i\)</dd>
-          <dt>\(\tau\)</dt><dd>the pseudo-label threshold</dd>
-          <dt>\(\eta\)</dt><dd>the step size</dd>
-        </dl>
+        <h2><span class="pp-secnum">7</span>GeoContext ablation</h2>
+        <div class="pp-table-wrap">
+          <table class="pp-table">
+            <caption><b>Table 6.</b> GeoContext ablations, pretrained on SF-LIFE and evaluated on Atlanta. Duration is MAE (lower is better). NextLocation here uses an embedding-only head and is not comparable to Table 4.</caption>
+            <thead><tr><th>Metric</th><th>Full</th><th>&minus;POI</th><th>&minus;LLM</th><th>&minus;Road GNN</th><th>Grid coords</th></tr></thead>
+            <tbody>
+              <tr><td>HW (F1)</td><td><b>0.7256</b></td><td>0.7103</td><td>0.5719</td><td>0.6229</td><td>0.5514</td></tr>
+              <tr><td>Activity (F1)</td><td><b>0.8980</b></td><td>0.8664</td><td>0.6854</td><td>0.7960</td><td>0.5950</td></tr>
+              <tr><td>NAct (F1)</td><td>0.6847</td><td>0.6635</td><td>0.5347</td><td><b>0.7260</b></td><td>0.5747</td></tr>
+              <tr><td>Anomaly (AUROC)</td><td>0.9059</td><td>0.9012</td><td><b>0.9076</b></td><td>0.9069</td><td>0.9047</td></tr>
+              <tr><td>Duration (MAE)</td><td>80.8</td><td>166.7</td><td>100.8</td><td><b>70.6</b></td><td>90.7</td></tr>
+              <tr><td>NL@1</td><td><b>0.6109</b></td><td>0.2924</td><td>0.5033</td><td>0.5359</td><td>0.6000</td></tr>
+              <tr><td>NL@5</td><td>0.9382</td><td>0.8970</td><td><b>0.9586</b></td><td>0.9292</td><td>0.9440</td></tr>
+              <tr><td>NL@500m</td><td>0.5886</td><td>0.3255</td><td>0.5529</td><td>0.5657</td><td><b>0.6293</b></td></tr>
+              <tr><td>NL@1km</td><td><b>0.7089</b></td><td>0.4727</td><td>0.6442</td><td>0.6349</td><td>0.6839</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>The full model gives the strongest semantic transfer and the best embedding-only NextLocation Top-1 and 1&nbsp;km accuracy. Removing POI context degrades every metric and roughly doubles Duration MAE, from 80.8 to 166.7 minutes. Removing the language-derived regional context weakens semantic and sequential classification but helps Anomaly and NextLocation Top-5. Removing the road graph favors NextActivity and Duration at the expense of most other tasks. Plain grid coordinates improve distance-tolerant retrieval but substantially weaken semantic transfer. The ablations reveal task-specific trade-offs among the geographic sources rather than a single ordering.</p>
       </section>
+
       <section class="pp-sec" id="sec-8">
         <h2><span class="pp-secnum">8</span>Conclusion</h2>
-        <p>Using staypoint detection as the pretext task gives trajectory models a representation organized around stays, the units that downstream mobility tasks care about, and geo-conditioned self-training lets that representation move to new cities without labels.</p>
+        <p>StayBERT casts staypoint detection as a dwell-centric pretext and learns transferable motion&ndash;place representations through geographic context alignment and structured decoding. Across SF-LIFE, Atlanta, and GeoLife, frozen embeddings support semantic classification, duration forecasting, anomaly detection, and sequential prediction, while target features and CRF-only Geo-TTST provide selective gains. Task-specific retrieval, personal routines, dataset differences, and mobility privacy remain important directions for future work.</p>
       </section>
+
+      <section class="pp-sec" id="citation">
+        <h2>Citation</h2>
+        <div class="pp-bib"><button class="pp-copy" type="button" data-copy="#bib-staybert">Copy</button><pre id="bib-staybert">@misc{bao2026staybert,
+  title  = {StayBERT: Staypoint Detection as the Pretext Task for Trajectory Foundation Models},
+  author = {Bao, Riyang and Tian, Mingke and Z{\"u}fle, Andreas and Zhao, Liang},
+  year   = {2026},
+  note   = {Under review}
+}</pre></div>
+      </section>
+
       <section class="pp-sec" id="refs">
         <h2>Key references</h2>
         <ol class="pp-refs">
+          <li>J. Devlin, M.-W. Chang, K. Lee, and K. Toutanova. BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding. <i>NAACL-HLT</i>, 2019.</li>
+          <li>D. Ashbrook and T. Starner. Using GPS to Learn Significant Locations and Predict Movement Across Multiple Users. <i>Personal and Ubiquitous Computing</i> 7(5), 2003.</li>
           <li>J. Lafferty, A. McCallum, and F. Pereira. Conditional Random Fields: Probabilistic Models for Segmenting and Labeling Sequence Data. <i>ICML</i>, 2001.</li>
-          <li>G. Mai et al. Sphere2Vec: A General-Purpose Location Representation Learning over a Spherical Surface for Large-Scale Geospatial Predictions. <i>ISPRS Journal of Photogrammetry and Remote Sensing</i>, 2023.</li>
-          <li>S. Bai, J. Z. Kolter, and V. Koltun. An Empirical Evaluation of Generic Convolutional and Recurrent Networks for Sequence Modeling. <i>arXiv:1803.01271</i>, 2018.</li>
+          <li>G. Mai, Y. Xuan, W. Zuo, et al. Sphere2Vec: A General-Purpose Location Representation Learning over a Spherical Surface for Large-Scale Geospatial Predictions. <i>ISPRS Journal of Photogrammetry and Remote Sensing</i> 202, 2023.</li>
+          <li>W. L. Hamilton, R. Ying, and J. Leskovec. Inductive Representation Learning on Large Graphs. <i>NeurIPS</i>, 2017.</li>
+          <li>N. Reimers and I. Gurevych. Sentence-BERT: Sentence Embeddings using Siamese BERT-Networks. <i>EMNLP-IJCNLP</i>, 2019.</li>
+          <li>J. Jiang, D. Pan, H. Ren, X. Jiang, C. Li, and J. Wang. Self-Supervised Trajectory Representation Learning with Temporal Regularities and Travel Semantics. <i>ICDE</i>, 2023.</li>
           <li>D. Wang, E. Shelhamer, S. Liu, B. Olshausen, and T. Darrell. Tent: Fully Test-Time Adaptation by Entropy Minimization. <i>ICLR</i>, 2021.</li>
         </ol>
       </section>
     </article>
+    </div>
 
     <nav class="pp-pager" aria-label="More research"><a class="prev" href="research-mobilityworld.html"><span>&larr; Previous</span>MobilityWorld</a><a class="next" href="research-magi.html"><span>Next &rarr;</span>Structured MAGI</a></nav>
   </main>
@@ -173,6 +343,6 @@
       <span>Last updated October 2026</span>
     </div>
   </footer>
-  <script src="assets/site.js?v=20261028c" defer></script>
+  <script src="assets/site.js?v=20261028f" defer></script>
 </body>
 </html>
