@@ -18,7 +18,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Charis+SIL:ital,wght@0,400;0,700;1,400;1,700&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,700;1,800&display=swap">
-  <link rel="stylesheet" href="assets/style.css?v=20261028g">
+  <link rel="stylesheet" href="assets/style.css?v=20261031b">
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -32,6 +32,7 @@
         <li><a href="research.html" aria-current="page">Research</a></li>
         <li><a href="experience.html">Experience</a></li>
         <li><a href="activities.html">Leadership &amp; Services</a></li>
+        <li><a href="trading.html">Trading</a></li>
         </ul>
       </nav>
     </div>
@@ -125,7 +126,7 @@
         <div class="pp-eq">\[\mathcal{L}_{\mathrm{bal\text{-}CRF}}=\frac{1}{|\mathcal{D}|}\sum_{k}\omega_k\,\frac{-\log P_\theta\big(\mathbf{y}^{(k)}\mid\mathcal{T}^{(k)}\big)}{N_k},\qquad \omega_k=1+(w_{\mathrm{move}}-1)\,r_k\]</div>
         <p class="pp-where-lead">where \(N_k\) is the valid length of trajectory \(k\), \(r_k\) its fraction of move points, and \(w_{\mathrm{move}}=20\). Three auxiliary terms act at complementary scales:</p>
         <div class="pp-eq">\[\mathcal{L}_{\mathrm{dwell}}=\mathcal{L}_{\mathrm{bal\text{-}CRF}}+\lambda_{\mathrm{rec}}\mathcal{L}_{\mathrm{rec}}+\lambda_{\mathrm{bnd}}\mathcal{L}_{\mathrm{bnd}}+\lambda_{\mathrm{seg}}\mathcal{L}_{\mathrm{seg}}\]</div>
-        <div class="pp-eq">\[\mathcal{L}_{\mathrm{rec}}=\frac{1}{|\mathcal{M}|}\sum_{i\in\mathcal{M}}\big\lVert d_\psi(\mathbf{h}_i)-\bar{\ell}_i\big\rVert_2^2,\qquad \mathcal{L}_{\mathrm{bnd}}=-\frac{1}{|\mathcal{B}|}\sum_{i\in\mathcal{B}}\log P_\theta(y_i\mid\mathcal{T})_i,\qquad \mathcal{L}_{\mathrm{seg}}=\frac{1}{|\mathcal{S}|}\sum_{s\in\mathcal{S}}\Big[\lVert\mu^{p}_s-\mu_s\rVert_1+\beta\,\bar{p}_{\partial s}\Big]\]</div>
+        <div class="pp-eq">\[\begin{gathered}\mathcal{L}_{\mathrm{rec}}=\frac{1}{|\mathcal{M}|}\sum_{i\in\mathcal{M}}\big\lVert d_\psi(\mathbf{h}_i)-\bar{\ell}_i\big\rVert_2^2,\qquad \mathcal{L}_{\mathrm{bnd}}=-\frac{1}{|\mathcal{B}|}\sum_{i\in\mathcal{B}}\log P_\theta(y_i\mid\mathcal{T})_i,\\[4pt] \mathcal{L}_{\mathrm{seg}}=\frac{1}{|\mathcal{S}|}\sum_{s\in\mathcal{S}}\Big[\lVert\mu^{p}_s-\mu_s\rVert_1+\beta\,\bar{p}_{\partial s}\Big]\end{gathered}\]</div>
         <p class="pp-where-lead">where</p>
         <dl class="pp-where">
           <dt>\(\mathcal{M}\)</dt><dd>masked valid positions, whose normalized coordinates are reconstructed</dd>
@@ -172,7 +173,7 @@
 
         <h3>6.2&ensp;In-domain multi-task evaluation on SF-LIFE</h3>
         <div class="pp-table-wrap">
-          <table class="pp-table">
+          <table class="pp-table compact">
             <caption><b>Table 2.</b> Frozen encoders with matched task-specific heads on SF-LIFE. Duration is MAE in minutes (lower is better); all other metrics are higher-is-better. StayBERT NextLocation uses a hybrid head with transition, recency, frequency, and distance priors.</caption>
             <thead><tr><th>Method</th><th>HW</th><th>Act.</th><th>NAct.</th><th>Anom.</th><th>Dur.</th><th>NL@1</th><th>NL@5</th><th>NL@500m</th><th>NL@1km</th></tr></thead>
             <tbody>
@@ -342,6 +343,6 @@
       <span>Last updated October 2026</span>
     </div>
   </footer>
-  <script src="assets/site.js?v=20261028g" defer></script>
+  <script src="assets/site.js?v=20261031b" defer></script>
 </body>
 </html>
