@@ -92,3 +92,24 @@
 
 /* Small contributors (DOGE, BNB) stay visible as slivers without overflowing their label. */
 .tr-share .seg { min-width: 6px; overflow: hidden; white-space: nowrap; }
+
+/* Performance analytics: drawdown, daily-result distribution, and ratio table */
+.tr-ana { margin-top: var(--s6); }
+.tr-ana h4 { color: var(--ink); font-size: var(--fs-label); font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; }
+.tr-ana-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s4); margin-top: var(--s3); }
+.tr-panel { margin: 0; padding: var(--s3) var(--s3) var(--s2); border: 1px solid var(--rule); border-radius: 14px; background: var(--surface); }
+.tr-panel figcaption { padding: 0 var(--s1) var(--s2); color: var(--muted); font-size: 0.75rem; font-weight: 700; }
+.tr-grid-l { stroke: #e7eef2; stroke-width: 1; }
+.tr-dd-area { fill: var(--tr-down); opacity: 0.14; }
+.tr-dd-line { fill: none; stroke: var(--tr-down); stroke-width: 1.8; stroke-linejoin: round; }
+.tr-h-up { fill: var(--tr-up); } .tr-h-down { fill: var(--tr-down); }
+.tr-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--s3); margin-top: var(--s4); }
+.tr-stats > div { padding: var(--s3) var(--s4); border: 1px solid var(--rule); border-radius: 12px; background: var(--surface); }
+.tr-stats dt { color: var(--muted); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; }
+.tr-stats dd { margin: 0.2rem 0 0; color: var(--ink); font-size: 1.25rem; font-weight: 800; font-variant-numeric: tabular-nums; }
+.tr-stats small { display: block; margin-top: 0.15rem; color: var(--muted); font-size: 0.75rem; line-height: 1.35; }
+.interest .card-intro { max-width: none; }
+@media (max-width: 760px) { .tr-ana-grid, .tr-stats { grid-template-columns: minmax(0, 1fr); } }
+.tr-growth { margin-top: var(--s3); color: var(--ink); font-size: var(--fs-meta); }
+.tr-growth strong { margin-right: 0.35rem; color: var(--tr-main); font-size: 1.6rem; font-weight: 800; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+.tr-growth span { display: block; margin-top: 0.1rem; color: var(--muted); font-size: 0.75rem; }

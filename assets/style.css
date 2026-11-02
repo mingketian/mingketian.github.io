@@ -1047,14 +1047,14 @@ a.doing-card:hover .d-arrow { opacity: 1; transform: translateX(3px); }
 .xp-logo.is-dark { padding: 0.3rem 0.35rem; border-color: #141517; background: #141517; }
 @media (max-width: 760px) { .xp-logo { width: 5.5rem; height: 2.75rem; } }
 
-/* Home: name block sits a little right of its centred spot; its middle lines up with the photo's */
+/* Home: name block sits a little right of its centred spot, bottom-aligned with the photo */
 @media (min-width: 1000px) {
-  .home-id { position: relative; left: 0.75rem; }
-  .home-id h1 { font-size: 3.6rem; }
-  .home-title { margin-top: var(--s5); font-size: 1.15rem; }
+  .home-id { position: relative; left: 0.75rem; align-self: end; }   /* icons sit on the photo's bottom line */
+  .home-id h1 { font-size: 3.35rem; }
+  .home-title { margin-top: var(--s4); font-size: 1.1rem; }
   .home-icons { margin-top: var(--s6); }
-  .home-icons a { width: 2.5rem; height: 2.5rem; }
-  .home-icons svg { width: 1.15rem; height: 1.15rem; }
+  .home-icons a { width: 2.4rem; height: 2.4rem; }
+  .home-icons svg { width: 1.1rem; height: 1.1rem; }
   .home-hero .home-photo { position: relative; left: 1.25rem; }
   .home-hero { grid-template-columns: auto 19.5rem; }
 }
@@ -1202,3 +1202,36 @@ a.doing-card:hover .d-arrow { opacity: 1; transform: translateX(3px); }
 .pp-v2 .pp-table.compact { font-size: 0.8rem; }
 .pp-v2 .pp-table.compact th, .pp-v2 .pp-table.compact td { padding-left: 0.35rem; padding-right: 0.35rem; }
 .pp-eq, .pp-table-wrap { position: relative; }   /* keeps KaTeX hidden MathML inside the scrolling box */
+
+/* ---------- Learn more pages, methods-first additions ----------
+   Smaller figures, numbered display equations, an algorithm box, and a one-line finding under each table. */
+.pp-v2 .pp-figure.fig-sm { max-width: 30rem; margin-left: auto; margin-right: auto; }
+.pp-v2 .pp-figure.fig-md { max-width: 44rem; margin-left: auto; margin-right: auto; }
+.pp-v2 .pp-figure.fig-lg { max-width: 54rem; margin-left: auto; margin-right: auto; }
+.pp-v2 .pp-eq[data-n] { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; column-gap: var(--s4); }
+.pp-v2 .pp-eq[data-n] > .katex-display { min-width: 0; overflow-x: auto; overflow-y: hidden; }
+.pp-v2 .pp-eq[data-n]::after { content: "(" attr(data-n) ")"; color: var(--ink); font-family: var(--serif); font-size: 0.95rem; }
+.pp-v2 .pp-sec h3 .pp-secnum { margin-right: 0.55em; }
+.pp-algo { margin-top: var(--s5); border-top: 1.5px solid var(--ink); border-bottom: 1.5px solid var(--ink); font-family: var(--serif); color: var(--ink); }
+.pp-algo-title { padding: 0.35rem 0; border-bottom: 1px solid var(--ink); font-size: 0.95rem; }
+.pp-algo-io { margin: 0; padding: 0.45rem 0 0; font-size: 0.92rem; line-height: 1.6; }
+.pp-algo ol { margin: 0.35rem 0 0.5rem; padding-left: 2rem; font-size: 0.92rem; line-height: 1.7; }
+.pp-algo ol li::marker { color: var(--muted); font-size: 0.85em; }
+.pp-algo .in1 { margin-left: 1.25rem; }
+.pp-algo .cm { color: var(--muted); font-style: italic; }
+.pp-v2 .pp-finding { margin-top: var(--s3); font-family: var(--serif); color: var(--ink); line-height: 1.65; }
+.pp-v2 .pp-finding > b:first-child { font-style: italic; font-weight: 700; }
+.pp-v2 .pp-table td.l, .pp-v2 .pp-table th.l { text-align: left; }
+.pp-v2 .pp-table.rq td, .pp-v2 .pp-table.wrap td { vertical-align: top; text-align: left; line-height: 1.5; white-space: normal; }
+.pp-v2 .pp-table.rq td:first-child { white-space: nowrap; font-weight: 700; }
+.pp-v2 .pp-table.rq td:last-child { min-width: 6.5rem; }
+@media (max-width: 760px) { .pp-v2 .pp-eq[data-n]::after { font-size: 0.85rem; } }
+
+/* Leadership & Services: positions always in the accent blue; organizations in bold dark blue */
+.activities-page .timeline .item h3 { color: var(--cyan-text); }
+.activities-page .timeline.compact .org { color: var(--cyan-deep); font-size: var(--fs-lead); font-weight: 700; }
+
+/* Learn more pages: research pitch video above the architecture figure */
+.pp-video { max-width: 46rem; margin: var(--s6) auto 0; }
+.pp-video video { display: block; width: 100%; aspect-ratio: 16 / 9; background: #0b1220; border: 1px solid var(--rule); }
+.pp-video figcaption { margin-top: var(--s2); color: var(--muted); font-family: var(--serif); font-size: var(--fs-meta); }

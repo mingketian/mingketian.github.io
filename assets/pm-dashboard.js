@@ -30,7 +30,7 @@
     var k = D.kpis[key];
     var map = {
       days: [k.profitableShare.toFixed(0) + '%', k.profitableDays + ' of ' + k.activeDays + ' trading days'],
-      pf: [k.profitFactor.toFixed(2), 'gross wins \u00f7 gross losses'],
+      sharpe: [stats(key).sharpe.toFixed(1), 'daily results, annualized'],
       payoff: [k.payoff.toFixed(1) + '\u00d7', 'average win \u00f7 average loss'],
       win: [k.winRate.toFixed(0) + '%', 'of ' + k.markets.toLocaleString('en-US') + ' markets settled in profit'],
       pull: [k.pullback.toFixed(1) + '%', 'deepest dip below the running peak'],
@@ -46,6 +46,69 @@
     if (scope) scope.textContent = key === 'all'
       ? 'All markets \u00b7 ' + D.kpis.all.fills.toLocaleString('en-US') + ' fills'
       : SERIES[key] + ' \u00b7 ' + k.share.toFixed(1) + '% of the total result \u00b7 ' + k.fills.toLocaleString('en-US') + ' fills';
+  }
+
+  /* daily results on trading days, drawdown, and risk-adjusted ratios */
+  function stats(k) {
+    var v = D.daily[k].filter(function (_, i) { return D.active[k][i]; });
+    var m = v.reduce(function (a, b) { return a + b; }, 0) / v.length;
+    var sd = Math.sqrt(v.reduce(function (a, b) { return a + (b - m) * (b - m); }, 0) / (v.length - 1));
+    var c = 0, pk = 0, dd = D.daily[k].map(function (x) { c += x; pk = Math.max(pk, c); return c - pk; });
+    var wins = v.filter(function (x) { return x > 0; }), losses = v.filter(function (x) { return x < 0; });
+    return { v: v, dd: dd, sharpe: sd ? m / sd * Math.sqrt(365) : 0, best: Math.max.apply(null, v), worst: Math.min.apply(null, v),
+      avgWin: wins.length ? wins.reduce(function (a, b) { return a + b; }, 0) / wins.length : 0,
+      avgLoss: losses.length ? losses.reduce(function (a, b) { return a + b; }, 0) / losses.length : 0 };
+  }
+
+  function analytics() {
+    var S = stats(key), k = D.kpis[key], n = D.dates.length;
+    var ddBox = root.querySelector('[data-tr-dd]'), hBox = root.querySelector('[data-tr-hist]'), list = root.querySelector('[data-tr-stats]');
+    if (!ddBox || !hBox) return;
+    [ddBox, hBox].forEach(function (b) { b.innerHTML = ''; });
+    var w = Math.max(260, ddBox.clientWidth), h = 190, m = { l: 40, r: 10, t: 10, b: 24 };
+
+    /* drawdown: distance below the running peak of the cumulative result */
+    var s1 = el('svg', { viewBox: '0 0 ' + w + ' ' + h, width: w, height: h, class: 'tr-svg', 'aria-hidden': 'true' }, ddBox);
+    var lo = Math.min.apply(null, S.dd), lo2 = lo < -0.5 ? lo * 1.1 : -1;
+    var xs = function (i) { return m.l + (w - m.l - m.r) * i / (n - 1); }, ys = function (v) { return m.t + (h - m.t - m.b) * v / lo2; };
+    var step = Math.abs(lo2) > 8 ? 4 : Math.abs(lo2) > 3 ? 2 : Math.abs(lo2) > 1.5 ? 1 : 0.5;
+    for (var t = 0; t >= lo2 - 1e-9; t -= step) {
+      el('line', { x1: m.l, x2: w - m.r, y1: ys(t), y2: ys(t), class: t === 0 ? 'tr-zero' : 'tr-grid-l' }, s1);
+      var tx = el('text', { x: m.l - 6, y: ys(t) + 4, 'text-anchor': 'end', class: 'tr-axis' }, s1); tx.textContent = (t === 0 ? '0' : '\u2212' + Math.abs(t)) + '%';
+    }
+    var d = S.dd.map(function (v, i) { return (i ? 'L' : 'M') + xs(i).toFixed(1) + ' ' + ys(v).toFixed(1); }).join(' ');
+    el('path', { d: d + ' L' + xs(n - 1).toFixed(1) + ' ' + ys(0) + ' L' + xs(0) + ' ' + ys(0) + ' Z', class: 'tr-dd-area' }, s1);
+    el('path', { d: d, class: 'tr-dd-line' }, s1);
+    [0, n - 1].forEach(function (i) { var tl = el('text', { x: xs(i), y: h - 6, 'text-anchor': i ? 'end' : 'start', class: 'tr-axis' }, s1); tl.textContent = fmtDate(D.dates[i]); });
+
+    /* histogram of daily results (share of the period total, trading days only) */
+    var s2 = el('svg', { viewBox: '0 0 ' + w + ' ' + h, width: w, height: h, class: 'tr-svg', 'aria-hidden': 'true' }, hBox);
+    var bw = key === 'all' || key === 'btc' ? 1 : 0.25, a = Math.floor(S.worst / bw) * bw, b = Math.ceil(S.best / bw) * bw;
+    if (b <= a) b = a + bw;
+    var nb = Math.round((b - a) / bw), cnt = []; for (var q = 0; q < nb; q++) cnt.push(0);
+    S.v.forEach(function (x) { cnt[Math.min(nb - 1, Math.floor((x - a) / bw))]++; });
+    var cmax = Math.max.apply(null, cnt), hx = function (x) { return m.l + (w - m.l - m.r) * (x - a) / (b - a); }, hy = function (c) { return h - m.b - (h - m.t - m.b) * c / cmax; };
+    var cs = cmax > 20 ? 10 : cmax > 8 ? 4 : 2;
+    for (var c = 0; c <= cmax; c += cs) {
+      el('line', { x1: m.l, x2: w - m.r, y1: hy(c), y2: hy(c), class: c ? 'tr-grid-l' : 'tr-zero' }, s2);
+      var cl = el('text', { x: m.l - 6, y: hy(c) + 4, 'text-anchor': 'end', class: 'tr-axis' }, s2); cl.textContent = c;
+    }
+    cnt.forEach(function (c, q) {
+      if (!c) return;
+      var x0 = a + q * bw;
+      el('rect', { x: hx(x0) + 1, width: Math.max(1, hx(x0 + bw) - hx(x0) - 2), y: hy(c), height: hy(0) - hy(c), rx: 1.5, class: x0 + bw <= 0 ? 'tr-h-down' : 'tr-h-up' }, s2);
+    });
+    var z = el('line', { x1: hx(0), x2: hx(0), y1: m.t, y2: h - m.b, class: 'tr-cross' }, s2);
+    [a, 0, b].forEach(function (x, i) { var tl = el('text', { x: hx(x), y: h - 6, 'text-anchor': i === 0 ? 'start' : i === 2 ? 'end' : 'middle', class: 'tr-axis' }, s2); tl.textContent = (x > 0 ? '+' : x < 0 ? '\u2212' : '') + Math.abs(x) + '%'; });
+
+    if (list) list.innerHTML = [
+      ['Sharpe ratio', S.sharpe.toFixed(1), 'mean \u00f7 standard deviation of daily results, \u00d7 \u221a365'],
+      ['Profit factor', k.profitFactor.toFixed(2), 'total gains \u00f7 total losses; above 1 means profitable'],
+      ['Max drawdown', pct(Math.min.apply(null, S.dd)), 'largest fall below a previous high'],
+      ['Best day', pct(S.best, 2), 'single largest daily gain'],
+      ['Worst day', pct(S.worst, 2), 'single largest daily loss'],
+      ['Average up / down day', pct(S.avgWin, 2) + ' / ' + pct(S.avgLoss, 2), 'mean result on profitable and losing days']
+    ].map(function (r) { return '<div><dt>' + r[0] + '</dt><dd>' + r[1] + '</dd><small>' + r[2] + '</small></div>'; }).join('');
   }
 
   /* chart */
@@ -163,7 +226,7 @@
     }
     var sum = root.querySelector('[data-tr-summary]');
     if (sum) sum.textContent = SERIES[key] + ': cumulative result indexed to 100% at the end of the period, from ' + fmtDate(D.dates[0], true) + ' to ' + fmtDate(D.dates[n - 1], true) + '. ' +
-      D.kpis[key].profitableShare.toFixed(0) + '% of trading days were profitable; profit factor ' + D.kpis[key].profitFactor.toFixed(2) + '.';
+      D.kpis[key].profitableShare.toFixed(0) + '% of trading days were profitable; Sharpe ratio ' + stats(key).sharpe.toFixed(1) + '.';
   }
 
   /* asset share bar */
@@ -185,11 +248,11 @@
       key = b.getAttribute('data-series');
       root.querySelectorAll('[data-series]').forEach(function (o) { o.setAttribute('aria-pressed', o === b ? 'true' : 'false'); });
       root.setAttribute('data-active', key);
-      setKpis(); draw(true);
+      setKpis(); draw(true); analytics();
     });
   });
 
-  setKpis(); shares();
+  setKpis(); shares(); analytics();
   var started = false;
   function start() { if (started) return; started = true; draw(true); }
   if ('IntersectionObserver' in window) {
@@ -197,5 +260,5 @@
     var io = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { draw(true); io.disconnect(); } }); }, { threshold: 0.35 });
     io.observe(box);
   } else start();
-  var rt; window.addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(function () { draw(false); }, 120); });
+  var rt; window.addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(function () { draw(false); analytics(); }, 120); });
 })();
