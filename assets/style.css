@@ -187,7 +187,7 @@ main { flex: 1 0 auto; width: 100%; max-width: var(--page); margin: 0 auto; padd
 .photo-arch {
   padding: 0; background: none;
   border-radius: 50%;
-  box-shadow: 0 2px 8px rgba(19, 48, 77, 0.06), 0 30px 60px -28px rgba(19, 48, 77, 0.45);
+  box-shadow: 0 1px 4px rgba(19, 48, 77, 0.05), 0 18px 36px -22px rgba(19, 48, 77, 0.32);
 }
 .home-photo img {
   display: block; width: 100%; aspect-ratio: 1 / 1; object-fit: cover;
@@ -224,7 +224,7 @@ main { flex: 1 0 auto; width: 100%; max-width: var(--page); margin: 0 auto; padd
 
 @media (max-width: 760px) {
   .home-hero { grid-template-columns: 1fr; justify-content: stretch; gap: var(--s6); }
-  .home-photo { order: -1; width: min(18rem, 80%); margin: 0 auto; }
+  .home-photo { order: -1; width: min(16rem, 72%); margin: 0 auto; }
   .home-id { width: auto; }
   .home-id h1 { font-size: 2.75rem; white-space: normal; }
   .home-title { font-size: 1.125rem; }
@@ -1056,6 +1056,7 @@ a.doing-card:hover .d-arrow { opacity: 1; transform: translateX(3px); }
   .home-icons a { width: 2.5rem; height: 2.5rem; }
   .home-icons svg { width: 1.15rem; height: 1.15rem; }
   .home-hero .home-photo { position: relative; left: 1.25rem; }
+  .home-hero { grid-template-columns: auto 19.5rem; }
 }
 @media (max-width: 760px) { .svc-figure { max-width: 14rem; } }
 
