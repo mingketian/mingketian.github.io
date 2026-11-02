@@ -1047,9 +1047,14 @@ a.doing-card:hover .d-arrow { opacity: 1; transform: translateX(3px); }
 .xp-logo.is-dark { padding: 0.3rem 0.35rem; border-color: #141517; background: #141517; }
 @media (max-width: 760px) { .xp-logo { width: 5.5rem; height: 2.75rem; } }
 
-/* Home: name block sits a little right of and below its centred spot beside the photo */
+/* Home: name block sits a little right of its centred spot; its middle lines up with the photo's */
 @media (min-width: 1000px) {
-  .home-id { position: relative; left: 0.75rem; top: 2.75rem; }
+  .home-id { position: relative; left: 0.75rem; }
+  .home-id h1 { font-size: 3.6rem; }
+  .home-title { margin-top: var(--s5); font-size: 1.15rem; }
+  .home-icons { margin-top: var(--s6); }
+  .home-icons a { width: 2.5rem; height: 2.5rem; }
+  .home-icons svg { width: 1.15rem; height: 1.15rem; }
   .home-hero .home-photo { position: relative; left: 1.25rem; }
 }
 @media (max-width: 760px) { .svc-figure { max-width: 14rem; } }
