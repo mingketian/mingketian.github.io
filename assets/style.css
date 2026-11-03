@@ -1236,8 +1236,10 @@ a.doing-card:hover .d-arrow { opacity: 1; transform: translateX(3px); }
 .pp-video figcaption { margin-top: var(--s2); color: var(--muted); font-family: var(--serif); font-size: var(--fs-meta); }
 
 /* Research: research-area tags under each paper's badge; own name highlighted in the accent blue */
-.paper-areas { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.15rem 0; margin-top: var(--s4); padding-top: var(--s3); border-top: 1px solid var(--rule);
-  color: var(--cyan-deep); font-size: 0.8125rem; font-weight: 600; letter-spacing: 0.01em; line-height: 1.5; }
+.paper-areas { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.15rem 0; margin-top: var(--s4);
+  color: #475569; font-family: var(--serif); font-size: 0.92rem; font-style: italic; line-height: 1.5; }
+.paper-areas::before { content: "Research area"; flex-basis: 100%; margin-bottom: 0.2rem; color: var(--cyan-text); font-family: var(--font);
+  font-style: normal; font-size: 0.66rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; }
 .paper-areas span { white-space: nowrap; }
-.paper-areas i { margin: 0 0.5rem; color: var(--cyan); font-style: normal; font-weight: 400; }
+.paper-areas i { margin: 0 0.45rem; color: #94a3b8; font-style: normal; }
 .paper .authors .me, .authors .me, .pp-authors .me { color: var(--cyan-text); font-weight: 800; text-decoration: underline; text-decoration-thickness: 1.5px; text-underline-offset: 3px; }
