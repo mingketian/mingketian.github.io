@@ -1236,5 +1236,8 @@ a.doing-card:hover .d-arrow { opacity: 1; transform: translateX(3px); }
 .pp-video figcaption { margin-top: var(--s2); color: var(--muted); font-family: var(--serif); font-size: var(--fs-meta); }
 
 /* Research: research-area tags under each paper's badge; own name highlighted in the accent blue */
-.paper-areas { margin-top: var(--s3); color: var(--cyan-deep); font-size: 0.875rem; font-weight: 600; letter-spacing: 0.01em; }
+.paper-areas { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.15rem 0; margin-top: var(--s4); padding-top: var(--s3); border-top: 1px solid var(--rule);
+  color: var(--cyan-deep); font-size: 0.8125rem; font-weight: 600; letter-spacing: 0.01em; line-height: 1.5; }
+.paper-areas span { white-space: nowrap; }
+.paper-areas i { margin: 0 0.5rem; color: var(--cyan); font-style: normal; font-weight: 400; }
 .paper .authors .me, .authors .me, .pp-authors .me { color: var(--cyan-text); font-weight: 800; text-decoration: underline; text-decoration-thickness: 1.5px; text-underline-offset: 3px; }
