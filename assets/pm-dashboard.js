@@ -68,7 +68,7 @@
       ['Profit factor', k.profitFactor.toFixed(2), 'total gains \u00f7 total losses; above 1 means profitable'],
       ['Max drawdown', pct(Math.min.apply(null, S.dd)), 'largest fall below a previous high'],
       ['Best day', pct(S.best, 2), 'single largest daily gain'],
-      ['Worst day', pct(S.worst, 2), 'single largest daily loss'],
+      ['Net PnL', '+' + Math.round(D.pnlPctOfDeposits * k.share / 100).toLocaleString('en-US') + '%', 'trading profit after fees, as a share of deposited capital'],
       ['Average up / down day', pct(S.avgWin, 2) + ' / ' + pct(S.avgLoss, 2), 'mean result on profitable and losing days']
     ].map(function (r) { return '<div><dt>' + r[0] + '</dt><dd>' + r[1] + '</dd><small>' + r[2] + '</small></div>'; }).join('');
   }
