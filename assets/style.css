@@ -916,8 +916,8 @@ body { color: var(--ink); }
 
 /* Home hero: generous space above the hero and between the hero and the introduction */
 @media (min-width: 761px) {
-  main.home { padding-top: 4.5rem; }
-  .home .home-intro { margin-top: 4.25rem; }
+  main.home { padding-top: 6.5rem; }
+  .home .home-intro { margin-top: 6rem; }
 }
 
 /* Research list: equal-contribution note */
