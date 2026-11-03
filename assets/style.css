@@ -224,7 +224,7 @@ main { flex: 1 0 auto; width: 100%; max-width: var(--page); margin: 0 auto; padd
 
 @media (max-width: 760px) {
   .home-hero { grid-template-columns: 1fr; justify-content: stretch; gap: var(--s6); }
-  .home-photo { order: -1; width: min(15rem, 68%); margin: 0 auto; }
+  .home-photo { order: -1; width: min(15.5rem, 70%); margin: 0 auto; }
   .home-id { width: auto; }
   .home-id h1 { font-size: 2.75rem; white-space: normal; }
   .home-title { font-size: 1.125rem; }
@@ -1056,7 +1056,7 @@ a.doing-card:hover .d-arrow { opacity: 1; transform: translateX(3px); }
   .home-icons a { width: 2.4rem; height: 2.4rem; }
   .home-icons svg { width: 1.1rem; height: 1.1rem; }
   .home-hero .home-photo { position: relative; left: 1.25rem; }
-  .home-hero { grid-template-columns: auto 18rem; }
+  .home-hero { grid-template-columns: auto 18.75rem; }
 }
 @media (max-width: 760px) { .svc-figure { max-width: 14rem; } }
 
