@@ -1234,3 +1234,8 @@ a.doing-card:hover .d-arrow { opacity: 1; transform: translateX(3px); }
 .pp-video { max-width: 46rem; margin: var(--s6) auto 0; }
 .pp-video video { display: block; width: 100%; aspect-ratio: 16 / 9; background: #0b1220; border: 1px solid var(--rule); }
 .pp-video figcaption { margin-top: var(--s2); color: var(--muted); font-family: var(--serif); font-size: var(--fs-meta); }
+
+/* Research: research-area tags under each paper's badge; own name highlighted in the accent blue */
+.paper-areas { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: var(--s2); }
+.paper-areas span { padding: 0.1rem 0.55rem; border: 1px solid var(--rule); border-radius: 999px; color: var(--cyan-deep); font-size: 0.75rem; font-weight: 600; letter-spacing: 0.01em; }
+.paper .authors .me, .authors .me, .pp-authors .me { color: var(--cyan-text); font-weight: 700; text-decoration: none; }
