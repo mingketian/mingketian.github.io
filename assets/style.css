@@ -1227,9 +1227,8 @@ a.doing-card:hover .d-arrow { opacity: 1; transform: translateX(3px); }
 .pp-v2 .pp-table.rq td:last-child { min-width: 6.5rem; }
 @media (max-width: 760px) { .pp-v2 .pp-eq[data-n]::after { font-size: 0.85rem; } }
 
-/* Leadership & Services: positions always in the accent blue; organizations in bold dark blue */
-.activities-page .timeline .item h3 { color: var(--cyan-text); }
-.activities-page .timeline.compact .org { color: var(--cyan-deep); font-size: var(--fs-lead); font-weight: 700; }
+/* Leadership: positions always in the accent blue (Services keeps the default colours) */
+.activities-page .timeline:not(.compact) .item h3 { color: var(--cyan-text); }
 
 /* Learn more pages: research pitch video above the architecture figure */
 .pp-video { max-width: 46rem; margin: var(--s6) auto 0; }
