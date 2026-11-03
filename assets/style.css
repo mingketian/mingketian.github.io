@@ -1049,12 +1049,12 @@ a.doing-card:hover .d-arrow { opacity: 1; transform: translateX(3px); }
 
 /* Home: name block sits a little right of its centred spot, bottom-aligned with the photo */
 @media (min-width: 1000px) {
-  .home-id { position: relative; left: 0.75rem; align-self: end; }   /* icons sit on the photo's bottom line */
+  .home-id { position: relative; left: 0.75rem; align-self: end; margin-bottom: 0.75rem; }   /* icons sit just above the photo's bottom line */
   .home-id h1 { font-size: 3.35rem; }
   .home-title { margin-top: var(--s4); font-size: 1.1rem; }
-  .home-icons { margin-top: var(--s6); }
-  .home-icons a { width: 2.4rem; height: 2.4rem; }
-  .home-icons svg { width: 1.1rem; height: 1.1rem; }
+  .home-icons { margin-top: var(--s4); }
+  .home-icons a { width: 2.15rem; height: 2.15rem; }
+  .home-icons svg { width: 1rem; height: 1rem; }
   .home-hero .home-photo { position: relative; left: 1.25rem; }
   .home-hero { grid-template-columns: auto 18.75rem; }
 }
