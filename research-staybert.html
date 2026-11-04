@@ -63,8 +63,8 @@
     </figure>
     -->
 
-    <figure class="pp-figure fig-md">
-      <a href="images/research/staybert-arch.png" target="_blank" rel="noopener" title="Open full-size figure"><img src="images/research/staybert-arch.png" width="1600" height="877" alt="StayBERT overview: (A) a motion view (TCN smoothing and a Transformer) and a place view (a Sphere2Vec query attending over nearby POIs, mobility graphs, and region semantics) are fused by a gate; (B) a CRF decoder labels stop and move points, marginal-weighted pooling forms staypoint embeddings, and pretraining combines a balanced CRF loss with reconstruction, boundary, and segment losses; Geo-TTST updates only the CRF head on confident pseudo-labels in a target city." loading="lazy"></a>
+    <figure class="pp-figure fig-lg">
+      <a href="images/research/staybert.png" target="_blank" rel="noopener" title="Open full-size figure"><img src="images/research/staybert.png" width="2400" height="1622" alt="StayBERT overview: (A) a motion view (TCN smoothing and a Transformer) and a place view (a Sphere2Vec query attending over nearby POIs, mobility graphs, and region semantics) are fused by a gate; (B) a CRF decoder labels stop and move points, marginal-weighted pooling forms staypoint embeddings, and pretraining combines a balanced CRF loss with reconstruction, boundary, and segment losses; Geo-TTST updates only the CRF head on confident pseudo-labels in a target city." loading="lazy"></a>
       <figcaption><b>Figure 1.</b> Overview. (A) Motion&ndash;place encoder: the motion view encodes coordinate evolution, elapsed time, and speed; a Sphere2Vec query composes POI, mobility-graph, and regional-semantic context; a dimension-wise gate fuses the two views. (B) Dwell learning: a CRF decodes coherent stop/move spans and marginal-weighted pooling forms staypoint representations; the balanced CRF loss is the primary objective, with reconstruction, boundary, and segment terms; ATR thins observations. Bottom lane: Geo-TTST selects pseudo-labels by geo-conditioned confidence and updates only the CRF head.</figcaption>
     </figure>
 
