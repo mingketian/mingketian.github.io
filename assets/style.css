@@ -1243,3 +1243,9 @@ a.doing-card:hover .d-arrow { opacity: 1; transform: translateX(3px); }
 .paper-areas span { white-space: nowrap; }
 .paper-areas i { margin: 0 0.45rem; color: #94a3b8; font-style: normal; }
 .paper .authors .me, .authors .me, .pp-authors .me { color: var(--cyan-text); font-weight: 800; text-decoration: underline; text-decoration-thickness: 1.5px; text-underline-offset: 3px; }
+
+/* Project pages (pp-v2): left-aligned headers in text tables; stage names on one line */
+.pp-v2 .pp-table.wrap th { text-align: left; }
+.pp-v2 .pp-table.steps td:first-child { white-space: nowrap; font-weight: 700; }
+.pp-v2 .pp-gallery figure a, .pp-v2 .pp-gallery img { border-radius: 0; }
+.pp-v2 .pp-gallery figcaption { font-family: var(--serif); text-align: left; }

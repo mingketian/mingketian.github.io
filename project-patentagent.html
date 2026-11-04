@@ -18,7 +18,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Charis+SIL:ital,wght@0,400;0,700;1,400;1,700&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,700;1,800&display=swap">
-  <link rel="stylesheet" href="assets/style.css?v=20261103n">
+  <link rel="stylesheet" href="assets/style.css?v=20261104a">
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -38,58 +38,92 @@
     </div>
   </header>
 
-  <main id="main" class="paper-page project-page">
+  <main id="main" class="paper-page project-page pp-v2">
     <a class="pp-back" href="experience.html#projects">&larr; All projects</a>
     <header class="pp-hero">
-      <p class="project-meta">Independent project</p>
+      <p class="paper-badges"><span class="badge review">Independent project &middot; LLM agents</span></p>
       <h1>Patent Prior-Art Agent: From Retrieval to Evidence-Grounded Analysis</h1>
-      <ul class="project-tags pp-tags" aria-label="Technologies"><li>LangGraph</li><li>FAISS</li><li>PatentSBERTa</li><li>BM25</li><li>Reranking</li><li>RAG</li></ul>
-      <div class="pp-buttons"><a class="pp-btn primary" href="https://github.com/mingketian/PatentAgent" target="_blank" rel="noopener"><span class="btn-icon" aria-hidden="true"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg></span>Repo<span aria-hidden="true"> &#8599;</span></a><a class="pp-btn" href="https://github.com/mingketian/PatentAgent/tree/main/slides" target="_blank" rel="noopener"><span class="btn-icon" aria-hidden="true"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg></span>Slides<span aria-hidden="true"> &#8599;</span></a></div>
+      <p class="pp-affil">LangGraph &middot; FAISS &middot; PatentSBERTa &middot; BM25 &middot; Learned reranking &middot; RAG</p>
+      <div class="pp-buttons"><a class="pp-btn primary" href="https://github.com/mingketian/PatentAgent" target="_blank" rel="noopener"><span class="btn-icon" aria-hidden="true"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg></span>Repo<span aria-hidden="true"> &#8599;</span></a><a class="pp-btn" href="https://github.com/mingketian/PatentAgent/tree/main/slides" target="_blank" rel="noopener"><span class="btn-icon" aria-hidden="true"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg></span>Slides<span aria-hidden="true"> &#8599;</span></a><a class="pp-btn" href="#sec-2">Method</a><a class="pp-btn" href="#results">Results</a></div>
+      <dl class="pp-facts">
+        <div><dt>Problem</dt><dd>Prior-art search with traceable evidence</dd></div>
+        <div><dt>Data</dt><dd>PANORAMA PAR4PC; 17,877-patent index</dd></div>
+        <div><dt>Key idea</dt><dd>Separate, inspectable retrieve&ndash;align&ndash;verify steps</dd></div>
+        <div><dt>Evaluation</dt><dd>Ranking metrics and human rating</dd></div>
+      </dl>
     </header>
 
-    <section class="pp-tldr" aria-label="Summary">
-      <span class="pp-label">OVERVIEW</span>
-      <p>A tool-using LLM agent that turns a patent claim, an invention idea, or a vague search query into a ranked prior-art set, a limitation-level evidence chart, and a grounded answer in which every statement traces back to retrieved patent text. Retrieval, evidence alignment, synthesis, and verification are separate, inspectable steps.</p>
-    </section>
+        <figure class="pp-figure fig-lg">
+          <a href="images/projects/patent-architecture.png" target="_blank" rel="noopener" title="Open full-size figure"><img src="images/projects/patent-architecture.png" width="1612" height="910" alt="System architecture: one shared FAISS patent index; the agent adds planning, learned reranking, evidence alignment, synthesis, and verification on top of plain RAG." loading="lazy"></a>
+          <figcaption><b>Figure 1.</b> System architecture. One shared FAISS patent index; the agent adds planning, learned reranking, evidence alignment, synthesis, and verification on top of plain RAG.</figcaption>
+        </figure>
 
-    <div class="pp-gallery three">
-      <figure>
-        <a href="images/projects/patent-architecture.png" target="_blank" rel="noopener" title="Open full size"><img src="images/projects/patent-architecture.png" alt="System architecture: one shared FAISS patent index; the agent adds planning, learned reranking, evidence alignment, synthesis, and verification on top of plain RAG."></a>
-        <figcaption>System architecture: one shared FAISS patent index; the agent adds planning, learned reranking, evidence alignment, synthesis, and verification on top of plain RAG.</figcaption>
-      </figure>
-      <figure>
-        <a href="images/research/patentagent.png" target="_blank" rel="noopener" title="Open full size"><img src="images/research/patentagent.png" alt="Prior-art ranking on PANORAMA PAR4PC (3,029 validation cases, 8 candidates each)."></a>
-        <figcaption>Prior-art ranking on PANORAMA PAR4PC (3,029 validation cases, 8 candidates each).</figcaption>
-      </figure>
-      <figure>
-        <a href="images/projects/patent-human-eval.png" target="_blank" rel="noopener" title="Open full size"><img src="images/projects/patent-human-eval.png" alt="Human evaluation of answer quality on 20 prompts."></a>
-        <figcaption>Human evaluation of answer quality on 20 prompts.</figcaption>
-      </figure>
+    <div class="pp-layout">
+      <nav class="pp-toc" aria-label="On this page"><span>On this page</span><a href="#sec-1">Problem</a><a href="#sec-2">Method</a><a href="#results">Results</a></nav>
+
+    <article class="pp-doc">
+      <section class="pp-sec" id="sec-1">
+        <h2><span class="pp-secnum">1</span>Problem</h2>
+        <p>Given a patent claim, an invention idea, or a vague search query, the agent returns a ranked prior-art set, a limitation-level evidence chart, and an answer in which every statement traces back to retrieved patent text. Plain retrieval-augmented generation ranks by a single similarity and writes from whatever it retrieves, so it can neither rank by claim limitations nor show which passage supports which statement.</p>
+      </section>
+
+      <section class="pp-sec" id="sec-2">
+        <h2><span class="pp-secnum">2</span>Method</h2>
+        <div class="pp-table-wrap">
+          <table class="pp-table wrap steps">
+            <caption><b>Table 1.</b> Agent stages (orchestrated with LangGraph).</caption>
+            <thead><tr><th class="l">Stage</th><th>Operation</th></tr></thead>
+            <tbody>
+              <tr><td>1&ensp;Plan</td><td>Classify the turn (new search, follow-up, comparison, filter) and decompose the claim into limitations \(\ell_1,\dots,\ell_m\).</td></tr>
+              <tr><td>2&ensp;Recall</td><td>Coarse recall from a persistent FAISS index of 17,877 patents with 768-dimensional PatentSBERTa vectors.</td></tr>
+              <tr><td>3&ensp;Rerank</td><td>Learned linear reranker over dense, BM25, and field-lexical scores (Eq. 1), trained on PAR4PC.</td></tr>
+              <tr><td>4&ensp;Align</td><td>For each limitation, select the strongest title, abstract, or claim snippet (Eq. 2) and build the claim chart.</td></tr>
+              <tr><td>5&ensp;Synthesize</td><td>Write the answer from the extracted evidence only.</td></tr>
+              <tr><td>6&ensp;Verify</td><td>Label the answer supported, partially supported, or unsupported against the evidence, with a reason.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>For a query \(q\) and candidate patent \(d\), the reranker combines the three retrieval signals linearly:</p>
+        <div class="pp-eq" data-n="1">\[s(q,d)=\mathbf{w}^{\top}\big[\,s_{\mathrm{dense}}(q,d),\ s_{\mathrm{BM25}}(q,d),\ s_{\mathrm{field}}(q,d)\,\big],\]</div>
+        <p>with \(\mathbf{w}\) fit on PAR4PC. Evidence is then chosen per limitation over the fields \(f\in\{\text{title},\text{abstract},\text{claims}\}\) of each retained patent:</p>
+        <div class="pp-eq" data-n="2">\[e(\ell_i,d)=\arg\max_{\text{snippet }x\,\in\,f(d)}\ \mathrm{sim}(\ell_i,x),\]</div>
+        <p>so every row of the claim chart, and every sentence of the answer, carries a pointer to a specific passage.</p>
+      </section>
+
+      <section class="pp-sec" id="results">
+        <h2><span class="pp-secnum">3</span>Results</h2>
+        <h3>3.1&ensp;Prior-art ranking</h3>
+        <div class="pp-table-wrap">
+          <table class="pp-table">
+            <caption><b>Table 2.</b> PANORAMA PAR4PC, full validation split (3,029 cases, 8 candidates each). Higher is better.</caption>
+            <thead><tr><th class="l">Method</th><th>Hit@1</th><th>Hit@3</th><th>Recall@3</th><th>Exact@|gold|</th></tr></thead>
+            <tbody>
+              <tr><td>BM25 (lexical)</td><td>0.718</td><td>0.926</td><td>0.843</td><td>0.560</td></tr>
+              <tr><td>PatentSBERTa (dense)</td><td>0.714</td><td>0.950</td><td>0.885</td><td>0.570</td></tr>
+              <tr class="ours"><td>Learned reranker (ours)</td><td><b>0.754</b></td><td><b>0.959</b></td><td><b>0.901</b></td><td><b>0.622</b></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="pp-finding"><b>Finding.</b> The learned reranker is best on all four metrics: Hit@1 rises from 0.718 (BM25) to 0.754, and Exact@|gold| by 5.2 points over the dense baseline (0.570 to 0.622).</p>
+        <h3>3.2&ensp;Human evaluation</h3>
+        <div class="pp-table-wrap narrow">
+          <table class="pp-table">
+            <caption><b>Table 3.</b> Human-rated answer quality on 20 product-QA prompts per system: mean of groundedness, helpfulness, freedom from hallucination, and context reuse (0&ndash;1).</caption>
+            <thead><tr><th class="l">System</th><th>Overall quality</th></tr></thead>
+            <tbody>
+              <tr><td>Gemini Fast</td><td>0.350</td></tr>
+              <tr><td>ChatGPT Auto</td><td>0.519</td></tr>
+              <tr><td>RAG only</td><td>0.581</td></tr>
+              <tr class="ours"><td>Patent agent (ours)</td><td><b>0.906</b></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="pp-finding"><b>Finding.</b> The agent scores 0.906 against 0.581 for plain RAG over the same index, and reuses context across follow-up turns at 0.98.</p>
+      </section>
+
+    </article>
     </div>
 
-    <section class="pp-section">
-      <h2 class="section-title">How it works</h2>
-      <ol class="pp-steps">
-        <li><span class="pp-num">01</span><h3>Plan</h3><p>Classifies the turn (new search, follow-up, comparison, filter) and decomposes the claim into limitations.</p></li>
-        <li><span class="pp-num">02</span><h3>Recall</h3><p>Coarse recall of candidates from a persistent FAISS index of 17,877 patents, using 768-dimensional PatentSBERTa vectors.</p></li>
-        <li><span class="pp-num">03</span><h3>Rerank</h3><p>A learned linear reranker over dense, BM25, and field-lexical scores, trained on PAR4PC.</p></li>
-        <li><span class="pp-num">04</span><h3>Align</h3><p>Picks the strongest title, abstract, or claim snippet for each limitation and builds the claim chart.</p></li>
-        <li><span class="pp-num">05</span><h3>Synthesise</h3><p>Writes the answer from the extracted evidence only.</p></li>
-        <li><span class="pp-num">06</span><h3>Verify</h3><p>Checks the answer against the evidence and labels it supported, partially supported, or unsupported, with a reason.</p></li>
-      </ol>
-    </section>
-
-    <section class="pp-section">
-      <h2 class="section-title">Results</h2>
-      <ul class="pp-stats">
-        <li><strong>0.754</strong><span>Hit@1 on PAR4PC, versus 0.718 for BM25 and 0.714 for PatentSBERTa</span></li>
-        <li><strong>+5.2 pts</strong><span>Exact@|gold| over the PatentSBERTa baseline (0.570 &rarr; 0.622)</span></li>
-        <li><strong>0.906</strong><span>overall human-rated answer quality, versus 0.581 for plain RAG</span></li>
-        <li><strong>0.98</strong><span>context reuse across follow-up turns</span></li>
-      </ul>
-    </section>
-
-    
     <nav class="pp-pager" aria-label="More projects"><a class="prev" href="project-im-platform.html"><span>&larr; Previous</span>Distributed Instant Messaging Platform</a><a class="next" href="project-lipschitz-gan.html"><span>Next &rarr;</span>Lipschitz-Regularized &chi;<sup>2</sup>-GANs</a></nav>
   </main>
 
@@ -100,6 +134,17 @@
       <span>Last updated October 2026</span>
     </div>
   </footer>
-  <script src="assets/site.js?v=20261103n" defer></script>
+  <link rel="stylesheet" href="assets/vendor/katex/katex.min.css">
+  <script defer src="assets/vendor/katex/katex.min.js"></script>
+  <script defer src="assets/vendor/katex/auto-render.min.js"></script>
+  <script>
+    window.addEventListener('load', function () {
+      if (window.renderMathInElement) renderMathInElement(document.body, {
+        delimiters: [{left: '\\[', right: '\\]', display: true}, {left: '\\(', right: '\\)', display: false}],
+        throwOnError: false
+      });
+    });
+  </script>
+  <script src="assets/site.js?v=20261104a" defer></script>
 </body>
 </html>

@@ -18,7 +18,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Charis+SIL:ital,wght@0,400;0,700;1,400;1,700&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,700;1,800&display=swap">
-  <link rel="stylesheet" href="assets/style.css?v=20261103n">
+  <link rel="stylesheet" href="assets/style.css?v=20261104a">
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -38,48 +38,74 @@
     </div>
   </header>
 
-  <main id="main" class="paper-page project-page">
+  <main id="main" class="paper-page project-page pp-v2">
     <a class="pp-back" href="experience.html#projects">&larr; All projects</a>
     <header class="pp-hero">
-      <p class="project-meta">Team project</p>
+      <p class="paper-badges"><span class="badge review">Team project &middot; Distributed systems</span></p>
       <h1>Distributed Instant Messaging Platform</h1>
-      <ul class="project-tags pp-tags" aria-label="Technologies"><li>Java</li><li>Spring Cloud</li><li>Netty</li><li>WebSocket</li><li>ZooKeeper</li><li>RabbitMQ</li><li>Redis</li><li>MinIO</li></ul>
-      
+      <p class="pp-affil">Java &middot; Spring Cloud &middot; Netty &middot; WebSocket &middot; ZooKeeper &middot; RabbitMQ &middot; Redis &middot; MinIO</p>
+      <div class="pp-buttons"><a class="pp-btn" href="#sec-2">Architecture</a><a class="pp-btn" href="#results">Results</a></div>
+      <dl class="pp-facts">
+        <div><dt>Problem</dt><dd>Real-time messaging at high concurrency</dd></div>
+        <div><dt>Architecture</dt><dd>Spring Cloud services + Netty WebSocket cluster</dd></div>
+        <div><dt>Guarantees</dt><dd>Ordered, lossless delivery; zero-downtime releases</dd></div>
+        <div><dt>Scale</dt><dd>80k&ndash;120k concurrent connections</dd></div>
+      </dl>
     </header>
 
-    <section class="pp-tldr" aria-label="Summary">
-      <span class="pp-label">OVERVIEW</span>
-      <p>A hybrid distributed instant messaging platform: Java Spring Cloud microservices behind a horizontally scalable Netty WebSocket cluster, with ordered, lossless asynchronous delivery and zero-downtime releases.</p>
-    </section>
+        <figure class="pp-figure fig-lg">
+          <a href="images/projects/im-platform.png" target="_blank" rel="noopener" title="Open full-size figure"><img src="images/projects/im-platform.png" width="1600" height="1000" alt="Architecture: clients connect to a Netty WebSocket cluster discovered through ZooKeeper; RabbitMQ fans messages out to Spring Cloud services backed by Redis, relational databases, and MinIO." loading="lazy"></a>
+          <figcaption><b>Figure 1.</b> Architecture. Clients connect to a Netty WebSocket cluster discovered through ZooKeeper; RabbitMQ fans messages out to Spring Cloud services backed by Redis, relational databases, and MinIO.</figcaption>
+        </figure>
 
-    <div class="pp-gallery">
-      <figure>
-        <a href="images/projects/im-platform.png" target="_blank" rel="noopener" title="Open full size"><img src="images/projects/im-platform.png" alt="Architecture: clients connect to a Netty WebSocket cluster discovered through ZooKeeper; RabbitMQ fans messages out to Spring Cloud services backed by Redis, relational databases, and MinIO."></a>
-        <figcaption>Architecture: clients connect to a Netty WebSocket cluster discovered through ZooKeeper; RabbitMQ fans messages out to Spring Cloud services backed by Redis, relational databases, and MinIO.</figcaption>
-      </figure>
+    <div class="pp-layout">
+      <nav class="pp-toc" aria-label="On this page"><span>On this page</span><a href="#sec-1">Problem</a><a href="#sec-2">Architecture</a><a href="#results">Results</a></nav>
+
+    <article class="pp-doc">
+      <section class="pp-sec" id="sec-1">
+        <h2><span class="pp-secnum">1</span>Problem</h2>
+        <p>An instant-messaging backend holds a long-lived connection per client, so its connection tier is stateful while its business logic is not. The system must scale both tiers horizontally, deliver messages in order and without loss under burst traffic, recover sessions when a node fails, and ship new releases without dropping connections.</p>
+      </section>
+
+      <section class="pp-sec" id="sec-2">
+        <h2><span class="pp-secnum">2</span>Architecture</h2>
+        <div class="pp-table-wrap">
+          <table class="pp-table wrap steps">
+            <caption><b>Table 1.</b> Components and their roles.</caption>
+            <thead><tr><th class="l">Layer</th><th>Technology</th><th>Role</th></tr></thead>
+            <tbody>
+              <tr><td>Connection tier</td><td>Netty, WebSocket</td><td>Horizontally scalable cluster holding client connections</td></tr>
+              <tr><td>Services</td><td>Java Spring Cloud</td><td>Stateless microservices for messaging and social features</td></tr>
+              <tr><td>Discovery</td><td>ZooKeeper</td><td>Tracks the stateful Netty nodes and routes users to them</td></tr>
+              <tr><td>Messaging</td><td>RabbitMQ</td><td>Fan-out routing, tuned for low intra-cluster latency</td></tr>
+              <tr><td>Sessions</td><td>Redis</td><td>Distributed session state and failover recovery</td></tr>
+              <tr><td>Storage</td><td>MinIO, relational DB</td><td>Multimedia objects and relational data</td></tr>
+              <tr><td>Deployment</td><td>Containers</td><td>Rolling upgrades and horizontal scaling</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>Messages enter through the connection tier and are published asynchronously; RabbitMQ fan-out delivers them to the services and back to the nodes holding each recipient. Asynchronous pipelines absorb bursts while preserving order, and Redis-held sessions let a client reconnect to any node after a failure. Containerized rolling upgrades replace nodes one at a time, so releases need no downtime.</p>
+      </section>
+
+      <section class="pp-sec" id="results">
+        <h2><span class="pp-secnum">3</span>Results</h2>
+        <div class="pp-table-wrap">
+          <table class="pp-table wrap">
+            <caption><b>Table 2.</b> Measured performance.</caption>
+            <thead><tr><th class="l">Metric</th><th>Value</th><th>Condition</th></tr></thead>
+            <tbody>
+              <tr><td>Concurrent connections</td><td>80k&ndash;120k</td><td>&ndash;</td></tr>
+              <tr><td>Message throughput</td><td>15k&ndash;25k msg/s</td><td>Bursts, in order, no loss</td></tr>
+              <tr><td>Intra-cluster latency (p95)</td><td>40&ndash;70 ms</td><td>High concurrency</td></tr>
+              <tr><td>Release downtime</td><td>None</td><td>Rolling upgrades</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+    </article>
     </div>
 
-    <section class="pp-section">
-      <h2 class="section-title">How it works</h2>
-      <ol class="pp-steps">
-        <li><span class="pp-num">01</span><h3>Hybrid architecture</h3><p>Java Spring Cloud microservices work alongside a Netty-based WebSocket cluster, with every tier designed to scale horizontally.</p></li>
-        <li><span class="pp-num">02</span><h3>Discovery and routing</h3><p>ZooKeeper-based service discovery tracks the stateful Netty nodes, and RabbitMQ fan-out routing is tuned for low intra-cluster latency.</p></li>
-        <li><span class="pp-num">03</span><h3>Asynchronous pipelines</h3><p>High-throughput asynchronous messaging handles burst traffic with ordered delivery and no message loss; Redis holds distributed sessions and drives failover recovery.</p></li>
-        <li><span class="pp-num">04</span><h3>Deployment and storage</h3><p>Containerized services roll out with rolling upgrades and horizontal scaling for zero-downtime releases; MinIO object storage and relational databases support multimedia and social features.</p></li>
-      </ol>
-    </section>
-
-    <section class="pp-section">
-      <h2 class="section-title">Results</h2>
-      <ul class="pp-stats">
-        <li><strong>80k&ndash;120k</strong><span>concurrent connections</span></li>
-        <li><strong>15k&ndash;25k</strong><span>messages per second in bursts, delivered in order with no loss</span></li>
-        <li><strong>40&ndash;70 ms</strong><span>p95 intra-cluster latency under high concurrency</span></li>
-        <li><strong>Zero</strong><span>downtime during releases</span></li>
-      </ul>
-    </section>
-
-    
     <nav class="pp-pager" aria-label="More projects"><a class="prev" href="project-topostitch.html"><span>&larr; Previous</span>TopoStitch</a><a class="next" href="project-patentagent.html"><span>Next &rarr;</span>Patent Prior-Art Agent</a></nav>
   </main>
 
@@ -90,6 +116,6 @@
       <span>Last updated October 2026</span>
     </div>
   </footer>
-  <script src="assets/site.js?v=20261103n" defer></script>
+  <script src="assets/site.js?v=20261104a" defer></script>
 </body>
 </html>
