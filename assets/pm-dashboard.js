@@ -105,13 +105,15 @@
       el('line', { x1: M.l, x2: W - M.r, y1: yy, y2: yy }, g);
       var t = el('text', { x: M.l - 8, y: yy + 4, 'text-anchor': 'end', class: 'tr-axis' }, g); t.textContent = Math.round(v) + '%';
     }
-    /* month ticks */
+    /* month ticks; a label too close to the end label is dropped, its rule is not */
+    var endGap = narrow ? 34 : 46;
     D.dates.forEach(function (d, i) {
       var day = +d.slice(8, 10);
       if (day === 1 || i === 0) {
+        if (i) el('line', { x1: x(i) - cw / 2, x2: x(i) - cw / 2, y1: top, y2: H - M.b, class: 'tr-month' }, svg);
+        if (i && W - M.r - x(i) < endGap) return;
         var t = el('text', { x: x(i), y: H - 8, 'text-anchor': i === 0 ? 'start' : 'middle', class: 'tr-axis' }, svg);
         t.textContent = MONTHS[+d.slice(5, 7) - 1] + (i === 0 && !narrow ? ' ' + day : '');
-        if (i) el('line', { x1: x(i) - cw / 2, x2: x(i) - cw / 2, y1: top, y2: H - M.b, class: 'tr-month' }, svg);
       }
     });
     var tEnd = el('text', { x: W - M.r, y: H - 8, 'text-anchor': 'end', class: 'tr-axis' }, svg); tEnd.textContent = fmtDate(D.dates[n - 1]);
