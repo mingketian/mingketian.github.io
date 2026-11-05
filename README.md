@@ -9,7 +9,7 @@ Live site: **https://mingketian.github.io/** (GitHub Pages, branch `main`, folde
 | File | Page |
 |---|---|
 | `index.html` | Home: name, links, photo, introduction, Recent News, What I'm Doing |
-| `cv.html` | CV page (the PDF `cv.pdf` is intentionally not published) |
+| `cv.html` | CV page (embeds `cv.pdf`) |
 | `research.html` | Publications and manuscripts |
 | `research-*.html` | Detailed page for each paper |
 | `experience.html` | Education, internships, technical skills, projects |
