@@ -105,12 +105,15 @@
       el('line', { x1: M.l, x2: W - M.r, y1: yy, y2: yy }, g);
       var t = el('text', { x: M.l - 8, y: yy + 4, 'text-anchor': 'end', class: 'tr-axis' }, g); t.textContent = Math.round(v) + '%';
     }
-    /* month ticks; the rules are always drawn, the labels only where they fit */
-    var monthLabels = [];
+    /* month ticks; the rules are always drawn, the labels only where they carry
+       information: the end label already names its own month, so a tick landing in
+       that same month would just repeat it ("Nov" next to "Nov 6") */
+    var endMonth = D.dates[n - 1].slice(0, 7), monthLabels = [];
     D.dates.forEach(function (d, i) {
       var day = +d.slice(8, 10);
       if (day === 1 || i === 0) {
         if (i) el('line', { x1: x(i) - cw / 2, x2: x(i) - cw / 2, y1: top, y2: H - M.b, class: 'tr-month' }, svg);
+        if (i && d.slice(0, 7) === endMonth) return;
         var t = el('text', { x: x(i), y: H - 8, 'text-anchor': i === 0 ? 'start' : 'middle', class: 'tr-axis' }, svg);
         t.textContent = MONTHS[+d.slice(5, 7) - 1] + (i === 0 && !narrow ? ' ' + day : '');
         monthLabels.push(t);
@@ -118,17 +121,15 @@
     });
     var tEnd = el('text', { x: W - M.r, y: H - 8, 'text-anchor': 'end', class: 'tr-axis' }, svg); tEnd.textContent = fmtDate(D.dates[n - 1]);
     /* viewBox units are CSS px here, so measure the rendered text and drop any month
-       label that would touch the one before it or the end date; a zero-width box means
-       the text has not been laid out yet, in which case every label is left alone */
+       label that would touch the one before it (Aug/Sep collide on a phone when the
+       record starts late in a month); a zero-width box means the text has not been
+       laid out yet, in which case every label is left alone */
     (function () {
-      var pad = 18, prevRight = -1e9, endLeft = 1e9, b;
-      try { b = tEnd.getBBox(); if (b.width) endLeft = b.x; } catch (e) { return; }
+      var pad = 12, prevRight = -1e9;
       monthLabels.forEach(function (t, k) {
         var r; try { r = t.getBBox(); } catch (e) { return; }
         if (!r.width) return;
-        if (k && (r.x < prevRight + pad || r.x + r.width > endLeft - pad)) {
-          t.parentNode.removeChild(t); return;
-        }
+        if (k && r.x < prevRight + pad) { t.parentNode.removeChild(t); return; }
         prevRight = r.x + r.width;
       });
     })();
