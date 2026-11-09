@@ -19,7 +19,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Charis+SIL:ital,wght@0,400;0,700;1,400;1,700&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,700;1,800&display=swap">
   <link rel="stylesheet" href="assets/style.css?v=20261104a">
-  <link rel="stylesheet" href="assets/pm-dashboard.css?v=20261106b">
+  <link rel="stylesheet" href="assets/pm-dashboard.css?v=20261109d">
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -45,7 +45,7 @@
     <article class="card interest">
       <h3>Prediction-Market Trading</h3>
       <p class="card-intro">
-        I run an automated strategy on fifteen-minute crypto price contracts (BTC, ETH, XRP, DOGE, BNB), each of which settles on whether the price ends above a threshold. I treat every contract as a short-horizon forecasting problem: statistical models estimate the settlement probability from market data, position sizes follow a risk-capped Kelly rule, and the system quotes and trades continuously. It is built in Python on the exchange API, with all fills and settlements logged for evaluation.
+        I run an automated strategy on fifteen-minute crypto price contracts (BTC, ETH, XRP, DOGE, BNB, SOL), each of which settles on whether the price ends above a threshold. I treat every contract as a short-horizon forecasting problem: statistical models estimate the settlement probability from market data, position sizes follow a risk-capped Kelly rule, and the system quotes and trades continuously. It is built in Python on the exchange API, with all fills and settlements logged for evaluation.
       </p>
 
       <!-- Track record. Data in assets/pm-data.js is normalized (shares of the period total, no dollar amounts);
@@ -54,9 +54,9 @@
         <div class="tr-top">
           <div>
             <span class="tr-eyebrow">Live track record</span>
-            <p class="tr-title">Aug 21 &ndash; Nov 6, 2026</p>
+            <p class="tr-title">Aug 21 &ndash; Nov 9, 2026</p>
             <p class="tr-scope" data-tr-scope>All markets</p>
-            <p class="tr-growth"><strong>33.5&times;</strong> deposited capital</p>
+            <p class="tr-growth"><strong>34.5&times;</strong> deposited capital</p>
           </div>
           <div class="tr-seg" role="group" aria-label="Market">
             <button type="button" data-series="all" aria-pressed="true"><i></i>All</button>
@@ -65,6 +65,7 @@
             <button type="button" data-series="xrp" aria-pressed="false"><i></i>XRP</button>
             <button type="button" data-series="doge" aria-pressed="false"><i></i>DOGE</button>
             <button type="button" data-series="bnb" aria-pressed="false"><i></i>BNB</button>
+            <button type="button" data-series="sol" aria-pressed="false"><i></i>SOL</button>
           </div>
         </div>
 
@@ -81,7 +82,7 @@
           <div class="tr-tip" hidden></div>
           <div class="tr-legend">
             <span><i></i>Cumulative result (period total = 100%)</span>
-            <span class="multi"><i class="btc"></i>BTC</span><span class="multi"><i class="eth"></i>ETH</span><span class="multi"><i class="xrp"></i>XRP</span><span class="multi"><i class="doge"></i>DOGE</span><span class="multi"><i class="bnb"></i>BNB</span>
+            <span class="multi"><i class="btc"></i>BTC</span><span class="multi"><i class="eth"></i>ETH</span><span class="multi"><i class="xrp"></i>XRP</span><span class="multi"><i class="doge"></i>DOGE</span><span class="multi"><i class="bnb"></i>BNB</span><span class="multi"><i class="sol"></i>SOL</span>
             <span><i class="bar"></i><i class="bar down"></i>Daily contribution</span>
           </div>
         </div>
@@ -98,12 +99,12 @@
           <dl class="tr-stats" data-tr-stats></dl>
         </div>
 
-        <p class="tr-note">Live results, Aug 21 &ndash; Nov 6, 2026, net of fees; interest on cash and liquidity rebates are excluded. Values are shares of the period&rsquo;s total profit; dollar amounts are withheld.</p>
+        <p class="tr-note">Live results, Aug 21 &ndash; Nov 9, 2026, net of fees; interest on cash and liquidity rebates are excluded. Values are shares of the period&rsquo;s total profit; dollar amounts are withheld.</p>
       </div>
     </article>
   </main>
-  <script src="assets/pm-data.js?v=20261106b" defer></script>
-  <script src="assets/pm-dashboard.js?v=20261106b" defer></script>
+  <script src="assets/pm-data.js?v=20261109d" defer></script>
+  <script src="assets/pm-dashboard.js?v=20261109d" defer></script>
 
   <footer class="site-footer">
     <div class="inner">

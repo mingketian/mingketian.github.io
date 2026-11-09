@@ -34,7 +34,7 @@
       payoff: [k.payoff.toFixed(1) + '\u00d7', 'average win \u00f7 average loss'],
       win: [k.winRate.toFixed(0) + '%', 'of ' + k.markets.toLocaleString('en-US') + ' markets settled in profit'],
       pull: [k.pullback.toFixed(1) + '%', 'deepest dip below the running peak'],
-      streak: [k.streak + ' days', 'longest run of profitable days']
+      streak: [k.streak + (k.streak === 1 ? ' day' : ' days'), 'longest run of profitable days']
     };
     Object.keys(map).forEach(function (id) {
       var box = root.querySelector('[data-kpi="' + id + '"]');
@@ -46,6 +46,10 @@
     if (scope) scope.textContent = key === 'all'
       ? 'All markets \u00b7 ' + D.kpis.all.fills.toLocaleString('en-US') + ' fills'
       : SERIES[key] + ' \u00b7 ' + k.share.toFixed(1) + '% of the total result \u00b7 ' + k.fills.toLocaleString('en-US') + ' fills';
+    /* the growth line is a whole-portfolio figure; sitting directly under a single
+       market's scope line it reads as that market's multiple, so hide it there */
+    var growth = root.querySelector('.tr-growth');
+    if (growth) growth.hidden = key !== 'all';
   }
 
   /* daily results on trading days, drawdown, and risk-adjusted ratios */
